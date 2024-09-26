@@ -31,8 +31,36 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    public User findUserById(Long id) {
+        return unwrapUser(userRepository.findById(id), id);
+    }
+
+    @Override
+    public User findUserByJwtToken(String jwt) {
+        String email = jwtProvider.getEmailFromJwtToken(jwt);
+        User user = findUserByEmail(email);
+        return user;
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        User user = userRepository.findUserByEmail(email);
+        if (user == null)
+            throw new NotFoundException(email.toString());
+        return user;
+    }
+
+    @Override
+    public User findUserByUserName(String userName) {
+        User user = userRepository.findUserByUserName(userName);
+        if (user == null)
+            throw new NotFoundException(userName.toString());
+        return user;
+    }
+
     @Override
     public User createUser(CreateUserDto createUserDto) {
+
         User newUser = new User();
         newUser.setUserName(createUserDto.getUserName());
         newUser.setFullName(createUserDto.getFullName());
@@ -75,31 +103,6 @@ public class UserServiceImpl implements UserService {
         newUser.setRole(updateUserDto.getRole());
         userRepository.save(newUser);
         return newUser;
-    }
-
-    @Override
-    public User findUserByJwtToken(String jwt) throws Exception {
-        String email = jwtProvider.getEmailFromJwtToken(jwt);
-        User user = findUserByEmail(email);
-        return user;
-    }
-
-    @Override
-    public User findUserByEmail(String email) throws Exception {
-        User user = userRepository.findUserByEmail(email);
-        if (user == null)
-            // throw new Exception("User not found");
-            throw new NotFoundException(email.toString());
-        return user;
-    }
-
-    @Override
-    public User findUserByUserName(String userName) throws Exception {
-        User user = userRepository.findUserByUserName(userName);
-        if (user == null)
-            // throw new Exception("User not found");
-            throw new NotFoundException(userName.toString());
-        return user;
     }
 
     static User unwrapUser(Optional<User> entity, Long id) {
