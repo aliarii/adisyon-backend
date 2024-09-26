@@ -22,21 +22,21 @@ import com.adisyon.adisyon_backend.Services.User.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/v1/users")
+@RequestMapping("/api/users")
 public class UserController {
     @Autowired
     private UserService userService;
-
-    @GetMapping("/profile")
-    public ResponseEntity<User> findUserByJwtToken(@RequestHeader("Authorization") String jwt) throws Exception {
-        User user = userService.findUserByJwtToken(jwt);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
 
     @PostMapping("/add")
     public ResponseEntity<User> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
         User newUser = userService.createUser(createUserDto);
         return new ResponseEntity<>(newUser, HttpStatus.OK);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<User> findUserByJwtToken(@RequestHeader("Authorization") String jwt) throws Exception {
+        User user = userService.findUserByJwtToken(jwt);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PutMapping("/update")

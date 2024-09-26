@@ -8,17 +8,17 @@ import com.adisyon.adisyon_backend.Dto.Request.UpdateUserDto;
 import com.adisyon.adisyon_backend.Entities.User;
 
 public interface UserService {
-    User createUser(CreateUserDto user);
+    public List<User> getAllUsers();
 
-    void deleteUser(DeleteUserDto user);
+    public User createUser(CreateUserDto user);
 
-    User updateUser(UpdateUserDto user);
+    public void deleteUser(DeleteUserDto user);
 
-    List<User> getAllUsers();
+    public User updateUser(UpdateUserDto user);
 
-    User findUserByJwtToken(String jwt) throws Exception;
+    public User findUserByJwtToken(String jwt) throws Exception;
 
-    User findUserByEmail(String email) throws Exception;
+    public User findUserByEmail(String email) throws Exception;
 
-    User findUserByUserName(String userName) throws Exception;
+    public User findUserByUserName(String userName) throws Exception;
 }

@@ -2,6 +2,7 @@ package com.adisyon.adisyon_backend.Services.User;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +14,7 @@ import com.adisyon.adisyon_backend.Dto.Request.DeleteUserDto;
 import com.adisyon.adisyon_backend.Dto.Request.UpdateUserDto;
 import com.adisyon.adisyon_backend.Entities.USER_ROLE;
 import com.adisyon.adisyon_backend.Entities.User;
+import com.adisyon.adisyon_backend.Exception.NotFoundException;
 import com.adisyon.adisyon_backend.Repositories.User.UserRepository;
 
 @Service
@@ -46,7 +48,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(DeleteUserDto deleteUserDto) {
-        User user = userRepository.findById(deleteUserDto.getId()).orElseThrow();
+        // User user = userRepository.findById(deleteUserDto.getId()).orElseThrow();
+        User user = unwrapUser(userRepository.findById(deleteUserDto.getId()), deleteUserDto.getId());
         user.setIsActive(false);
         user.setUpdatedDate(new Date());
         userRepository.save(user);
@@ -57,7 +60,9 @@ public class UserServiceImpl implements UserService {
 
         deleteUser(new DeleteUserDto(updateUserDto.getId()));
 
-        User user = userRepository.findById(updateUserDto.getId()).orElseThrow();
+        // User user = userRepository.findById(updateUserDto.getId()).orElseThrow();
+
+        User user = unwrapUser(userRepository.findById(updateUserDto.getId()), updateUserDto.getId());
 
         User newUser = new User();
         newUser.setEmail(updateUserDto.getEmail() == null ? user.getEmail() : updateUserDto.getEmail());
@@ -82,7 +87,8 @@ public class UserServiceImpl implements UserService {
     public User findUserByEmail(String email) throws Exception {
         User user = userRepository.findUserByEmail(email);
         if (user == null)
-            throw new Exception("User not found");
+            // throw new Exception("User not found");
+            throw new NotFoundException(email.toString());
         return user;
     }
 
@@ -90,8 +96,15 @@ public class UserServiceImpl implements UserService {
     public User findUserByUserName(String userName) throws Exception {
         User user = userRepository.findUserByUserName(userName);
         if (user == null)
-            throw new Exception("User not found");
+            // throw new Exception("User not found");
+            throw new NotFoundException(userName.toString());
         return user;
     }
 
+    static User unwrapUser(Optional<User> entity, Long id) {
+        if (entity.isPresent())
+            return entity.get();
+        else
+            throw new NotFoundException(id.toString());
+    }
 }

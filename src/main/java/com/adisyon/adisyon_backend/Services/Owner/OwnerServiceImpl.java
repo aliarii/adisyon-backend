@@ -7,44 +7,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.adisyon.adisyon_backend.Entities.Owner;
+import com.adisyon.adisyon_backend.Exception.NotFoundException;
+import com.adisyon.adisyon_backend.Repositories.Owner.OwnerRepository;
 
 @Service
 public class OwnerServiceImpl implements OwnerService {
 
-    // @Autowired
-    // private OwnerRepository ownerRepository;
+    @Autowired
+    private OwnerRepository ownerRepository;
 
-    // // Create a new owner
-    // public Owner createOwner(Owner owner) {
-    // return ownerRepository.save(owner);
-    // }
+    public Owner createOwner(Owner owner) {
+        return ownerRepository.save(owner);
+    }
 
-    // // Get all owners
-    // public List<Owner> getAllOwners() {
-    // return ownerRepository.findAll();
-    // }
+    public List<Owner> getAllOwners() {
+        return ownerRepository.findAll();
+    }
 
-    // // Get an owner by ID
-    // public Optional<Owner> getOwnerById(Long id) {
-    // return ownerRepository.findById(id);
-    // }
+    public Owner getOwnerById(Long id) {
+        // return ownerRepository.findById(id).orElseThrow();
+        return unwrapOwner(ownerRepository.findById(id), id);
+    }
 
-    // // Update an owner
-    // public Owner updateOwner(Long id, Owner ownerDetails) {
-    // Owner owner = ownerRepository.findById(id)
-    // .orElseThrow(() -> new ResourceNotFoundException("Owner not found with id " +
-    // id));
+    public Owner updateOwner(Long id, Owner ownerDetails) {
+        // Owner owner = ownerRepository.findById(id)
+        // .orElseThrow(/* () -> new ResourceNotFoundException("Owner not found with id
+        // " + id) */);
+        Owner owner = unwrapOwner(ownerRepository.findById(id), id);
+        owner.setUser(ownerDetails.getUser());
+        return ownerRepository.save(owner);
+    }
 
-    // owner.setUser(ownerDetails.getUser()); // Update necessary fields
-    // // Update other fields as needed
-    // return ownerRepository.save(owner);
-    // }
+    public void deleteOwner(Long id) {
+        // Owner owner = ownerRepository.findById(id)
+        // .orElseThrow(/* () -> new ResourceNotFoundException("Owner not found with id
+        // " + id) */);
+        Owner owner = unwrapOwner(ownerRepository.findById(id), id);
+        ownerRepository.delete(owner);
+    }
 
-    // // Delete an owner
-    // public void deleteOwner(Long id) {
-    // Owner owner = ownerRepository.findById(id)
-    // .orElseThrow(() -> new ResourceNotFoundException("Owner not found with id " +
-    // id));
-    // ownerRepository.delete(owner);
-    // }
+    static Owner unwrapOwner(Optional<Owner> entity, Long id) {
+        if (entity.isPresent())
+            return entity.get();
+        else
+            throw new NotFoundException(id.toString());
+    }
 }
