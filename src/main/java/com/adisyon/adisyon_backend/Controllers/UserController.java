@@ -19,13 +19,17 @@ import com.adisyon.adisyon_backend.Dto.Request.User.UpdateUserDto;
 import com.adisyon.adisyon_backend.Entities.User;
 import com.adisyon.adisyon_backend.Services.User.UserService;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 
     @GetMapping("/profile")
     public ResponseEntity<User> findUserByJwtToken(@RequestHeader("Authorization") String jwt) throws Exception {
@@ -33,28 +37,23 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<User> createUser(@Valid @RequestBody CreateUserDto createUserDto) {
-        User newUser = userService.createUser(createUserDto);
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody CreateUserDto userDto) {
+        User newUser = userService.createUser(userDto);
         return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<User> updateUser(@Valid @RequestBody UpdateUserDto updateUserDto) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<User> updateUser(@RequestBody UpdateUserDto userDto) {
 
-        User updatedUser = userService.updateUser(updateUserDto);
+        User updatedUser = userService.updateUser(userDto);
         return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
     }
 
-    @PutMapping("/delete")
-    public ResponseEntity<String> deleteUser(@Valid @RequestBody DeleteUserDto deleteUserDto) {
-        userService.deleteUser(deleteUserDto);
-        return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
+    @PutMapping("/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteUser(@RequestBody DeleteUserDto userDto) {
+        userService.deleteUser(userDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
 }
