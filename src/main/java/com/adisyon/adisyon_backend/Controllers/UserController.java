@@ -27,16 +27,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/add")
-    public ResponseEntity<User> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
-        User newUser = userService.createUser(createUserDto);
-        return new ResponseEntity<>(newUser, HttpStatus.OK);
-    }
-
     @GetMapping("/profile")
     public ResponseEntity<User> findUserByJwtToken(@RequestHeader("Authorization") String jwt) throws Exception {
         User user = userService.findUserByJwtToken(jwt);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<User> createUser(@Valid @RequestBody CreateUserDto createUserDto) {
+        User newUser = userService.createUser(createUserDto);
+        return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
     @PutMapping("/update")

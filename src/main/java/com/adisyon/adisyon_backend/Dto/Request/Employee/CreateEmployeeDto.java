@@ -1,10 +1,7 @@
-package com.adisyon.adisyon_backend.Dto.Request;
+package com.adisyon.adisyon_backend.Dto.Request.Employee;
 
 import com.adisyon.adisyon_backend.Entities.USER_ROLE;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,7 +12,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserDto {
+public class CreateEmployeeDto {
+
     @NotEmpty
     private String fullName;
 
@@ -23,14 +21,9 @@ public class CreateUserDto {
     @Size(min = 2)
     private String userName;
 
-    @Email
-    @NotBlank
-    private String email;
-
     @NotNull
     @Size(min = 8, max = 12, message = "Password must be between 8 and 12 characters!")
     private String password;
 
-    @Nullable
-    private USER_ROLE role;
+    private USER_ROLE role = USER_ROLE.ROLE_EMPLOYEE;
 }

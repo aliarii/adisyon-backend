@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         newUser.setFullName(createUserDto.getFullName());
         newUser.setEmail(createUserDto.getEmail());
         newUser.setPassword(passwordEncoder.encode(createUserDto.getPassword()));
-        newUser.setRole(USER_ROLE.ROLE_EMPLOYEE);
+        newUser.setRole(createUserDto.getRole() != null ? createUserDto.getRole() : USER_ROLE.ROLE_EMPLOYEE);
         newUser.setIsActive(true);
         newUser.setCreatedDate(new Date());
 
@@ -72,6 +72,7 @@ public class UserServiceImpl implements UserService {
         newUser.setIsActive(true);
         newUser.setCreatedDate(user.getCreatedDate());
         newUser.setUpdatedDate(new Date());
+        newUser.setRole(updateUserDto.getRole());
         userRepository.save(newUser);
         return newUser;
     }

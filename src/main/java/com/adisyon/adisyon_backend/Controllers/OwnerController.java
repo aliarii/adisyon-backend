@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adisyon.adisyon_backend.Entities.Owner;
+import com.adisyon.adisyon_backend.Repositories.User.UserRepository;
 import com.adisyon.adisyon_backend.Services.Owner.OwnerService;
 
 @RestController
@@ -22,6 +23,8 @@ import com.adisyon.adisyon_backend.Services.Owner.OwnerService;
 public class OwnerController {
     @Autowired
     private OwnerService ownerService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
     public ResponseEntity<List<Owner>> getAllOwners() {
@@ -36,7 +39,11 @@ public class OwnerController {
     }
 
     @PostMapping
-    public ResponseEntity<Owner> createOwner(@RequestBody Owner owner) {
+    public ResponseEntity<Owner> createOwner(@RequestBody Owner owner) throws Exception {
+        if (userRepository.findUserByEmail(owner.getUser().getEmail()) != null)
+            throw new Exception("Email is already used with another account");
+        if (userRepository.findUserByUserName(owner.getUser().getUserName()) != null)
+            throw new Exception("Username is already used with another account");
         Owner createdOwner = ownerService.createOwner(owner);
         return new ResponseEntity<>(createdOwner, HttpStatus.CREATED);
     }

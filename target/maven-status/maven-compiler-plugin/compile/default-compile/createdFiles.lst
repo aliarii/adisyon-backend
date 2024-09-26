@@ -1,6 +1,7 @@
 com\adisyon\adisyon_backend\Entities\Employee.class
 com\adisyon\adisyon_backend\Services\Employee\EmployeeService.class
 com\adisyon\adisyon_backend\Services\Company\CompanyServiceImpl.class
+com\adisyon\adisyon_backend\Exception\NotFoundException.class
 com\adisyon\adisyon_backend\Services\Company\CompanyService.class
 com\adisyon\adisyon_backend\Services\User\UserServiceImpl.class
 com\adisyon\adisyon_backend\Entities\Owner.class

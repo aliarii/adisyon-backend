@@ -1,8 +1,7 @@
-package com.adisyon.adisyon_backend.Dto.Request;
+package com.adisyon.adisyon_backend.Dto.Request.Owner;
 
 import com.adisyon.adisyon_backend.Entities.USER_ROLE;
 
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -15,22 +14,25 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserDto {
-    @NotEmpty
-    private String fullName;
+public class CreateOwnerDto {
 
     @NotEmpty
-    @Size(min = 2)
-    private String userName;
+    private String companyName;
+
+    @NotEmpty
+    private String fullName;
 
     @Email
     @NotBlank
     private String email;
 
+    @NotEmpty
+    @Size(min = 2)
+    private String userName;
+
     @NotNull
     @Size(min = 8, max = 12, message = "Password must be between 8 and 12 characters!")
     private String password;
 
-    @Nullable
-    private USER_ROLE role;
+    private USER_ROLE role = USER_ROLE.ROLE_OWNER;
 }

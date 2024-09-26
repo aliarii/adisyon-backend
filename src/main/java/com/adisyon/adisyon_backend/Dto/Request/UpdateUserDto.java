@@ -1,5 +1,7 @@
 package com.adisyon.adisyon_backend.Dto.Request;
 
+import com.adisyon.adisyon_backend.Entities.USER_ROLE;
+
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -30,4 +32,7 @@ public class UpdateUserDto {
     @Nullable
     @Size(min = 8, max = 12, message = "Password must be between 8 and 12 characters!")
     private String password;
+
+    @Nullable
+    private USER_ROLE role;
 }
