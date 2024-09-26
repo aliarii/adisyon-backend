@@ -2,6 +2,9 @@ package com.adisyon.adisyon_backend.Services.Owner;
 
 import java.util.List;
 
+import com.adisyon.adisyon_backend.Dto.Request.Owner.CreateOwnerDto;
+import com.adisyon.adisyon_backend.Dto.Request.Owner.DeleteOwnerDto;
+import com.adisyon.adisyon_backend.Dto.Request.Owner.UpdateOwnerDto;
 import com.adisyon.adisyon_backend.Entities.Owner;
 
 public interface OwnerService {
@@ -10,9 +13,9 @@ public interface OwnerService {
 
     public Owner getOwnerById(Long id);
 
-    public Owner createOwner(Owner owner);
+    public Owner createOwner(CreateOwnerDto createOwnerDto);
 
-    public Owner updateOwner(Long id, Owner ownerDetails);
+    public Owner updateOwner(UpdateOwnerDto updateOwnerDto);
 
-    public void deleteOwner(Long id);
+    public void deleteOwner(DeleteOwnerDto deleteOwnerDto);
 }

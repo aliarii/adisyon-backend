@@ -9,9 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.adisyon.adisyon_backend.Config.JwtProvider;
-import com.adisyon.adisyon_backend.Dto.Request.CreateUserDto;
-import com.adisyon.adisyon_backend.Dto.Request.DeleteUserDto;
-import com.adisyon.adisyon_backend.Dto.Request.UpdateUserDto;
+import com.adisyon.adisyon_backend.Dto.Request.User.CreateUserDto;
+import com.adisyon.adisyon_backend.Dto.Request.User.DeleteUserDto;
+import com.adisyon.adisyon_backend.Dto.Request.User.UpdateUserDto;
 import com.adisyon.adisyon_backend.Entities.USER_ROLE;
 import com.adisyon.adisyon_backend.Entities.User;
 import com.adisyon.adisyon_backend.Exception.NotFoundException;

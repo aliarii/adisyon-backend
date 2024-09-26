@@ -2,9 +2,9 @@ package com.adisyon.adisyon_backend.Services.User;
 
 import java.util.List;
 
-import com.adisyon.adisyon_backend.Dto.Request.CreateUserDto;
-import com.adisyon.adisyon_backend.Dto.Request.DeleteUserDto;
-import com.adisyon.adisyon_backend.Dto.Request.UpdateUserDto;
+import com.adisyon.adisyon_backend.Dto.Request.User.CreateUserDto;
+import com.adisyon.adisyon_backend.Dto.Request.User.DeleteUserDto;
+import com.adisyon.adisyon_backend.Dto.Request.User.UpdateUserDto;
 import com.adisyon.adisyon_backend.Entities.User;
 
 public interface UserService {

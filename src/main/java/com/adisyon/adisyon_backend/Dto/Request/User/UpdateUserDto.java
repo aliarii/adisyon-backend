@@ -1,4 +1,4 @@
-package com.adisyon.adisyon_backend.Dto.Request;
+package com.adisyon.adisyon_backend.Dto.Request.User;
 
 import com.adisyon.adisyon_backend.Entities.USER_ROLE;
 

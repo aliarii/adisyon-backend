@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.adisyon.adisyon_backend.Dto.Request.Owner.CreateOwnerDto;
+import com.adisyon.adisyon_backend.Dto.Request.Owner.DeleteOwnerDto;
+import com.adisyon.adisyon_backend.Dto.Request.Owner.UpdateOwnerDto;
 import com.adisyon.adisyon_backend.Entities.Owner;
-import com.adisyon.adisyon_backend.Repositories.User.UserRepository;
 import com.adisyon.adisyon_backend.Services.Owner.OwnerService;
 
 @RestController
@@ -23,8 +24,6 @@ import com.adisyon.adisyon_backend.Services.Owner.OwnerService;
 public class OwnerController {
     @Autowired
     private OwnerService ownerService;
-    @Autowired
-    private UserRepository userRepository;
 
     @GetMapping
     public ResponseEntity<List<Owner>> getAllOwners() {
@@ -39,23 +38,21 @@ public class OwnerController {
     }
 
     @PostMapping
-    public ResponseEntity<Owner> createOwner(@RequestBody Owner owner) throws Exception {
-        if (userRepository.findUserByEmail(owner.getUser().getEmail()) != null)
-            throw new Exception("Email is already used with another account");
-        if (userRepository.findUserByUserName(owner.getUser().getUserName()) != null)
-            throw new Exception("Username is already used with another account");
-        Owner createdOwner = ownerService.createOwner(owner);
+    public ResponseEntity<Owner> createOwner(@RequestBody CreateOwnerDto ownerDto) throws Exception {
+        Owner createdOwner = ownerService.createOwner(ownerDto);
         return new ResponseEntity<>(createdOwner, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Owner> updateOwner(@PathVariable Long id, @RequestBody Owner ownerDetails) {
-        Owner updatedOwner = ownerService.updateOwner(id, ownerDetails);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Owner> updateOwner(@RequestBody UpdateOwnerDto ownerDto) {
+        Owner updatedOwner = ownerService.updateOwner(ownerDto);
         return new ResponseEntity<>(updatedOwner, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteOwner(@PathVariable Long id) {
-        ownerService.deleteOwner(id);
+    @PutMapping("/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteOwner(@RequestBody DeleteOwnerDto ownerDto) {
+        ownerService.deleteOwner(ownerDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 }

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.adisyon.adisyon_backend.Dto.Request.CreateUserDto;
-import com.adisyon.adisyon_backend.Dto.Request.DeleteUserDto;
-import com.adisyon.adisyon_backend.Dto.Request.UpdateUserDto;
+import com.adisyon.adisyon_backend.Dto.Request.User.CreateUserDto;
+import com.adisyon.adisyon_backend.Dto.Request.User.DeleteUserDto;
+import com.adisyon.adisyon_backend.Dto.Request.User.UpdateUserDto;
 import com.adisyon.adisyon_backend.Entities.User;
 import com.adisyon.adisyon_backend.Services.User.UserService;
 
