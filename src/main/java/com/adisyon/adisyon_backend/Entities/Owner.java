@@ -1,5 +1,6 @@
 package com.adisyon.adisyon_backend.Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,5 +29,5 @@ public class Owner extends User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Company> companies;
+    private List<Company> companies = new ArrayList<>();
 }

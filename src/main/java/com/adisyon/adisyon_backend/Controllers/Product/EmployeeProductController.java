@@ -28,7 +28,7 @@ public class EmployeeProductController {
         return new ResponseEntity<>(products, HttpStatus.CREATED);
     }
 
-    @GetMapping("/company/{id}}")
+    @GetMapping("/company/{id}")
     public ResponseEntity<List<Product>> findCompanyProducts(@RequestParam(required = false) String productCategory,
             @PathVariable Long companyId) {
 

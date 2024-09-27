@@ -11,6 +11,6 @@ import com.adisyon.adisyon_backend.Entities.Product;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCompanyId(Long companyId);
 
-    @Query("SELECT p FROM Product p WHERE p.name LIKE %:keyword% OR p.productCategory.name LIKE %:keyword%")
+    @Query("SELECT p FROM Product p WHERE p.productName LIKE %:keyword% OR p.productCategory.productCategoryName LIKE %:keyword%")
     List<Product> searchProduct(@Param("keyword") String keyword);
 }

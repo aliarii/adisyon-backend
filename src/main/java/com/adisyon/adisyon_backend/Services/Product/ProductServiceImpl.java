@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.adisyon.adisyon_backend.Dto.Request.Product.CreateProductDto;
 import com.adisyon.adisyon_backend.Dto.Request.Product.DeleteProductDto;
@@ -14,6 +15,7 @@ import com.adisyon.adisyon_backend.Entities.Product;
 import com.adisyon.adisyon_backend.Repositories.Product.ProductRepository;
 import com.adisyon.adisyon_backend.Services.Unwrapper;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
@@ -55,11 +57,11 @@ public class ProductServiceImpl implements ProductService {
         newProduct.setPrice(productDto.getPrice() != null ? productDto.getPrice() : existingProduct.getPrice());
         newProduct.setProductCategory(productDto.getProductCategory() != null ? productDto.getProductCategory()
                 : existingProduct.getProductCategory());
-        newProduct.setIsActive(
-                productDto.getIsActive() != null ? productDto.getIsActive() : existingProduct.getIsActive());
+        newProduct.setIsActive(true);
         newProduct.setImage(productDto.getImage() != null ? productDto.getImage() : existingProduct.getImage());
 
         newProduct.setCompany(existingProduct.getCompany());
+        newProduct.setCreatedDate(existingProduct.getCreatedDate());
         newProduct.setUpdatedDate(new Date());
 
         Product savedProduct = productRepository.save(newProduct);
@@ -88,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
     private List<Product> filterByCategory(List<Product> products, String productCategory) {
         return products.stream().filter(product -> {
             if (product.getProductCategory() != null)
-                return product.getProductCategory().getName().equals(productCategory);
+                return product.getProductCategory().getProductCategoryName().equals(productCategory);
 
             return false;
         }).collect(Collectors.toList());

@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,7 +29,9 @@ public class Product {
 
     private Long price;
 
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "category_id", nullable = true)
     private ProductCategory productCategory;
 
     @JsonIgnore

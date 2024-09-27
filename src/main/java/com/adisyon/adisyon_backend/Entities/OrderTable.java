@@ -1,5 +1,6 @@
 package com.adisyon.adisyon_backend.Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -26,5 +27,5 @@ public class OrderTable {
     private Long total;
 
     @OneToMany(mappedBy = "orderTable", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderTableProduct> orderTableProducts;
+    private List<OrderTableProduct> orderTableProducts = new ArrayList<>();;
 }
