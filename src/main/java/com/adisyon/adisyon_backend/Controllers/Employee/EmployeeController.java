@@ -1,4 +1,4 @@
-package com.adisyon.adisyon_backend.Controllers;
+package com.adisyon.adisyon_backend.Controllers.Employee;
 
 import java.util.List;
 
