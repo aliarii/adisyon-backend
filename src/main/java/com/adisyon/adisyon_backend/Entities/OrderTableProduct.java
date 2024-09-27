@@ -29,6 +29,7 @@ public class OrderTableProduct {
     private Product product;
 
     private int quantity;
+
     private Long totalPrice;
 
 }

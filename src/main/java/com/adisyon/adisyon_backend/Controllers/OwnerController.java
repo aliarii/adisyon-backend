@@ -39,7 +39,7 @@ public class OwnerController {
     }
 
     @PostMapping
-    public ResponseEntity<Owner> createOwner(@RequestBody CreateOwnerDto ownerDto) throws Exception {
+    public ResponseEntity<Owner> createOwner(@RequestBody CreateOwnerDto ownerDto) {
         Owner createdOwner = ownerService.createOwner(ownerDto);
         return new ResponseEntity<>(createdOwner, HttpStatus.CREATED);
     }

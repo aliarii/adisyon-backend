@@ -9,6 +9,7 @@ com\adisyon\adisyon_backend\Entities\ProductCategory.class
 com\adisyon\adisyon_backend\Dto\Request\ProductCategory\CreateProductCategoryDto.class
 com\adisyon\adisyon_backend\Controllers\Product\EmployeeProductController.class
 com\adisyon\adisyon_backend\Repositories\Employee\EmployeeRepository.class
+com\adisyon\adisyon_backend\Services\OrderTable\OrderTableService.class
 com\adisyon\adisyon_backend\AdisyonBackendApplication.class
 com\adisyon\adisyon_backend\Exception\BusinessException.class
 com\adisyon\adisyon_backend\Repositories\ProductCategory\ProductCategoryRepository.class
@@ -19,7 +20,9 @@ com\adisyon\adisyon_backend\Controllers\EmployeeController.class
 com\adisyon\adisyon_backend\Dto\Request\ProductCategory\UpdateProductCategoryDto.class
 com\adisyon\adisyon_backend\Config\JwtProvider.class
 com\adisyon\adisyon_backend\Dto\Request\Product\CreateProductDto.class
+com\adisyon\adisyon_backend\Dto\Request\OrderTableProduct\CreateOrderTableProductDto.class
 com\adisyon\adisyon_backend\Dto\Request\User\DeleteUserDto.class
+com\adisyon\adisyon_backend\Dto\Request\OrderTable\CreateOrderTableDto.class
 com\adisyon\adisyon_backend\Repositories\User\UserRepository.class
 com\adisyon\adisyon_backend\Entities\OrderTable.class
 com\adisyon\adisyon_backend\Dto\Request\Product\UpdateProductDto.class
@@ -28,14 +31,19 @@ com\adisyon\adisyon_backend\Services\Owner\OwnerServiceImpl.class
 com\adisyon\adisyon_backend\Entities\OrderTableCategory.class
 com\adisyon\adisyon_backend\Services\User\UserService.class
 com\adisyon\adisyon_backend\Services\ProductCategory\ProductCategoryServiceImpl.class
+com\adisyon\adisyon_backend\Repositories\OrderTable\OrderTableRepository.class
+com\adisyon\adisyon_backend\Controllers\OrderTable\OrderTableController.class
 com\adisyon\adisyon_backend\Dto\Request\Employee\DeleteEmployeeDto.class
 com\adisyon\adisyon_backend\Exception\NotFoundException.class
+com\adisyon\adisyon_backend\Services\OrderTable\OrderTableServiceImpl.class
 com\adisyon\adisyon_backend\Entities\Product.class
 com\adisyon\adisyon_backend\Services\Owner\OwnerService.class
 com\adisyon\adisyon_backend\Services\Product\ProductService.class
 com\adisyon\adisyon_backend\Services\Product\ProductServiceImpl.class
+com\adisyon\adisyon_backend\Dto\Request\OrderTable\UpdateOrderTableDto.class
 com\adisyon\adisyon_backend\Controllers\CompanyController.class
 com\adisyon\adisyon_backend\Controllers\ProductCategory\EmployeeProductCategoryController.class
+com\adisyon\adisyon_backend\Dto\Request\OrderTable\DeleteOrderTableDto.class
 com\adisyon\adisyon_backend\Dto\Request\Employee\CreateEmployeeDto.class
 com\adisyon\adisyon_backend\Dto\Request\Product\DeleteProductDto.class
 com\adisyon\adisyon_backend\Entities\OrderTableProduct.class
@@ -56,6 +64,7 @@ com\adisyon\adisyon_backend\Dto\Request\Owner\UpdateOwnerDto.class
 com\adisyon\adisyon_backend\Repositories\Company\CompanyRepository.class
 com\adisyon\adisyon_backend\Entities\User.class
 com\adisyon\adisyon_backend\Services\Unwrapper.class
+com\adisyon\adisyon_backend\Dto\Request\OrderTableProduct\UpdeteOrderTableProductDto.class
 com\adisyon\adisyon_backend\Dto\Request\Employee\UpdateEmployeeDto.class
 com\adisyon\adisyon_backend\Dto\Request\Company\UpdateCompanyDto.class
 com\adisyon\adisyon_backend\Repositories\Product\ProductRepository.class
