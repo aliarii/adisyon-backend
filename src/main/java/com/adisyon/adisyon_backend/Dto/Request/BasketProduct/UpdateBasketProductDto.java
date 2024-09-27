@@ -8,14 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateBasketProductDto {
+public class UpdateBasketProductDto {
 
     @NotNull
-    private Long basketId;
-
-    @NotNull
-    private Long productId;
+    private Long id;
 
     @NotNull
     private int quantity;
+
 }
