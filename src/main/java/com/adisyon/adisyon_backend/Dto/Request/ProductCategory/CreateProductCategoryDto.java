@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class CreateProductCategoryDto {
 
     @NotNull
-    private String productCategoryName;
+    private String name;
 
     @NotNull
     private Long companyId;

@@ -25,7 +25,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String companyName;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)

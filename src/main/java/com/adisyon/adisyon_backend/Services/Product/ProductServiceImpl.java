@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
     public Product createProduct(CreateProductDto productDto, Company company) {
 
         Product newProduct = new Product();
-        newProduct.setProductName(productDto.getProductName());
+        newProduct.setName(productDto.getName());
         newProduct.setPrice(productDto.getPrice());
         newProduct.setProductCategory(productDto.getProductCategory());
         newProduct.setCompany(company);
@@ -52,8 +52,8 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(existingProduct);
 
         Product newProduct = new Product();
-        newProduct.setProductName(
-                productDto.getProductName() != null ? productDto.getProductName() : existingProduct.getProductName());
+        newProduct.setName(
+                productDto.getName() != null ? productDto.getName() : existingProduct.getName());
         newProduct.setPrice(productDto.getPrice() != null ? productDto.getPrice() : existingProduct.getPrice());
         newProduct.setProductCategory(productDto.getProductCategory() != null ? productDto.getProductCategory()
                 : existingProduct.getProductCategory());
@@ -90,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
     private List<Product> filterByCategory(List<Product> products, String productCategory) {
         return products.stream().filter(product -> {
             if (product.getProductCategory() != null)
-                return product.getProductCategory().getProductCategoryName().equals(productCategory);
+                return product.getProductCategory().getName().equals(productCategory);
 
             return false;
         }).collect(Collectors.toList());

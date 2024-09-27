@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class BasketProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

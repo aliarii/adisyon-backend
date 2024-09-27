@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class CreateCompanyDto {
     @NotEmpty
     @Size(min = 2)
-    private String companyName;
+    private String name;
 }

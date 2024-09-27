@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class CreateProductDto {
 
     @NotNull
-    private String productName;
+    private String name;
 
     @NotNull
     private Long price;

@@ -53,7 +53,7 @@ public class OwnerServiceImpl implements OwnerService {
 
         ownerRepository.save(newOwner);
         CreateCompanyDto companyDto = new CreateCompanyDto();
-        companyDto.setCompanyName(ownerDto.getCompanyName());
+        companyDto.setName(ownerDto.getCompanyName());
         companyService.createCompany(companyDto, newOwner.getId());
 
         return newOwner;

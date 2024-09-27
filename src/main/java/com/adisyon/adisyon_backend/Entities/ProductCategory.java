@@ -27,7 +27,7 @@ public class ProductCategory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String productCategoryName;
+    private String name;
 
     @JsonIgnore
     @ManyToOne

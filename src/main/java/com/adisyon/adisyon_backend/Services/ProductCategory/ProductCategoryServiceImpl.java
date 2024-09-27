@@ -29,7 +29,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public ProductCategory createProductCategory(CreateProductCategoryDto categoryDto, Company company) {
 
         ProductCategory newProductCategory = new ProductCategory();
-        newProductCategory.setProductCategoryName(categoryDto.getProductCategoryName());
+        newProductCategory.setName(categoryDto.getName());
         newProductCategory.setCompany(company);
         newProductCategory.setIsActive(true);
         newProductCategory.setCreatedDate(new Date());
@@ -47,9 +47,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         productCategoryRepository.save(existingProductCategory);
 
         ProductCategory newProductCategory = new ProductCategory();
-        newProductCategory.setProductCategoryName(
-                categoryDto.getProductCategoryName() != null ? categoryDto.getProductCategoryName()
-                        : existingProductCategory.getProductCategoryName());
+        newProductCategory.setName(
+                categoryDto.getName() != null ? categoryDto.getName()
+                        : existingProductCategory.getName());
         newProductCategory.setCompany(existingProductCategory.getCompany());
         newProductCategory.setIsActive(true);
         newProductCategory.setCreatedDate(new Date());

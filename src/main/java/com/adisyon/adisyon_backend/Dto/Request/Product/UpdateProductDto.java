@@ -17,7 +17,7 @@ public class UpdateProductDto {
     private Long id;
 
     @Nullable
-    private String productName;
+    private String name;
 
     @Nullable
     private Long price;

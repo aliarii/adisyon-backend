@@ -14,5 +14,5 @@ public class UpdateProductCategoryDto {
     private Long id;
 
     @Nullable
-    private String productCategoryName;
+    private String name;
 }

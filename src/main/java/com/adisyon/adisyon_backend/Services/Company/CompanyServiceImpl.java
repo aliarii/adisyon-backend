@@ -34,7 +34,7 @@ public class CompanyServiceImpl implements CompanyService {
     public Company createCompany(CreateCompanyDto companyDto, Long ownerId) {
         Company newCompany = new Company();
         Owner owner = ownerRepository.findById(ownerId).orElseThrow();
-        newCompany.setCompanyName(companyDto.getCompanyName());
+        newCompany.setName(companyDto.getName());
         newCompany.setOwner(owner);
         newCompany.setIsActive(true);
         newCompany.setCreatedDate(new Date());
