@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderTableCategory {
+public class BasketCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

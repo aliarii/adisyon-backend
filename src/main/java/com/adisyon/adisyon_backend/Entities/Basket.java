@@ -21,21 +21,21 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderTable {
+public class Basket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String tableName;
+    private String name;
 
-    private Long total;
+    private Long totalPrice;
 
     @JsonIgnore
     @ManyToOne
     private Company company;
 
-    @OneToMany(mappedBy = "orderTable", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderTableProduct> orderTableProducts = new ArrayList<>();
+    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BasketProduct> basketProducts = new ArrayList<>();
 
     private Boolean isActive;
 

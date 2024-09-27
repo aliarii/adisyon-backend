@@ -1,9 +1,9 @@
-package com.adisyon.adisyon_backend.Dto.Request.OrderTable;
+package com.adisyon.adisyon_backend.Dto.Request.Basket;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.adisyon.adisyon_backend.Entities.OrderTableProduct;
+import com.adisyon.adisyon_backend.Entities.BasketProduct;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
@@ -14,14 +14,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateOrderTableDto {
+public class UpdateBasketDto {
 
     @NotNull
-    private Long orderTableId;
+    private Long id;
 
     @Nullable
-    private String orderTableName;
+    private String name;
 
     @Nullable
-    private List<OrderTableProduct> orderTableProducts = new ArrayList<>();
+    private List<BasketProduct> basketProducts = new ArrayList<>();
 }

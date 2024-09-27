@@ -16,14 +16,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class OrderTableProduct {
+public class BasketProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
     @JsonIgnore
-    private OrderTable orderTable;
+    private Basket basket;
 
     @ManyToOne
     private Product product;

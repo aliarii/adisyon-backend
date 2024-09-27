@@ -1,4 +1,4 @@
-package com.adisyon.adisyon_backend.Dto.Request.OrderTable;
+package com.adisyon.adisyon_backend.Dto.Request.Basket;
 
 import com.adisyon.adisyon_backend.Entities.Company;
 
@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateOrderTableDto {
+public class CreateBasketDto {
 
     @Nullable
-    private String orderTableName;
+    private String name;
 
     @NotNull
     private Company company;

@@ -1,4 +1,4 @@
-package com.adisyon.adisyon_backend.Dto.Request.OrderTableProduct;
+package com.adisyon.adisyon_backend.Dto.Request.Basket;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,12 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdeteOrderTableProductDto {
+public class DeleteBasketDto {
 
     @NotNull
-    Long id;
-
-    @NotNull
-    private int quantity;
+    private Long id;
 
 }
