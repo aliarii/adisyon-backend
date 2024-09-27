@@ -25,13 +25,13 @@ public class CompanyController {
 
     @GetMapping
     public ResponseEntity<List<Company>> getAllCompanies() {
-        List<Company> companies = companyService.getAllCompanies();
+        List<Company> companies = companyService.findAllCompanies();
         return new ResponseEntity<>(companies, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Company> getCompanyById(@PathVariable Long id) {
-        Company company = companyService.getCompanyById(id);
+        Company company = companyService.findCompanyById(id);
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
 

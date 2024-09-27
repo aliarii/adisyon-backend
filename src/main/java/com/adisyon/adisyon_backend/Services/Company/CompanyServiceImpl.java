@@ -2,7 +2,6 @@ package com.adisyon.adisyon_backend.Services.Company;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,9 +9,9 @@ import org.springframework.stereotype.Service;
 import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
 import com.adisyon.adisyon_backend.Entities.Company;
 import com.adisyon.adisyon_backend.Entities.Owner;
-import com.adisyon.adisyon_backend.Exception.NotFoundException;
 import com.adisyon.adisyon_backend.Repositories.Company.CompanyRepository;
 import com.adisyon.adisyon_backend.Repositories.Owner.OwnerRepository;
+import com.adisyon.adisyon_backend.Services.Unwrapper;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -24,12 +23,12 @@ public class CompanyServiceImpl implements CompanyService {
     // @Autowired
     // private OwnerService ownerService;
 
-    public List<Company> getAllCompanies() {
+    public List<Company> findAllCompanies() {
         return companyRepository.findAll();
     }
 
-    public Company getCompanyById(Long id) {
-        return companyRepository.findById(id).orElseThrow();
+    public Company findCompanyById(Long id) {
+        return Unwrapper.unwrap(companyRepository.findById(id), id);
     }
 
     public Company createCompany(CreateCompanyDto companyDto, Long ownerId) {
@@ -66,10 +65,4 @@ public class CompanyServiceImpl implements CompanyService {
     // companyRepository.delete(company);
     // }
 
-    static Company unwrapCompany(Optional<Company> entity, Long id) {
-        if (entity.isPresent())
-            return entity.get();
-        else
-            throw new NotFoundException(id.toString());
-    }
 }

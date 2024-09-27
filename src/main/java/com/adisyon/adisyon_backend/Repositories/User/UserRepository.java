@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.adisyon.adisyon_backend.Entities.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    public User findUserByEmail(String email);
+    public User findByEmail(String email);
 
-    public User findUserByUserName(String userName);
+    public User findByUserName(String userName);
 }

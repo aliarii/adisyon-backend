@@ -9,9 +9,9 @@ import com.adisyon.adisyon_backend.Entities.Owner;
 
 public interface OwnerService {
 
-    public List<Owner> getAllOwners();
+    public List<Owner> findAllOwners();
 
-    public Owner getOwnerById(Long id);
+    public Owner findOwnerById(Long id);
 
     public Owner createOwner(CreateOwnerDto createOwnerDto);
 

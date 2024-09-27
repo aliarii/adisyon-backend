@@ -2,7 +2,6 @@ package com.adisyon.adisyon_backend.Services.User;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +15,7 @@ import com.adisyon.adisyon_backend.Entities.USER_ROLE;
 import com.adisyon.adisyon_backend.Entities.User;
 import com.adisyon.adisyon_backend.Exception.NotFoundException;
 import com.adisyon.adisyon_backend.Repositories.User.UserRepository;
+import com.adisyon.adisyon_backend.Services.Unwrapper;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,12 +27,12 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
     public User findUserById(Long id) {
-        return unwrapUser(userRepository.findById(id), id);
+        return Unwrapper.unwrap(userRepository.findById(id), id);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByEmail(String email) {
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findByEmail(email);
         if (user == null)
             throw new NotFoundException(email.toString());
         return user;
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByUserName(String userName) {
-        User user = userRepository.findUserByUserName(userName);
+        User user = userRepository.findByUserName(userName);
         if (user == null)
             throw new NotFoundException(userName.toString());
         return user;
@@ -76,8 +76,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(DeleteUserDto deleteUserDto) {
-        // User user = userRepository.findById(deleteUserDto.getId()).orElseThrow();
-        User user = unwrapUser(userRepository.findById(deleteUserDto.getId()), deleteUserDto.getId());
+        User user = findUserById(deleteUserDto.getId());
         user.setIsActive(false);
         user.setUpdatedDate(new Date());
         userRepository.save(user);
@@ -87,10 +86,7 @@ public class UserServiceImpl implements UserService {
     public User updateUser(UpdateUserDto updateUserDto) {
 
         deleteUser(new DeleteUserDto(updateUserDto.getId()));
-
-        // User user = userRepository.findById(updateUserDto.getId()).orElseThrow();
-
-        User user = unwrapUser(userRepository.findById(updateUserDto.getId()), updateUserDto.getId());
+        User user = findUserById(updateUserDto.getId());
 
         User newUser = new User();
         newUser.setEmail(updateUserDto.getEmail() == null ? user.getEmail() : updateUserDto.getEmail());
@@ -105,10 +101,4 @@ public class UserServiceImpl implements UserService {
         return newUser;
     }
 
-    static User unwrapUser(Optional<User> entity, Long id) {
-        if (entity.isPresent())
-            return entity.get();
-        else
-            throw new NotFoundException(id.toString());
-    }
 }

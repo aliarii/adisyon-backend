@@ -6,9 +6,9 @@ import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
 import com.adisyon.adisyon_backend.Entities.Company;
 
 public interface CompanyService {
-    public List<Company> getAllCompanies();
+    public List<Company> findAllCompanies();
 
-    public Company getCompanyById(Long id);
+    public Company findCompanyById(Long id);
 
     public Company createCompany(CreateCompanyDto companyDto, Long ownerId);
 

@@ -2,7 +2,6 @@ package com.adisyon.adisyon_backend.Services.Employee;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,9 @@ import com.adisyon.adisyon_backend.Dto.Request.Employee.UpdateEmployeeDto;
 import com.adisyon.adisyon_backend.Entities.Employee;
 import com.adisyon.adisyon_backend.Entities.USER_ROLE;
 import com.adisyon.adisyon_backend.Exception.BusinessException;
-import com.adisyon.adisyon_backend.Exception.NotFoundException;
 import com.adisyon.adisyon_backend.Repositories.Employee.EmployeeRepository;
 import com.adisyon.adisyon_backend.Repositories.User.UserRepository;
+import com.adisyon.adisyon_backend.Services.Unwrapper;
 import com.adisyon.adisyon_backend.Services.Company.CompanyService;
 
 @Service
@@ -30,12 +29,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private CompanyService companyService;
 
-    public List<Employee> getAllEmployees() {
+    public List<Employee> findAllEmployees() {
         return employeeRepository.findAll();
     }
 
-    public Employee getEmployeeById(Long id) {
-        Employee employee = unwrapEmployee(employeeRepository.findById(id), id);
+    public Employee findEmployeeById(Long id) {
+        Employee employee = Unwrapper.unwrap(employeeRepository.findById(id), id);
         return employee;
     }
 
@@ -51,14 +50,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         newEmployee.setIsActive(true);
         newEmployee.setCreatedDate(new Date());
 
-        newEmployee.setCompany(companyService.getCompanyById(employeeDto.getCompanyId()));
+        newEmployee.setCompany(companyService.findCompanyById(employeeDto.getCompanyId()));
 
         return employeeRepository.save(newEmployee);
     }
 
     public Employee updateEmployee(UpdateEmployeeDto employeeDto) {
 
-        Employee existingEmployee = getEmployeeById(employeeDto.getId());
+        Employee existingEmployee = findEmployeeById(employeeDto.getId());
         existingEmployee.setIsActive(false);
         employeeRepository.save(existingEmployee);
 
@@ -82,7 +81,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     public void deleteEmployee(DeleteEmployeeDto employeeDto) {
 
-        Employee employee = getEmployeeById(employeeDto.getId());
+        Employee employee = findEmployeeById(employeeDto.getId());
         checkIfEmployeeActive(employee);
         employee.setIsActive(false);
         employee.setUpdatedDate(new Date());
@@ -90,7 +89,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private void checkUserEmail(String userEmail) {
-        boolean ifExists = userRepository.findUserByEmail(userEmail) != null ? true : false;
+        boolean ifExists = userRepository.findByEmail(userEmail) != null ? true : false;
         if (ifExists) {
             throw new BusinessException("Email already exist!");
         }
@@ -100,12 +99,5 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employee.getIsActive() == false) {
             throw new BusinessException("Already disabled!");
         }
-    }
-
-    static Employee unwrapEmployee(Optional<Employee> entity, Long id) {
-        if (entity.isPresent())
-            return entity.get();
-        else
-            throw new NotFoundException(id.toString());
     }
 }

@@ -8,7 +8,7 @@ import com.adisyon.adisyon_backend.Dto.Request.User.UpdateUserDto;
 import com.adisyon.adisyon_backend.Entities.User;
 
 public interface UserService {
-    public List<User> getAllUsers();
+    public List<User> findAllUsers();
 
     public User findUserByJwtToken(String jwt);
 

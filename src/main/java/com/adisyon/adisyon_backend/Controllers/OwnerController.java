@@ -22,18 +22,19 @@ import com.adisyon.adisyon_backend.Services.Owner.OwnerService;
 @RestController
 @RequestMapping("/api/owners")
 public class OwnerController {
+
     @Autowired
     private OwnerService ownerService;
 
     @GetMapping
     public ResponseEntity<List<Owner>> getAllOwners() {
-        List<Owner> owners = ownerService.getAllOwners();
+        List<Owner> owners = ownerService.findAllOwners();
         return new ResponseEntity<>(owners, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Owner> getOwnerById(@PathVariable Long id) {
-        Owner owner = ownerService.getOwnerById(id);
+        Owner owner = ownerService.findOwnerById(id);
         return new ResponseEntity<>(owner, HttpStatus.OK);
     }
 

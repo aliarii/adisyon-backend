@@ -2,7 +2,6 @@ package com.adisyon.adisyon_backend.Services.Owner;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +13,9 @@ import com.adisyon.adisyon_backend.Dto.Request.Owner.UpdateOwnerDto;
 import com.adisyon.adisyon_backend.Entities.Owner;
 import com.adisyon.adisyon_backend.Entities.USER_ROLE;
 import com.adisyon.adisyon_backend.Exception.BusinessException;
-import com.adisyon.adisyon_backend.Exception.NotFoundException;
 import com.adisyon.adisyon_backend.Repositories.Owner.OwnerRepository;
 import com.adisyon.adisyon_backend.Repositories.User.UserRepository;
+import com.adisyon.adisyon_backend.Services.Unwrapper;
 import com.adisyon.adisyon_backend.Services.Company.CompanyService;
 
 @Service
@@ -31,12 +30,12 @@ public class OwnerServiceImpl implements OwnerService {
     @Autowired
     private CompanyService companyService;
 
-    public List<Owner> getAllOwners() {
+    public List<Owner> findAllOwners() {
         return ownerRepository.findAll();
     }
 
-    public Owner getOwnerById(Long id) {
-        return unwrapOwner(ownerRepository.findById(id), id);
+    public Owner findOwnerById(Long id) {
+        return Unwrapper.unwrap(ownerRepository.findById(id), id);
     }
 
     public Owner createOwner(CreateOwnerDto ownerDto) {
@@ -62,7 +61,7 @@ public class OwnerServiceImpl implements OwnerService {
 
     public Owner updateOwner(UpdateOwnerDto ownerDto) {
 
-        Owner existingOwner = getOwnerById(ownerDto.getId());
+        Owner existingOwner = findOwnerById(ownerDto.getId());
         existingOwner.setIsActive(false);
         ownerRepository.save(existingOwner);
 
@@ -85,7 +84,7 @@ public class OwnerServiceImpl implements OwnerService {
 
     public void deleteOwner(DeleteOwnerDto ownerDto) {
 
-        Owner owner = getOwnerById(ownerDto.getId());
+        Owner owner = findOwnerById(ownerDto.getId());
         checkIfOwnerActive(owner);
         owner.setIsActive(false);
         owner.setUpdatedDate(new Date());
@@ -93,7 +92,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     private void checkUserEmail(String userEmail) {
-        boolean ifExists = userRepository.findUserByEmail(userEmail) != null ? true : false;
+        boolean ifExists = userRepository.findByEmail(userEmail) != null ? true : false;
         if (ifExists) {
             throw new BusinessException("Email already exist!");
         }
@@ -105,10 +104,4 @@ public class OwnerServiceImpl implements OwnerService {
         }
     }
 
-    static Owner unwrapOwner(Optional<Owner> entity, Long id) {
-        if (entity.isPresent())
-            return entity.get();
-        else
-            throw new NotFoundException(id.toString());
-    }
 }
