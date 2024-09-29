@@ -28,7 +28,7 @@ public class BasketController {
     private BasketService basketService;
 
     @GetMapping
-    public ResponseEntity<List<Basket>> getAllTables(@PathVariable Long id) {
+    public ResponseEntity<List<Basket>> getAllBaskets(@PathVariable Long id) {
         List<Basket> baskets = basketService.findByCompanyId(id);
         return new ResponseEntity<>(baskets, HttpStatus.OK);
     }

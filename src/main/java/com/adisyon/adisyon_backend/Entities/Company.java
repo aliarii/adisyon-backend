@@ -41,6 +41,9 @@ public class Company {
     private List<ProductCategory> productCategories = new ArrayList<>();
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BasketCategory> basketCategories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Basket> baskets = new ArrayList<>();
 
     private Boolean isActive;

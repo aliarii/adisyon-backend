@@ -32,6 +32,7 @@ public class BasketServiceImpl implements BasketService {
         newBasket.setCompany(basketDto.getCompany());
         newBasket.setIsActive(false);
         newBasket.setCreatedDate(new Date());
+        newBasket.setBasketCategory(basketDto.getBasketCategory());
 
         return basketRepository.save(newBasket);
     }
@@ -43,6 +44,8 @@ public class BasketServiceImpl implements BasketService {
         basket.setName(basketDto.getName() != null ? basketDto.getName()
                 : basket.getName());
         basket.getBasketProducts().addAll(basketDto.getBasketProducts());
+        basket.setBasketCategory(
+                basketDto.getBasketCategory() != null ? basketDto.getBasketCategory() : basket.getBasketCategory());
         basket.setUpdatedDate(new Date());
         basket.setIsActive(true);
         return basketRepository.save(basket);

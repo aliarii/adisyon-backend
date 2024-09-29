@@ -4,6 +4,7 @@ D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_back
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Config\JwtProvider.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Config\JwtTokenValidator.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Controllers\Basket\BasketController.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Controllers\BasketCategory\BasketCategoryController.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Controllers\BasketProduct\BasketProductController.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Controllers\Company\CompanyController.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Controllers\Employee\EmployeeController.java
@@ -16,6 +17,9 @@ D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_back
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Basket\CreateBasketDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Basket\DeleteBasketDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Basket\UpdateBasketDto.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\BasketCategory\CreateBasketCategoryDto.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\BasketCategory\DeleteBasketCategoryDto.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\BasketCategory\UpdateBasketCategoryDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\BasketProduct\CreateBasketProductDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\BasketProduct\DeleteBasketProductDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\BasketProduct\UpdateBasketProductDto.java
@@ -50,6 +54,7 @@ D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_back
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Exception\BusinessException.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Exception\NotFoundException.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Repositories\Basket\BasketRepository.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Repositories\BasketCategory\BasketCategoryRepository.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Repositories\BasketProduct\BasketProductRepository.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Repositories\Company\CompanyRepository.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Repositories\Employee\EmployeeRepository.java
@@ -59,6 +64,8 @@ D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_back
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Repositories\User\UserRepository.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Services\Basket\BasketService.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Services\Basket\BasketServiceImpl.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Services\BasketCategory\BasketCategoryService.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Services\BasketCategory\BasketCategoryServiceImpl.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Services\BasketProduct\BasketProductService.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Services\BasketProduct\BasketProductServiceImpl.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Services\Company\CompanyService.java

@@ -37,6 +37,10 @@ public class Basket {
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BasketProduct> basketProducts = new ArrayList<>();
 
+    @ManyToOne
+    @JsonIgnore
+    private BasketCategory basketCategory;
+
     private Boolean isActive;
 
     private Date createdDate;
