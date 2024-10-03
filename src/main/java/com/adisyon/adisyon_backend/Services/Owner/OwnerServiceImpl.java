@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
@@ -30,6 +31,9 @@ public class OwnerServiceImpl implements OwnerService {
     @Autowired
     private CompanyService companyService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public List<Owner> findAllOwners() {
         return ownerRepository.findAll();
     }
@@ -46,7 +50,7 @@ public class OwnerServiceImpl implements OwnerService {
         newOwner.setUserName(ownerDto.getEmail());
         newOwner.setFullName(ownerDto.getFullName());
         newOwner.setEmail(ownerDto.getEmail());
-        newOwner.setPassword(ownerDto.getPassword());
+        newOwner.setPassword(passwordEncoder.encode(ownerDto.getPassword()));
         newOwner.setRole(USER_ROLE.ROLE_OWNER);
         newOwner.setIsActive(true);
         newOwner.setCreatedDate(new Date());
@@ -72,8 +76,8 @@ public class OwnerServiceImpl implements OwnerService {
         newOwner.setFullName(
                 ownerDto.getFullName() != null ? ownerDto.getFullName() : existingOwner.getFullName());
         newOwner.setEmail(ownerDto.getEmail() != null ? ownerDto.getEmail() : existingOwner.getEmail());
-        newOwner.setPassword(
-                ownerDto.getPassword() != null ? ownerDto.getPassword() : existingOwner.getPassword());
+        newOwner.setPassword(passwordEncoder
+                .encode(ownerDto.getPassword() != null ? ownerDto.getPassword() : existingOwner.getPassword()));
         newOwner.setRole(USER_ROLE.ROLE_OWNER);
         newOwner.setIsActive(true);
         newOwner.setCreatedDate(existingOwner.getCreatedDate());

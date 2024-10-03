@@ -3,6 +3,7 @@ D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_back
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Config\JwtConstant.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Config\JwtProvider.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Config\JwtTokenValidator.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Controllers\Auth\AuthController.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Controllers\Basket\BasketController.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Controllers\BasketCategory\BasketCategoryController.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Controllers\BasketProduct\BasketProductController.java
@@ -14,6 +15,7 @@ D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_back
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Controllers\ProductCategory\EmployeeProductCategoryController.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Controllers\ProductCategory\OwnerProductCategoryController.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Controllers\User\UserController.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Auth\LoginRequest.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Basket\CreateBasketDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Basket\DeleteBasketDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Basket\UpdateBasketDto.java
@@ -41,6 +43,7 @@ D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_back
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\User\CreateUserDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\User\DeleteUserDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\User\UpdateUserDto.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Response\Auth\AuthResponse.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Entities\Basket.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Entities\BasketCategory.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Entities\BasketProduct.java
@@ -81,3 +84,5 @@ D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_back
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Services\Unwrapper.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Services\User\UserService.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Services\User\UserServiceImpl.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Services\UserDetailsService.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Services\UserDetailsServiceImpl.java

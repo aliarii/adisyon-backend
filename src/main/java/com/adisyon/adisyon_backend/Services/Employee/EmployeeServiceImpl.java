@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.adisyon.adisyon_backend.Dto.Request.Employee.CreateEmployeeDto;
@@ -29,6 +30,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private CompanyService companyService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public List<Employee> findAllEmployees() {
         return employeeRepository.findAll();
     }
@@ -45,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         newEmployee.setUserName(employeeDto.getUserName());
         newEmployee.setFullName(employeeDto.getFullName());
         newEmployee.setEmail(employeeDto.getUserName() + "@adisyon.com");
-        newEmployee.setPassword(employeeDto.getPassword());
+        newEmployee.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
         newEmployee.setRole(USER_ROLE.ROLE_EMPLOYEE);
         newEmployee.setIsActive(true);
         newEmployee.setCreatedDate(new Date());
@@ -69,8 +73,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 employeeDto.getFullName() != null ? employeeDto.getFullName() : existingEmployee.getFullName());
         newEmployee.setEmail(employeeDto.getUserName() != null ? employeeDto.getUserName() + "@adisyon.com"
                 : existingEmployee.getEmail());
-        newEmployee.setPassword(
-                employeeDto.getPassword() != null ? employeeDto.getPassword() : existingEmployee.getPassword());
+        newEmployee.setPassword(passwordEncoder.encode(
+                employeeDto.getPassword() != null ? employeeDto.getPassword() : existingEmployee.getPassword()));
         newEmployee.setRole(USER_ROLE.ROLE_EMPLOYEE);
         newEmployee.setIsActive(true);
         newEmployee.setCreatedDate(existingEmployee.getCreatedDate());

@@ -22,10 +22,12 @@ com\adisyon\adisyon_backend\Exception\BusinessException.class
 com\adisyon\adisyon_backend\Entities\Basket.class
 com\adisyon\adisyon_backend\Repositories\BasketProduct\BasketProductRepository.class
 com\adisyon\adisyon_backend\Repositories\ProductCategory\ProductCategoryRepository.class
+com\adisyon\adisyon_backend\Dto\Response\Auth\AuthResponse.class
 com\adisyon\adisyon_backend\Repositories\Owner\OwnerRepository.class
 com\adisyon\adisyon_backend\Config\AppConfig.class
 com\adisyon\adisyon_backend\Entities\Company.class
 com\adisyon\adisyon_backend\Dto\Request\ProductCategory\UpdateProductCategoryDto.class
+com\adisyon\adisyon_backend\Services\UserDetailsService.class
 com\adisyon\adisyon_backend\Dto\Request\BasketProduct\UpdateBasketProductDto.class
 com\adisyon\adisyon_backend\Dto\Request\BasketCategory\DeleteBasketCategoryDto.class
 com\adisyon\adisyon_backend\Controllers\User\UserController.class
@@ -39,10 +41,12 @@ com\adisyon\adisyon_backend\Dto\Request\Product\UpdateProductDto.class
 com\adisyon\adisyon_backend\Services\BasketProduct\BasketProductService.class
 com\adisyon\adisyon_backend\Services\Employee\EmployeeServiceImpl.class
 com\adisyon\adisyon_backend\Services\Owner\OwnerServiceImpl.class
+com\adisyon\adisyon_backend\Services\UserDetailsServiceImpl.class
 com\adisyon\adisyon_backend\Controllers\BasketCategory\BasketCategoryController.class
 com\adisyon\adisyon_backend\Services\User\UserService.class
 com\adisyon\adisyon_backend\Dto\Request\BasketCategory\UpdateBasketCategoryDto.class
 com\adisyon\adisyon_backend\Services\ProductCategory\ProductCategoryServiceImpl.class
+com\adisyon\adisyon_backend\Controllers\Auth\AuthController.class
 com\adisyon\adisyon_backend\Controllers\Company\CompanyController.class
 com\adisyon\adisyon_backend\Dto\Request\Employee\DeleteEmployeeDto.class
 com\adisyon\adisyon_backend\Controllers\Owner\OwnerController.class
@@ -66,6 +70,7 @@ com\adisyon\adisyon_backend\Services\Basket\BasketService.class
 com\adisyon\adisyon_backend\Dto\Request\ProductCategory\DeleteProductCategoryDto.class
 com\adisyon\adisyon_backend\Services\ProductCategory\ProductCategoryService.class
 com\adisyon\adisyon_backend\Controllers\Basket\BasketController.class
+com\adisyon\adisyon_backend\Dto\Request\Auth\LoginRequest.class
 com\adisyon\adisyon_backend\Controllers\Employee\EmployeeController.class
 com\adisyon\adisyon_backend\Dto\Request\User\CreateUserDto.class
 com\adisyon\adisyon_backend\Dto\Request\Owner\DeleteOwnerDto.class
