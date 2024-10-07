@@ -27,8 +27,14 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepository.findAll();
     }
 
+    @Override
     public Company findCompanyById(Long id) {
         return Unwrapper.unwrap(companyRepository.findById(id), id);
+    }
+
+    @Override
+    public Company findCompanyByUserId(Long id) {
+        return Unwrapper.unwrap(companyRepository.findByOwnerId(id), id);
     }
 
     public Company createCompany(CreateCompanyDto companyDto, Long ownerId) {

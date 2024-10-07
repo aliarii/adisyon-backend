@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
 import com.adisyon.adisyon_backend.Entities.Company;
+import com.adisyon.adisyon_backend.Entities.User;
 import com.adisyon.adisyon_backend.Services.Company.CompanyService;
+import com.adisyon.adisyon_backend.Services.User.UserService;
 
 @RestController
 @RequestMapping("/api/companies")
@@ -22,6 +25,9 @@ public class CompanyController {
 
     @Autowired
     private CompanyService companyService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public ResponseEntity<List<Company>> getAllCompanies() {
@@ -42,6 +48,16 @@ public class CompanyController {
         return new ResponseEntity<>(createdCompany, HttpStatus.CREATED);
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<Company> findCompanyByUserId(@RequestHeader("Authorization") String jwt)
+            throws Exception {
+
+        User user = userService.findUserByJwtToken(jwt);
+
+        Company company = companyService.findCompanyByUserId(user.getId());
+
+        return new ResponseEntity<>(company, HttpStatus.OK);
+    }
     // @PutMapping("/update/{id}")
     // public ResponseEntity<Company> updateCompany(@RequestBody UpdateCompanyDto
     // CompanyDto) {
