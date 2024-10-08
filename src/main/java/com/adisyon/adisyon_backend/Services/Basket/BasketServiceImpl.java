@@ -28,7 +28,7 @@ public class BasketServiceImpl implements BasketService {
     public Basket createBasket(CreateBasketDto basketDto) {
 
         Basket newBasket = new Basket();
-        newBasket.setName("Basket" + findByCompanyId(basketDto.getCompany().getId()).size() + 1);
+        newBasket.setName(basketDto.getName());
         newBasket.setCompany(basketDto.getCompany());
         newBasket.setIsActive(false);
         newBasket.setCreatedDate(new Date());

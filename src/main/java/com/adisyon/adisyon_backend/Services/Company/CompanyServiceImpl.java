@@ -6,12 +6,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.adisyon.adisyon_backend.Dto.Request.Basket.CreateBasketDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
+import com.adisyon.adisyon_backend.Entities.Basket;
 import com.adisyon.adisyon_backend.Entities.Company;
 import com.adisyon.adisyon_backend.Entities.Owner;
 import com.adisyon.adisyon_backend.Repositories.Company.CompanyRepository;
 import com.adisyon.adisyon_backend.Repositories.Owner.OwnerRepository;
 import com.adisyon.adisyon_backend.Services.Unwrapper;
+import com.adisyon.adisyon_backend.Services.Basket.BasketService;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -20,6 +23,9 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Autowired
     private OwnerRepository ownerRepository;
+
+    @Autowired
+    private BasketService basketService;
     // @Autowired
     // private OwnerService ownerService;
 
@@ -44,7 +50,20 @@ public class CompanyServiceImpl implements CompanyService {
         newCompany.setOwner(owner);
         newCompany.setIsActive(true);
         newCompany.setCreatedDate(new Date());
-        return companyRepository.save(newCompany);
+
+        Company createdCompany = companyRepository.save(newCompany);
+
+        for (int i = 0; i < 10; i++) {
+            CreateBasketDto basketDto = new CreateBasketDto();
+            basketDto.setName("Basket " + (i + 1));
+            basketDto.setCompany(createdCompany);
+            Basket createdBasket = basketService.createBasket(basketDto);
+
+            createdCompany.getBaskets().add(createdBasket);
+
+        }
+
+        return createdCompany;
     }
 
     // public Company updateCompany(UpdateCompanyDto companyDto) {
