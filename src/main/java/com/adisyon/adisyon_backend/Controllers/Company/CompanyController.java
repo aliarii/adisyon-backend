@@ -30,7 +30,8 @@ public class CompanyController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<Company>> getAllCompanies() {
+    public ResponseEntity<List<Company>> getAllCompanies(@RequestHeader("Authorization") String jwt) {
+
         List<Company> companies = companyService.findAllCompanies();
         return new ResponseEntity<>(companies, HttpStatus.OK);
     }
