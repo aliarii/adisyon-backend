@@ -13,22 +13,20 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class BasketProduct {
+@NoArgsConstructor
+public class CartProduct {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
     @JsonIgnore
-    private Basket basket;
+    private Cart cart;
 
     @ManyToOne
     private Product product;
 
     private int quantity;
-
-    private Long totalPrice;
-
 }

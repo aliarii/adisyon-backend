@@ -1,10 +1,6 @@
 package com.adisyon.adisyon_backend.Dto.Request.Basket;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.adisyon.adisyon_backend.Entities.BasketCategory;
-import com.adisyon.adisyon_backend.Entities.BasketProduct;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
@@ -22,9 +18,6 @@ public class UpdateBasketDto {
 
     @Nullable
     private String name;
-
-    @Nullable
-    private List<BasketProduct> basketProducts = new ArrayList<>();
 
     @Nullable
     private BasketCategory basketCategory;

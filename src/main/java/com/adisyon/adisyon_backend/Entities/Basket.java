@@ -1,8 +1,6 @@
 package com.adisyon.adisyon_backend.Entities;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -12,7 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,18 +26,20 @@ public class Basket {
 
     private String name;
 
-    private Long totalPrice;
-
     @JsonIgnore
     @ManyToOne
     private Company company;
 
-    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BasketProduct> basketProducts = new ArrayList<>();
-
     @ManyToOne
     @JsonIgnore
     private BasketCategory basketCategory;
+
+    @OneToOne(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Order order;
+
+    @OneToOne(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Cart cart;
 
     private Boolean isActive;
 

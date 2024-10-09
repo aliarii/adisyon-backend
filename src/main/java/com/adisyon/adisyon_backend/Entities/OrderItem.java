@@ -1,17 +1,12 @@
 package com.adisyon.adisyon_backend.Entities;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,28 +15,25 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class OrderItem {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    @JsonIgnore
-    private Basket basket;
+    private Product product;
 
-    @ManyToOne
-    @JsonIgnore
-    private Company company;
+    private ORDER_STATUS status = ORDER_STATUS.STATUS_PENDING;
 
-    @OneToMany
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private int quantity;
+
+    private Long totalPrice;
 
     private Date createdDate;
 
     private Date updatedDate;
 
     private Date completedDate;
-
-    private Long totalPrice;
 
 }

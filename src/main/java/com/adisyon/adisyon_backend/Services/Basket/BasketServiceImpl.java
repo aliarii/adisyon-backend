@@ -25,6 +25,11 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
+    public List<Basket> findByCompanyId(Long id) {
+        return basketRepository.findByCompanyId(id);
+    }
+
+    @Override
     public Basket createBasket(CreateBasketDto basketDto) {
 
         Basket newBasket = new Basket();
@@ -43,11 +48,10 @@ public class BasketServiceImpl implements BasketService {
         Basket basket = findBasketById(basketDto.getId());
         basket.setName(basketDto.getName() != null ? basketDto.getName()
                 : basket.getName());
-        basket.getBasketProducts().addAll(basketDto.getBasketProducts());
         basket.setBasketCategory(
                 basketDto.getBasketCategory() != null ? basketDto.getBasketCategory() : basket.getBasketCategory());
         basket.setUpdatedDate(new Date());
-        basket.setIsActive(true);
+
         return basketRepository.save(basket);
     }
 
@@ -58,16 +62,18 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
+    public Basket activateBasket(Long id) {
+        Basket basket = findBasketById(id);
+        basket.setUpdatedDate(new Date());
+        basket.setIsActive(true);
+        return basketRepository.save(basket);
+    }
+
+    @Override
     public void disableBasket(Long id) {
         Basket basket = findBasketById(id);
         basket.setIsActive(false);
         basket.setUpdatedDate(new Date());
         basketRepository.save(basket);
     }
-
-    @Override
-    public List<Basket> findByCompanyId(Long id) {
-        return basketRepository.findByCompanyId(id);
-    }
-
 }
