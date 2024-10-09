@@ -49,16 +49,24 @@ public class CompanyController {
         return new ResponseEntity<>(createdCompany, HttpStatus.CREATED);
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<Company> findCompanyByUserId(@RequestHeader("Authorization") String jwt)
-            throws Exception {
+    // @GetMapping("/user")
+    // public ResponseEntity<Company>
+    // findCompanyByUserId(@RequestHeader("Authorization") String jwt)
+    // throws Exception {
 
-        User user = userService.findUserByJwtToken(jwt);
+    // User user = userService.findUserByJwtToken(jwt);
 
-        Company company = companyService.findCompanyByUserId(user.getId());
+    // Company company = companyService.findCompanyByUserId(user.getId());
 
+    // return new ResponseEntity<>(company, HttpStatus.OK);
+    // }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Company> findCompanyByUserId(@PathVariable Long id) {
+        Company company = companyService.findCompanyByUserId(id);
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
+
     // @PutMapping("/update/{id}")
     // public ResponseEntity<Company> updateCompany(@RequestBody UpdateCompanyDto
     // CompanyDto) {
