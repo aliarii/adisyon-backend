@@ -12,4 +12,7 @@ public class CreateBasketCategoryDto {
 
     @NotNull
     private String name;
+
+    @NotNull
+    private Long companyId;
 }

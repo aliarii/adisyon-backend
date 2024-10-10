@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
 import com.adisyon.adisyon_backend.Entities.Company;
-import com.adisyon.adisyon_backend.Entities.User;
 import com.adisyon.adisyon_backend.Services.Company.CompanyService;
-import com.adisyon.adisyon_backend.Services.User.UserService;
 
 @RestController
 @RequestMapping("/api/companies")
@@ -25,9 +23,6 @@ public class CompanyController {
 
     @Autowired
     private CompanyService companyService;
-
-    @Autowired
-    private UserService userService;
 
     @GetMapping
     public ResponseEntity<List<Company>> getAllCompanies(@RequestHeader("Authorization") String jwt) {

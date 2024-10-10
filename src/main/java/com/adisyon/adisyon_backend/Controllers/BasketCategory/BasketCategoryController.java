@@ -1,9 +1,13 @@
 package com.adisyon.adisyon_backend.Controllers.BasketCategory;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +26,12 @@ public class BasketCategoryController {
 
     @Autowired
     private BasketCategoryService basketCategoryService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<BasketCategory>> findAllBasketCategoriesByCompanyId(@PathVariable Long id) {
+        List<BasketCategory> basketCategories = basketCategoryService.findByCompanyId(id);
+        return new ResponseEntity<>(basketCategories, HttpStatus.OK);
+    }
 
     @PostMapping("/create")
     public ResponseEntity<BasketCategory> createBasketCategory(@RequestBody CreateBasketCategoryDto bCategoryDto) {
