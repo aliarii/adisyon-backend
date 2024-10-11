@@ -31,6 +31,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart createCart(CreateCartDto cartDto) {
         Basket basket = cartDto.getBasket();
+        System.out.println("***************" + cartDto.getBasket());
         Cart newCart = new Cart();
         newCart.setBasket(basket);
         return cartRepository.save(newCart);

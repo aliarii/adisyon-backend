@@ -38,7 +38,7 @@ public class CartProductServiceImpl implements CartProductService {
     }
 
     @Override
-    public CartProduct createCartProduct(CreateCartProductDto cartProductDto) {
+    public Cart createCartProduct(CreateCartProductDto cartProductDto) {
         Product product = productService.findProductById(cartProductDto.getProductId());
         Cart cart = cartService.findCartById(cartProductDto.getCartId());
 
@@ -46,7 +46,8 @@ public class CartProductServiceImpl implements CartProductService {
             if (cartProduct.getProduct().equals(product)) {
                 int newQuantity = cartProduct.getQuantity() + cartProductDto.getQuantity();
                 UpdateCartProductDto updateCartProductDto = new UpdateCartProductDto();
-                updateCartProductDto.setId(cartProduct.getId());
+                updateCartProductDto.setCartId(cartProductDto.getCartId());
+                updateCartProductDto.setCartProductId(cartProduct.getId());
                 updateCartProductDto.setQuantity(newQuantity);
                 return updateCartProduct(updateCartProductDto);
             }
@@ -59,14 +60,16 @@ public class CartProductServiceImpl implements CartProductService {
         CartProduct cartProduct = cartProductRepository.save(newCartProduct);
         cart.getCartProducts().add(cartProduct);
 
-        return cartProduct;
+        return cart;
     }
 
     @Override
-    public CartProduct updateCartProduct(UpdateCartProductDto cartProductDto) {
-        CartProduct cartProduct = findCartProductById(cartProductDto.getId());
+    public Cart updateCartProduct(UpdateCartProductDto cartProductDto) {
+        CartProduct cartProduct = findCartProductById(cartProductDto.getCartProductId());
+        Cart cart = cartService.findCartById(cartProductDto.getCartId());
         cartProduct.setQuantity(cartProductDto.getQuantity());
-        return cartProductRepository.save(cartProduct);
+        cartProductRepository.save(cartProduct);
+        return cart;
     }
 
     @Override

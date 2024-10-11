@@ -38,8 +38,7 @@ public class CompanyController {
     }
 
     @PostMapping
-    public ResponseEntity<Company> createCompany(@RequestBody CreateCompanyDto companyDto, @PathVariable Long id)
-            throws Exception {
+    public ResponseEntity<Company> createCompany(@RequestBody CreateCompanyDto companyDto, @PathVariable Long id) {
         Company createdCompany = companyService.createCompany(companyDto, id);
         return new ResponseEntity<>(createdCompany, HttpStatus.CREATED);
     }

@@ -20,7 +20,6 @@ import com.adisyon.adisyon_backend.Dto.Request.CartProduct.DeleteCartProductDto;
 import com.adisyon.adisyon_backend.Dto.Request.CartProduct.UpdateCartProductDto;
 import com.adisyon.adisyon_backend.Entities.Basket;
 import com.adisyon.adisyon_backend.Entities.Cart;
-import com.adisyon.adisyon_backend.Entities.CartProduct;
 import com.adisyon.adisyon_backend.Services.Basket.BasketService;
 import com.adisyon.adisyon_backend.Services.Cart.CartService;
 import com.adisyon.adisyon_backend.Services.CartProduct.CartProductService;
@@ -76,15 +75,15 @@ public class CartController {
     }
 
     @PutMapping("/add")
-    public ResponseEntity<CartProduct> createCartProduct(@RequestBody CreateCartProductDto productDto) {
-        CartProduct cartProduct = cartProductService.createCartProduct(productDto);
-        return new ResponseEntity<>(cartProduct, HttpStatus.OK);
+    public ResponseEntity<Cart> createCartProduct(@RequestBody CreateCartProductDto productDto) {
+        Cart cart = cartProductService.createCartProduct(productDto);
+        return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     @PutMapping("/product/update")
-    public ResponseEntity<CartProduct> updateCartProduct(@RequestBody UpdateCartProductDto productDto) {
-        CartProduct cartProduct = cartProductService.updateCartProduct(productDto);
-        return new ResponseEntity<>(cartProduct, HttpStatus.OK);
+    public ResponseEntity<Cart> updateCartProduct(@RequestBody UpdateCartProductDto productDto) {
+        Cart cart = cartProductService.updateCartProduct(productDto);
+        return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     @DeleteMapping("/product/{id}/remove")

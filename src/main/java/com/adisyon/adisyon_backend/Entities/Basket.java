@@ -38,7 +38,6 @@ public class Basket {
     private Order order;
 
     @OneToOne(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
     private Cart cart;
 
     private Boolean isActive;

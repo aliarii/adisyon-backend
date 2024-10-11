@@ -11,7 +11,10 @@ import lombok.NoArgsConstructor;
 public class UpdateCartProductDto {
 
     @NotNull
-    private Long id;
+    private Long cartId;
+
+    @NotNull
+    private Long cartProductId;
 
     @NotNull
     private int quantity;
