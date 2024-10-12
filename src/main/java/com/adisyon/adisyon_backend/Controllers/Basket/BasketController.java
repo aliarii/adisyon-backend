@@ -21,22 +21,22 @@ import com.adisyon.adisyon_backend.Entities.Basket;
 import com.adisyon.adisyon_backend.Services.Basket.BasketService;
 
 @RestController
-@RequestMapping("/api/baskets")
+@RequestMapping("/api/basket")
 public class BasketController {
 
     @Autowired
     private BasketService basketService;
 
-    @GetMapping
-    public ResponseEntity<List<Basket>> getAllBaskets(@PathVariable Long id) {
-        List<Basket> baskets = basketService.findByCompanyId(id);
-        return new ResponseEntity<>(baskets, HttpStatus.OK);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Basket> getBasketById(@PathVariable Long id) {
         Basket basket = basketService.findBasketById(id);
         return new ResponseEntity<>(basket, HttpStatus.OK);
+    }
+
+    @GetMapping("/company/{id}")
+    public ResponseEntity<List<Basket>> getAllBasketsByCompanyId(@PathVariable Long id) {
+        List<Basket> baskets = basketService.findByCompanyId(id);
+        return new ResponseEntity<>(baskets, HttpStatus.OK);
     }
 
     @PostMapping
