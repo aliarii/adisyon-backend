@@ -51,19 +51,20 @@ public class CompanyServiceImpl implements CompanyService {
         newCompany.setIsActive(true);
         newCompany.setCreatedDate(new Date());
 
-        Company createdCompany = companyRepository.save(newCompany);
+        companyRepository.save(newCompany);
 
         for (int i = 0; i < 10; i++) {
+
             CreateBasketDto basketDto = new CreateBasketDto();
             basketDto.setName("Basket " + (i + 1));
-            basketDto.setCompany(createdCompany);
+            basketDto.setCompany(newCompany);
+
             Basket createdBasket = basketService.createBasket(basketDto);
 
-            createdCompany.getBaskets().add(createdBasket);
-
+            newCompany.getBaskets().add(createdBasket);
         }
 
-        return createdCompany;
+        return newCompany;
     }
 
     // public Company updateCompany(UpdateCompanyDto companyDto) {

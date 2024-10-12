@@ -9,15 +9,20 @@ import org.springframework.stereotype.Service;
 import com.adisyon.adisyon_backend.Dto.Request.Basket.CreateBasketDto;
 import com.adisyon.adisyon_backend.Dto.Request.Basket.DeleteBasketDto;
 import com.adisyon.adisyon_backend.Dto.Request.Basket.UpdateBasketDto;
+import com.adisyon.adisyon_backend.Dto.Request.Cart.CreateCartDto;
 import com.adisyon.adisyon_backend.Entities.Basket;
 import com.adisyon.adisyon_backend.Repositories.Basket.BasketRepository;
 import com.adisyon.adisyon_backend.Services.Unwrapper;
+import com.adisyon.adisyon_backend.Services.Cart.CartService;
 
 @Service
 public class BasketServiceImpl implements BasketService {
 
     @Autowired
     private BasketRepository basketRepository;
+
+    @Autowired
+    private CartService cartService;
 
     @Override
     public Basket findBasketById(Long id) {
@@ -38,8 +43,13 @@ public class BasketServiceImpl implements BasketService {
         newBasket.setIsActive(false);
         newBasket.setCreatedDate(new Date());
         newBasket.setBasketCategory(basketDto.getBasketCategory());
+        basketRepository.save(newBasket);
 
-        return basketRepository.save(newBasket);
+        CreateCartDto cartDto = new CreateCartDto();
+        cartDto.setBasket(newBasket);
+        cartService.createCart(cartDto);
+
+        return newBasket;
     }
 
     @Override

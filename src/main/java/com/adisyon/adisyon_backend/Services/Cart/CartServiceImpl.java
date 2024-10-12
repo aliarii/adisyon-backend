@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import com.adisyon.adisyon_backend.Dto.Request.Cart.CreateCartDto;
 import com.adisyon.adisyon_backend.Dto.Request.Cart.DeleteCartDto;
 import com.adisyon.adisyon_backend.Dto.Request.Cart.UpdateCartDto;
-import com.adisyon.adisyon_backend.Entities.Basket;
 import com.adisyon.adisyon_backend.Entities.Cart;
 import com.adisyon.adisyon_backend.Repositories.Cart.CartRepository;
 import com.adisyon.adisyon_backend.Services.Unwrapper;
@@ -30,10 +29,10 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart createCart(CreateCartDto cartDto) {
-        Basket basket = cartDto.getBasket();
-        System.out.println("***************" + cartDto.getBasket());
+
         Cart newCart = new Cart();
-        newCart.setBasket(basket);
+        newCart.setBasket(cartDto.getBasket());
+
         return cartRepository.save(newCart);
     }
 
