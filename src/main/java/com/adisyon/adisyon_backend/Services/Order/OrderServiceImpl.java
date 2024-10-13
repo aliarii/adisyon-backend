@@ -11,16 +11,17 @@ import com.adisyon.adisyon_backend.Dto.Request.Order.CreateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.DeleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.CreateOrderItemDto;
-import com.adisyon.adisyon_backend.Dto.Request.OrderItem.UpdateOrderItemDto;
 import com.adisyon.adisyon_backend.Entities.Basket;
 import com.adisyon.adisyon_backend.Entities.Cart;
 import com.adisyon.adisyon_backend.Entities.CartProduct;
+import com.adisyon.adisyon_backend.Entities.Company;
 import com.adisyon.adisyon_backend.Entities.Order;
 import com.adisyon.adisyon_backend.Entities.OrderItem;
 import com.adisyon.adisyon_backend.Repositories.Order.OrderRepository;
 import com.adisyon.adisyon_backend.Services.Unwrapper;
 import com.adisyon.adisyon_backend.Services.Basket.BasketService;
 import com.adisyon.adisyon_backend.Services.Cart.CartService;
+import com.adisyon.adisyon_backend.Services.Company.CompanyService;
 import com.adisyon.adisyon_backend.Services.OrderItem.OrderItemService;
 
 @Service
@@ -31,6 +32,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private BasketService basketService;
+
+    @Autowired
+    private CompanyService companyService;
 
     @Autowired
     private CartService cartService;
@@ -57,18 +61,24 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(CreateOrderDto orderDto) {
         Basket basket = basketService.findBasketById(orderDto.getBasketId());
         Cart cart = cartService.findCartByBasketId(basket.getId());
+        Company company = companyService.findCompanyById(basket.getCompany().getId());
+
         Order newOrder = new Order();
         newOrder.setBasket(basket);
         newOrder.setCreatedDate(new Date());
+        newOrder.setCompany(company);
+        orderRepository.save(newOrder);
 
         List<OrderItem> orderItems = new ArrayList<>();
 
         for (CartProduct cartProduct : cart.getCartProducts()) {
             CreateOrderItemDto newCreateOrderItemDto = new CreateOrderItemDto();
             newCreateOrderItemDto.setProductId(cartProduct.getProduct().getId());
-            ;
             newCreateOrderItemDto.setQuantity(cartProduct.getQuantity());
+            newCreateOrderItemDto.setOrder(newOrder);
+
             OrderItem newOrderItem = orderItemService.createOrderItem(newCreateOrderItemDto);
+
             orderItems.add(newOrderItem);
         }
 
@@ -79,22 +89,44 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setOrderItems(orderItems);
         newOrder.setTotalPrice(totalPrice);
 
-        Order savedOrder = orderRepository.save(newOrder);
-        basket.setOrder(savedOrder);
+        basket.setOrder(newOrder);
 
         return newOrder;
     }
 
     @Override
     public Order updateOrder(UpdateOrderDto orderDto) {
-        Order order = findOrderById(orderDto.getId());
-        for (OrderItem orderItem : order.getOrderItems()) {
-            UpdateOrderItemDto newDto = new UpdateOrderItemDto();
-            newDto.setId(orderItem.getId());
-            orderItemService.updateOrderItem(newDto);
+        Order order = findOrderById(orderDto.getOrderId());
+        Cart cart = cartService.findCartByBasketId(order.getBasket().getId());
+
+        for (CartProduct cartProduct : cart.getCartProducts()) {
+            boolean productExists = false;
+            for (OrderItem orderItem : order.getOrderItems()) {
+                if (cartProduct.getProduct().equals(orderItem.getProduct())) {
+                    orderItem.setQuantity(orderItem.getQuantity() + cartProduct.getQuantity());
+                    productExists = true;
+                    break;
+                }
+            }
+
+            // if (!productExists) {
+            // OrderItem newOrderItem = new OrderItem();
+            // newOrderItem.setProduct(cartProduct.getProduct());
+            // newOrderItem.setQuantity(cartProduct.getQuantity());
+            // order.addOrderItem(newOrderItem);
+            // }
+            if (!productExists) {
+                CreateOrderItemDto newCreateOrderItemDto = new CreateOrderItemDto();
+                newCreateOrderItemDto.setProductId(cartProduct.getProduct().getId());
+                newCreateOrderItemDto.setQuantity(cartProduct.getQuantity());
+                newCreateOrderItemDto.setOrder(order);
+
+                OrderItem newOrderItem = orderItemService.createOrderItem(newCreateOrderItemDto);
+
+                order.getOrderItems().add(newOrderItem);
+            }
         }
         return orderRepository.save(order);
-
     }
 
     @Override

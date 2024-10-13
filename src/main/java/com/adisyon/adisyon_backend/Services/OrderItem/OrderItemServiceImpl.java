@@ -38,6 +38,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         newOrderItem.setTotalPrice(orderDto.getQuantity() * product.getPrice());
         newOrderItem.setCreatedDate(new Date());
         newOrderItem.setStatus(ORDER_STATUS.STATUS_PENDING);
+        newOrderItem.setOrder(orderDto.getOrder());
         return orderItemRepository.save(newOrderItem);
     }
 

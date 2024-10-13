@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class UpdateOrderDto {
 
     @NotNull
-    private Long id;
+    private Long orderId;
 }

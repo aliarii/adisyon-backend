@@ -25,6 +25,24 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+        Order order = orderService.findOrderById(id);
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+
+    @GetMapping("/basket/{id}")
+    public ResponseEntity<Order> getOrderByBasketId(@PathVariable Long id) {
+        Order order = orderService.findOrderByBasketId(id);
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+
+    @GetMapping("/company/{id}")
+    public ResponseEntity<List<Order>> getOrdersByCompanyId(@PathVariable Long id) {
+        List<Order> orders = orderService.findOrdersByCompanyId(id);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody CreateOrderDto orderDto) {
         Order order = orderService.createOrder(orderDto);
@@ -43,15 +61,4 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/basket")
-    public ResponseEntity<Order> getOrderByBasketId(@PathVariable Long id) {
-        Order order = orderService.findOrderByBasketId(id);
-        return new ResponseEntity<>(order, HttpStatus.OK);
-    }
-
-    @GetMapping("/company")
-    public ResponseEntity<List<Order>> getOrdersByCompanyId(@PathVariable Long id) {
-        List<Order> orders = orderService.findOrdersByCompanyId(id);
-        return new ResponseEntity<>(orders, HttpStatus.OK);
-    }
 }
