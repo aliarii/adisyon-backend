@@ -109,12 +109,6 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
-            // if (!productExists) {
-            // OrderItem newOrderItem = new OrderItem();
-            // newOrderItem.setProduct(cartProduct.getProduct());
-            // newOrderItem.setQuantity(cartProduct.getQuantity());
-            // order.addOrderItem(newOrderItem);
-            // }
             if (!productExists) {
                 CreateOrderItemDto newCreateOrderItemDto = new CreateOrderItemDto();
                 newCreateOrderItemDto.setProductId(cartProduct.getProduct().getId());

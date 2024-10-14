@@ -64,9 +64,9 @@ public class BasketController {
         return new ResponseEntity<>(basket, HttpStatus.OK);
     }
 
-    @PutMapping("/disable/{id}")
-    public ResponseEntity<HttpStatus> disableBasket(@PathVariable Long id) {
-        basketService.disableBasket(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PutMapping("/deactivate/{id}")
+    public ResponseEntity<Basket> deactivateBasket(@PathVariable Long id) {
+        Basket basket = basketService.deactivateBasket(id);
+        return new ResponseEntity<>(basket, HttpStatus.OK);
     }
 }

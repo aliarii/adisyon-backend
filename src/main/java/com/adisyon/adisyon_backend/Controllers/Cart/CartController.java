@@ -68,9 +68,9 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/clear/{cartId}")
-    public ResponseEntity<Cart> clearCart(@PathVariable Long cartId) {
-        Cart cart = cartService.clearCart(cartId);
+    @PutMapping("/clear/{id}")
+    public ResponseEntity<Cart> clearCart(@PathVariable Long id) {
+        Cart cart = cartService.clearCart(id);
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 

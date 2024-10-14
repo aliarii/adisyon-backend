@@ -80,10 +80,10 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public void disableBasket(Long id) {
+    public Basket deactivateBasket(Long id) {
         Basket basket = findBasketById(id);
         basket.setIsActive(false);
         basket.setUpdatedDate(new Date());
-        basketRepository.save(basket);
+        return basketRepository.save(basket);
     }
 }

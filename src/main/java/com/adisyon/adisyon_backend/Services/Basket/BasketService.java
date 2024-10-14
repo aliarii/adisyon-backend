@@ -17,7 +17,7 @@ public interface BasketService {
 
     public Basket activateBasket(Long id);
 
-    public void disableBasket(Long id);
+    public Basket deactivateBasket(Long id);
 
     public Basket findBasketById(Long id);
 
