@@ -88,7 +88,6 @@ public class OrderServiceImpl implements OrderService {
         }
         newOrder.setOrderItems(orderItems);
         newOrder.setTotalPrice(totalPrice);
-
         basket.setOrder(newOrder);
 
         return newOrder;
@@ -119,6 +118,7 @@ public class OrderServiceImpl implements OrderService {
 
                 order.getOrderItems().add(newOrderItem);
             }
+
         }
         return orderRepository.save(order);
     }

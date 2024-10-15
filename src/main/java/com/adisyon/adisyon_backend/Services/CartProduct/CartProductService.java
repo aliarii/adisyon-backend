@@ -15,5 +15,5 @@ public interface CartProductService {
 
     public Cart updateCartProduct(UpdateCartProductDto cartProductDto);
 
-    public void deleteCartProduct(DeleteCartProductDto cartProductDto);
+    public Cart deleteCartProduct(DeleteCartProductDto cartProductDto);
 }

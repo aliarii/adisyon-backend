@@ -73,11 +73,12 @@ public class CartProductServiceImpl implements CartProductService {
     }
 
     @Override
-    public void deleteCartProduct(DeleteCartProductDto cartProductDto) {
+    public Cart deleteCartProduct(DeleteCartProductDto cartProductDto) {
         Cart cart = cartService.findCartById(cartProductDto.getCartId());
         CartProduct cartProduct = findCartProductById(cartProductDto.getId());
         cart.getCartProducts().remove(cartProduct);
         cartProductRepository.delete(cartProduct);
+        return cart;
     }
 
 }

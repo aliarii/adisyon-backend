@@ -74,7 +74,7 @@ public class CartController {
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
-    @PutMapping("/add")
+    @PutMapping("/product/add")
     public ResponseEntity<Cart> createCartProduct(@RequestBody CreateCartProductDto productDto) {
         Cart cart = cartProductService.createCartProduct(productDto);
         return new ResponseEntity<>(cart, HttpStatus.OK);
@@ -86,10 +86,9 @@ public class CartController {
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
-    @DeleteMapping("/product/{id}/remove")
+    @DeleteMapping("/product/delete")
     public ResponseEntity<Cart> deleteCartProduct(@RequestBody DeleteCartProductDto productDto) {
-        cartProductService.deleteCartProduct(productDto);
-        Cart cart = cartService.findCartById(productDto.getCartId());
+        Cart cart = cartProductService.deleteCartProduct(productDto);
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
