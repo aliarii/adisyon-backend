@@ -38,14 +38,13 @@ public class OrderItemServiceImpl implements OrderItemService {
         newOrderItem.setTotalPrice(orderDto.getQuantity() * product.getPrice());
         newOrderItem.setCreatedDate(new Date());
         newOrderItem.setStatus(ORDER_STATUS.STATUS_PENDING);
-        newOrderItem.setOrder(orderDto.getOrder());
         return orderItemRepository.save(newOrderItem);
     }
 
     @Override
     public OrderItem updateOrderItem(UpdateOrderItemDto orderDto) {
         OrderItem orderItem = findOrderItemById(orderDto.getId());
-        orderItem.setStatus(ORDER_STATUS.STATUS_COMPLETE);
+        orderItem.setStatus(ORDER_STATUS.STATUS_COMPLETED);
         orderItem.setCompletedDate(new Date());
         orderItem.setCreatedDate(new Date());
         return orderItemRepository.save(orderItem);

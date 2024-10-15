@@ -2,8 +2,6 @@ package com.adisyon.adisyon_backend.Entities;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,10 +23,6 @@ public class OrderItem {
 
     @ManyToOne
     private Product product;
-
-    @ManyToOne
-    @JsonIgnore
-    private Order order;
 
     private ORDER_STATUS status = ORDER_STATUS.STATUS_PENDING;
 

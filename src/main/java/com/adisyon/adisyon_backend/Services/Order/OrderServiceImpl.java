@@ -67,7 +67,6 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setBasket(basket);
         newOrder.setCreatedDate(new Date());
         newOrder.setCompany(company);
-        orderRepository.save(newOrder);
 
         List<OrderItem> orderItems = new ArrayList<>();
 
@@ -75,7 +74,6 @@ public class OrderServiceImpl implements OrderService {
             CreateOrderItemDto newCreateOrderItemDto = new CreateOrderItemDto();
             newCreateOrderItemDto.setProductId(cartProduct.getProduct().getId());
             newCreateOrderItemDto.setQuantity(cartProduct.getQuantity());
-            newCreateOrderItemDto.setOrder(newOrder);
 
             OrderItem newOrderItem = orderItemService.createOrderItem(newCreateOrderItemDto);
 
@@ -88,9 +86,10 @@ public class OrderServiceImpl implements OrderService {
         }
         newOrder.setOrderItems(orderItems);
         newOrder.setTotalPrice(totalPrice);
-        basket.setOrder(newOrder);
+        Order createdOrder = orderRepository.save(newOrder);
+        basket.setOrder(createdOrder);
 
-        return newOrder;
+        return createdOrder;
     }
 
     @Override
@@ -103,6 +102,7 @@ public class OrderServiceImpl implements OrderService {
             for (OrderItem orderItem : order.getOrderItems()) {
                 if (cartProduct.getProduct().equals(orderItem.getProduct())) {
                     orderItem.setQuantity(orderItem.getQuantity() + cartProduct.getQuantity());
+                    orderItem.setTotalPrice(orderItem.getQuantity() * orderItem.getProduct().getPrice());
                     productExists = true;
                     break;
                 }
@@ -112,7 +112,6 @@ public class OrderServiceImpl implements OrderService {
                 CreateOrderItemDto newCreateOrderItemDto = new CreateOrderItemDto();
                 newCreateOrderItemDto.setProductId(cartProduct.getProduct().getId());
                 newCreateOrderItemDto.setQuantity(cartProduct.getQuantity());
-                newCreateOrderItemDto.setOrder(order);
 
                 OrderItem newOrderItem = orderItemService.createOrderItem(newCreateOrderItemDto);
 
@@ -120,6 +119,11 @@ public class OrderServiceImpl implements OrderService {
             }
 
         }
+        Long totalPrice = 0L;
+        for (OrderItem orderItem : order.getOrderItems()) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        order.setTotalPrice(totalPrice);
         return orderRepository.save(order);
     }
 
