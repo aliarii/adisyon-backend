@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.adisyon.adisyon_backend.Dto.Request.Order.CompleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.CreateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.DeleteOrderDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.PartialCompleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderDto;
 import com.adisyon.adisyon_backend.Entities.Order;
 import com.adisyon.adisyon_backend.Services.Order.OrderService;
@@ -61,4 +63,15 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/complete")
+    public ResponseEntity<HttpStatus> completeOrder(@RequestBody CompleteOrderDto orderDto) {
+        orderService.completeOrder(orderDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/partial/complete")
+    public ResponseEntity<Order> partialCompleteOrder(@RequestBody PartialCompleteOrderDto orderDto) {
+        Order order = orderService.partialCompleteOrder(orderDto);
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
 }

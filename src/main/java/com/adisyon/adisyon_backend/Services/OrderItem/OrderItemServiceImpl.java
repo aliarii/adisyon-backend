@@ -44,9 +44,9 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public OrderItem updateOrderItem(UpdateOrderItemDto orderDto) {
         OrderItem orderItem = findOrderItemById(orderDto.getId());
-        orderItem.setStatus(ORDER_STATUS.STATUS_COMPLETED);
-        orderItem.setCompletedDate(new Date());
-        orderItem.setCreatedDate(new Date());
+        orderItem.setUpdatedDate(new Date());
+        orderItem.setQuantity(orderDto.getQuantity());
+        orderItem.setTotalPrice(orderDto.getQuantity() * orderItem.getProduct().getPrice());
         return orderItemRepository.save(orderItem);
     }
 
@@ -54,6 +54,11 @@ public class OrderItemServiceImpl implements OrderItemService {
     public void deleteOrderItem(DeleteOrderItemDto orderDto) {
         OrderItem orderItem = findOrderItemById(orderDto.getId());
         orderItemRepository.delete(orderItem);
+    }
+
+    @Override
+    public OrderItem completeOrderItem(Long id) {
+        return null;
     }
 
 }

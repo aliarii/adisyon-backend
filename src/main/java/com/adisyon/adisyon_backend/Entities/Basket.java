@@ -34,10 +34,10 @@ public class Basket {
     @JsonIgnore
     private BasketCategory basketCategory;
 
-    @OneToOne(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "basket", cascade = CascadeType.ALL)
     private Order order;
 
-    @OneToOne(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "basket", cascade = CascadeType.ALL)
     private Cart cart;
 
     private Boolean isActive;

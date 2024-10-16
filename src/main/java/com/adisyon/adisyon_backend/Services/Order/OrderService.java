@@ -2,8 +2,10 @@ package com.adisyon.adisyon_backend.Services.Order;
 
 import java.util.List;
 
+import com.adisyon.adisyon_backend.Dto.Request.Order.CompleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.CreateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.DeleteOrderDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.PartialCompleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderDto;
 import com.adisyon.adisyon_backend.Entities.Order;
 
@@ -19,4 +21,9 @@ public interface OrderService {
     public Order updateOrder(UpdateOrderDto orderDto);
 
     public void deleteOrder(DeleteOrderDto orderDto);
+
+    public void completeOrder(CompleteOrderDto orderDto);
+
+    public Order partialCompleteOrder(PartialCompleteOrderDto orderDto);
+
 }

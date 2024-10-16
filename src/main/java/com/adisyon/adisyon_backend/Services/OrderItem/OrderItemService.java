@@ -13,4 +13,7 @@ public interface OrderItemService {
     public OrderItem updateOrderItem(UpdateOrderItemDto orderDto);
 
     public void deleteOrderItem(DeleteOrderItemDto orderDto);
+
+    public OrderItem completeOrderItem(Long id);
+
 }
