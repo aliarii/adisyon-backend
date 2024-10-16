@@ -45,6 +45,8 @@ public class CartProductServiceImpl implements CartProductService {
         for (CartProduct cartProduct : cart.getCartProducts()) {
             if (cartProduct.getProduct().equals(product)) {
                 int newQuantity = cartProduct.getQuantity() + cartProductDto.getQuantity();
+                if (newQuantity < 0)
+                    newQuantity = 0;
                 UpdateCartProductDto updateCartProductDto = new UpdateCartProductDto();
                 updateCartProductDto.setCartId(cartProductDto.getCartId());
                 updateCartProductDto.setCartProductId(cartProduct.getId());

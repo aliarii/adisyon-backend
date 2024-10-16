@@ -13,6 +13,7 @@ import com.adisyon.adisyon_backend.Dto.Request.Order.DeleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.PartialCompleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.CreateOrderItemDto;
+import com.adisyon.adisyon_backend.Dto.Request.OrderItem.DeleteOrderItemDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.UpdateOrderItemDto;
 import com.adisyon.adisyon_backend.Entities.Basket;
 import com.adisyon.adisyon_backend.Entities.Cart;
@@ -71,6 +72,15 @@ public class OrderServiceImpl implements OrderService {
         Cart cart = cartService.findCartByBasketId(basket.getId());
         Company company = companyService.findCompanyById(basket.getCompany().getId());
 
+        List<CartProduct> tempCartProducts = new ArrayList<>();
+        for (CartProduct cartProduct : cart.getCartProducts()) {
+            if (cartProduct.getQuantity() > 0) {
+                tempCartProducts.add(cartProduct);
+            }
+        }
+        if (tempCartProducts.isEmpty())
+            return null;
+
         Order newOrder = new Order();
         newOrder.setBasket(basket);
         newOrder.setCreatedDate(new Date());
@@ -78,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderItem> orderItems = new ArrayList<>();
 
-        for (CartProduct cartProduct : cart.getCartProducts()) {
+        for (CartProduct cartProduct : tempCartProducts) {
             CreateOrderItemDto newCreateOrderItemDto = new CreateOrderItemDto();
             newCreateOrderItemDto.setProductId(cartProduct.getProduct().getId());
             newCreateOrderItemDto.setQuantity(cartProduct.getQuantity());
@@ -105,7 +115,16 @@ public class OrderServiceImpl implements OrderService {
         Order order = findOrderById(orderDto.getOrderId());
         Cart cart = cartService.findCartByBasketId(order.getBasket().getId());
 
+        List<CartProduct> tempCartProducts = new ArrayList<>();
         for (CartProduct cartProduct : cart.getCartProducts()) {
+            if (cartProduct.getQuantity() > 0) {
+                tempCartProducts.add(cartProduct);
+            }
+        }
+        if (tempCartProducts.isEmpty())
+            return null;
+
+        for (CartProduct cartProduct : tempCartProducts) {
             boolean productExists = false;
             for (OrderItem orderItem : order.getOrderItems()) {
                 if (orderItem.getStatus() == ORDER_STATUS.STATUS_COMPLETED)
@@ -142,6 +161,24 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrder(DeleteOrderDto orderDto) {
         Order order = findOrderById(orderDto.getId());
+        if (order.getBasket() != null) {
+            Basket basket = order.getBasket();
+            basket.setIsActive(false);
+            basket.setOrder(null);
+        }
+        if (order.getCompany() != null) {
+            Company company = order.getCompany();
+            company.getOrders().remove(order);
+        }
+        order.setBasket(null);
+        order.setCompany(null);
+        List<OrderItem> orderItems = new ArrayList<>(order.getOrderItems());
+        order.getOrderItems().clear();
+
+        for (OrderItem orderItem : orderItems) {
+            orderItemService.deleteOrderItem(new DeleteOrderItemDto(orderItem.getId()));
+        }
+
         orderRepository.delete(order);
     }
 

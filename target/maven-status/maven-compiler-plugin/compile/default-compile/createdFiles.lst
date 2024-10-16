@@ -57,9 +57,11 @@ com\adisyon\adisyon_backend\Dto\Request\OrderItem\UpdateOrderItemDto.class
 com\adisyon\adisyon_backend\Services\Company\CompanyService.class
 com\adisyon\adisyon_backend\Services\User\UserServiceImpl.class
 com\adisyon\adisyon_backend\Services\OrderItem\OrderItemService.class
+com\adisyon\adisyon_backend\Dto\Request\Order\PartialCompleteOrderDto.class
 com\adisyon\adisyon_backend\Services\Order\OrderServiceImpl.class
 com\adisyon\adisyon_backend\Entities\ProductCategory.class
 com\adisyon\adisyon_backend\Dto\Request\ProductCategory\CreateProductCategoryDto.class
+com\adisyon\adisyon_backend\Dto\Request\Order\CompleteOrderDto.class
 com\adisyon\adisyon_backend\Repositories\Employee\EmployeeRepository.class
 com\adisyon\adisyon_backend\Services\Basket\BasketServiceImpl.class
 com\adisyon\adisyon_backend\Entities\Basket.class
