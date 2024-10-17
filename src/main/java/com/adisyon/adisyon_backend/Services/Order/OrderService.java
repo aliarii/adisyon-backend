@@ -6,6 +6,7 @@ import com.adisyon.adisyon_backend.Dto.Request.Order.CompleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.CreateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.DeleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.PartialCompleteOrderDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.TransferOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderDto;
 import com.adisyon.adisyon_backend.Entities.Order;
 
@@ -25,5 +26,7 @@ public interface OrderService {
     public void completeOrder(CompleteOrderDto orderDto);
 
     public Order partialCompleteOrder(PartialCompleteOrderDto orderDto);
+
+    public Order transferOrder(TransferOrderDto orderDto);
 
 }

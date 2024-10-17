@@ -11,6 +11,7 @@ import com.adisyon.adisyon_backend.Dto.Request.Order.CompleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.CreateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.DeleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.PartialCompleteOrderDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.TransferOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.CreateOrderItemDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.DeleteOrderItemDto;
@@ -216,7 +217,6 @@ public class OrderServiceImpl implements OrderService {
             }
             OrderItem originalOrderItem = orderItemService.findOrderItemById(orderItem.getId());
             if (originalOrderItem.getQuantity() == orderItem.getQuantity()) {
-                System.out.println("asdasdasd");
                 orderItem.setCompletedDate(completedDate);
                 orderItem.setUpdatedDate(completedDate);
                 orderItem.setStatus(ORDER_STATUS.STATUS_COMPLETED);
@@ -246,5 +246,67 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setTotalPrice(totalPrice);
         return orderRepository.save(order);
+    }
+
+    @Override
+    public Order transferOrder(TransferOrderDto orderDto) {
+        Order curOrder = findOrderById(orderDto.getId());
+        Basket curBasket = curOrder.getBasket();
+        Basket newBasket = basketService.findBasketById(orderDto.getBasketId());
+        Order newOrder = new Order();
+
+        List<OrderItem> itemsToTransfer = new ArrayList<>();
+
+        for (OrderItem orderItem : orderDto.getOrderItems()) {
+            if (orderItem.getQuantity() == 0) {
+                continue;
+            }
+            OrderItem originalOrderItem = orderItemService.findOrderItemById(orderItem.getId());
+            if (originalOrderItem.getQuantity() == orderItem.getQuantity()) {
+                itemsToTransfer.add(originalOrderItem);
+                curOrder.getOrderItems().remove(originalOrderItem);
+            } else {
+                CreateOrderItemDto newCreateOrderItemDto = new CreateOrderItemDto();
+                newCreateOrderItemDto.setProductId(orderItem.getProduct().getId());
+                newCreateOrderItemDto.setQuantity(orderItem.getQuantity());
+                OrderItem newOrderItem = orderItemService.createOrderItem(newCreateOrderItemDto);
+
+                newOrderItem.setCreatedDate(orderItem.getCreatedDate());
+                itemsToTransfer.add(newOrderItem);
+                orderItemService.updateOrderItem(new UpdateOrderItemDto(orderItem.getId(),
+                        originalOrderItem.getQuantity() - orderItem.getQuantity()));
+            }
+        }
+        Long totalPrice = 0L;
+        if (curOrder.getOrderItems().isEmpty()) {
+            deleteOrder(new DeleteOrderDto(curOrder.getId()));
+            curBasket.setOrder(null);
+            curBasket.setIsActive(false);
+        } else {
+            for (OrderItem orderItem : curOrder.getOrderItems()) {
+                if (orderItem.getStatus() == ORDER_STATUS.STATUS_COMPLETED)
+                    continue;
+                totalPrice += orderItem.getTotalPrice();
+            }
+            curOrder.setTotalPrice(totalPrice);
+        }
+        totalPrice = 0L;
+        for (OrderItem orderItem : itemsToTransfer) {
+            if (orderItem.getStatus() == ORDER_STATUS.STATUS_COMPLETED)
+                continue;
+            totalPrice += orderItem.getTotalPrice();
+        }
+
+        newOrder.setOrderItems(itemsToTransfer);
+        newOrder.setBasket(newBasket);
+        newOrder.setCreatedDate(new Date());
+        newOrder.setCompany(newBasket.getCompany());
+        newOrder.setTotalPrice(totalPrice);
+        newBasket.setOrder(newOrder);
+        newBasket.setIsActive(true);
+        orderRepository.save(newOrder);
+        orderRepository.save(curOrder);
+
+        return newOrder;
     }
 }
