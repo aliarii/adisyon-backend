@@ -35,12 +35,12 @@ com\adisyon\adisyon_backend\Services\BasketCategory\BasketCategoryServiceImpl.cl
 com\adisyon\adisyon_backend\Controllers\Cart\CartController.class
 com\adisyon\adisyon_backend\Dto\Request\Company\DeleteCompanyDto.class
 com\adisyon\adisyon_backend\Entities\USER_ROLE.class
+com\adisyon\adisyon_backend\Dto\Request\Order\TransferOrderDto.class
 com\adisyon\adisyon_backend\Entities\Invoice.class
 com\adisyon\adisyon_backend\Dto\Request\Order\CreateOrderDto.class
 com\adisyon\adisyon_backend\Dto\Request\ProductCategory\DeleteProductCategoryDto.class
 com\adisyon\adisyon_backend\Controllers\Basket\BasketController.class
 com\adisyon\adisyon_backend\Dto\Request\Auth\LoginRequest.class
-com\adisyon\adisyon_backend\Config\AppConfig$1.class
 com\adisyon\adisyon_backend\Dto\Request\Basket\UpdateBasketDto.class
 com\adisyon\adisyon_backend\Services\OrderItem\OrderItemServiceImpl.class
 com\adisyon\adisyon_backend\Dto\Request\Owner\UpdateOwnerDto.class
@@ -65,6 +65,7 @@ com\adisyon\adisyon_backend\Dto\Request\Order\CompleteOrderDto.class
 com\adisyon\adisyon_backend\Repositories\Employee\EmployeeRepository.class
 com\adisyon\adisyon_backend\Services\Basket\BasketServiceImpl.class
 com\adisyon\adisyon_backend\Entities\Basket.class
+com\adisyon\adisyon_backend\Dto\Request\Order\PartialPayOrderDto.class
 com\adisyon\adisyon_backend\Repositories\ProductCategory\ProductCategoryRepository.class
 com\adisyon\adisyon_backend\Dto\Response\Auth\AuthResponse.class
 com\adisyon\adisyon_backend\Config\AppConfig.class

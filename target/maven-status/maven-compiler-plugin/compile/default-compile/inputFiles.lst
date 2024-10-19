@@ -42,6 +42,8 @@ D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_back
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Order\CreateOrderDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Order\DeleteOrderDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Order\PartialCompleteOrderDto.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Order\PartialPayOrderDto.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Order\TransferOrderDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Order\UpdateOrderDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\OrderItem\CreateOrderItemDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\OrderItem\DeleteOrderItemDto.java
