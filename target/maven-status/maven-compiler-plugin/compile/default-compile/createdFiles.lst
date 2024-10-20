@@ -25,6 +25,7 @@ com\adisyon\adisyon_backend\Controllers\BasketCategory\BasketCategoryController.
 com\adisyon\adisyon_backend\Dto\Request\Cart\UpdateCartDto.class
 com\adisyon\adisyon_backend\Dto\Request\CartProduct\UpdateCartProductDto.class
 com\adisyon\adisyon_backend\Controllers\Auth\AuthController.class
+com\adisyon\adisyon_backend\Dto\Request\Order\CompleteOrderItemsDto.class
 com\adisyon\adisyon_backend\Entities\Product.class
 com\adisyon\adisyon_backend\Services\BasketCategory\BasketCategoryService.class
 com\adisyon\adisyon_backend\Services\Owner\OwnerService.class
@@ -35,7 +36,6 @@ com\adisyon\adisyon_backend\Services\BasketCategory\BasketCategoryServiceImpl.cl
 com\adisyon\adisyon_backend\Controllers\Cart\CartController.class
 com\adisyon\adisyon_backend\Dto\Request\Company\DeleteCompanyDto.class
 com\adisyon\adisyon_backend\Entities\USER_ROLE.class
-com\adisyon\adisyon_backend\Dto\Request\Order\TransferOrderDto.class
 com\adisyon\adisyon_backend\Entities\Invoice.class
 com\adisyon\adisyon_backend\Dto\Request\Order\CreateOrderDto.class
 com\adisyon\adisyon_backend\Dto\Request\ProductCategory\DeleteProductCategoryDto.class
@@ -57,9 +57,9 @@ com\adisyon\adisyon_backend\Dto\Request\OrderItem\UpdateOrderItemDto.class
 com\adisyon\adisyon_backend\Services\Company\CompanyService.class
 com\adisyon\adisyon_backend\Services\User\UserServiceImpl.class
 com\adisyon\adisyon_backend\Services\OrderItem\OrderItemService.class
-com\adisyon\adisyon_backend\Dto\Request\Order\PartialCompleteOrderDto.class
 com\adisyon\adisyon_backend\Services\Order\OrderServiceImpl.class
 com\adisyon\adisyon_backend\Entities\ProductCategory.class
+com\adisyon\adisyon_backend\Dto\Request\Order\TransferOrderItemsDto.class
 com\adisyon\adisyon_backend\Dto\Request\ProductCategory\CreateProductCategoryDto.class
 com\adisyon\adisyon_backend\Dto\Request\Order\CompleteOrderDto.class
 com\adisyon\adisyon_backend\Repositories\Employee\EmployeeRepository.class

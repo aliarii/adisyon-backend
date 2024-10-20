@@ -24,6 +24,7 @@ public class AppConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(Authorize -> Authorize
+                        .requestMatchers("/auth/validate-token").permitAll()
                         .requestMatchers("/api/admin/**").hasAnyRole("ADMIN")
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
@@ -40,7 +41,7 @@ public class AppConfig {
         cfg.setAllowedOrigins(Arrays.asList(
                 "https://adisyon.app",
                 "http://localhost:3000",
-                "http://192.168.0.105:3000" // For mobile
+                "http://192.168.0.100:3000" // For mobile
         ));
         cfg.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         cfg.setAllowCredentials(true);

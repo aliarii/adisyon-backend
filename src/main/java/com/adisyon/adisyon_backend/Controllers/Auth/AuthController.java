@@ -2,6 +2,8 @@ package com.adisyon.adisyon_backend.Controllers.Auth;
 
 import java.util.Collection;
 
+import javax.crypto.SecretKey;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +14,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.adisyon.adisyon_backend.Config.JwtConstant;
 import com.adisyon.adisyon_backend.Config.JwtProvider;
+import com.adisyon.adisyon_backend.Config.JwtTokenValidator;
 import com.adisyon.adisyon_backend.Controllers.Employee.EmployeeController;
 import com.adisyon.adisyon_backend.Controllers.Owner.OwnerController;
 import com.adisyon.adisyon_backend.Dto.Request.Auth.LoginRequest;
@@ -29,6 +35,9 @@ import com.adisyon.adisyon_backend.Entities.Owner;
 import com.adisyon.adisyon_backend.Entities.USER_ROLE;
 import com.adisyon.adisyon_backend.Exception.BusinessException;
 import com.adisyon.adisyon_backend.Services.UserDetailsService;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 @RestController
 @RequestMapping("/auth")
@@ -118,4 +127,26 @@ public class AuthController {
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
+
+    @GetMapping("/validate-token")
+    public ResponseEntity<Void> validateToken(@RequestHeader("Authorization") String jwt) {
+        // Check if the jwt header is present and starts with "Bearer "
+        if (jwt == null || !jwt.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String token = jwt.substring(7); // Remove "Bearer " prefix
+        try {
+            // Validate the token using your existing JwtTokenValidator logic
+            SecretKey key = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+
+            // If the token is valid, return 200 OK
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            // Other exceptions
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
 }
