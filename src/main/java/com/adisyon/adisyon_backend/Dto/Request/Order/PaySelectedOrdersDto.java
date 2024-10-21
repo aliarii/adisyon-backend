@@ -19,4 +19,7 @@ public class PaySelectedOrdersDto {
 
     @NotNull
     private List<OrderItem> orderItems;
+
+    @NotNull
+    private String paymentType;
 }

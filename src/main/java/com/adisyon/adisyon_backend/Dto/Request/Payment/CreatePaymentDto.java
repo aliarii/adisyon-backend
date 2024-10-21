@@ -16,5 +16,5 @@ public class CreatePaymentDto {
     private Long payAmount;
 
     @NotNull
-    private PAYMENT_TYPE payment_TYPE;
+    private PAYMENT_TYPE paymentType;
 }

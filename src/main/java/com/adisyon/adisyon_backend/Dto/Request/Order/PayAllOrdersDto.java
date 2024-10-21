@@ -12,4 +12,7 @@ public class PayAllOrdersDto {
 
     @NotNull
     private Long id;
+
+    @NotNull
+    private String paymentType;
 }

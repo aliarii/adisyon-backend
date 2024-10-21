@@ -26,7 +26,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment createPayment(CreatePaymentDto paymentDto) {
         Payment newPayment = new Payment();
-        newPayment.setPayment_TYPE(paymentDto.getPayment_TYPE());
+        newPayment.setPaymentType(paymentDto.getPaymentType());
         newPayment.setPayAmount(paymentDto.getPayAmount());
         newPayment.setCompletedDate(new Date());
         return paymentRepository.save(newPayment);

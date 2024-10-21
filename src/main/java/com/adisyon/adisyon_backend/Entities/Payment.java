@@ -20,7 +20,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private PAYMENT_TYPE payment_TYPE;
+    private PAYMENT_TYPE paymentType;
 
     private Long payAmount;
 

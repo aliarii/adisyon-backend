@@ -1,5 +1,6 @@
 package com.adisyon.adisyon_backend.Services.Order;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.adisyon.adisyon_backend.Dto.Request.Order.PayAllOrdersDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.CreateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.DeleteOrderDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.PayAllOrdersDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.PaySelectedOrdersDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.PayWithoutOrdersDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.TransferOrdersDto;
@@ -18,6 +19,8 @@ import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.CreateOrderItemDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.DeleteOrderItemDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.UpdateOrderItemDto;
+import com.adisyon.adisyon_backend.Dto.Request.Payment.CreatePaymentDto;
+import com.adisyon.adisyon_backend.Dto.Request.Receipt.CreateReceiptDto;
 import com.adisyon.adisyon_backend.Entities.Basket;
 import com.adisyon.adisyon_backend.Entities.Cart;
 import com.adisyon.adisyon_backend.Entities.CartProduct;
@@ -25,6 +28,8 @@ import com.adisyon.adisyon_backend.Entities.Company;
 import com.adisyon.adisyon_backend.Entities.ORDER_STATUS;
 import com.adisyon.adisyon_backend.Entities.Order;
 import com.adisyon.adisyon_backend.Entities.OrderItem;
+import com.adisyon.adisyon_backend.Entities.PAYMENT_TYPE;
+import com.adisyon.adisyon_backend.Entities.Payment;
 import com.adisyon.adisyon_backend.Repositories.Order.OrderRepository;
 import com.adisyon.adisyon_backend.Repositories.OrderItem.OrderItemRepository;
 import com.adisyon.adisyon_backend.Services.Unwrapper;
@@ -32,6 +37,8 @@ import com.adisyon.adisyon_backend.Services.Basket.BasketService;
 import com.adisyon.adisyon_backend.Services.Cart.CartService;
 import com.adisyon.adisyon_backend.Services.Company.CompanyService;
 import com.adisyon.adisyon_backend.Services.OrderItem.OrderItemService;
+import com.adisyon.adisyon_backend.Services.Payment.PaymentService;
+import com.adisyon.adisyon_backend.Services.Receipt.ReceiptService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -53,6 +60,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
+    private ReceiptService receiptService;
 
     @Override
     public Order findOrderById(Long id) {
@@ -117,26 +130,35 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void deleteOrder(DeleteOrderDto orderDto) {
-        Order order = findOrderById(orderDto.getId());
-        if (order.getBasket() != null) {
-            Basket basket = order.getBasket();
-            basket.setIsActive(false);
-            basket.setOrder(null);
-        }
-        if (order.getCompany() != null) {
-            order.getCompany().getOrders().remove(order);
-        }
+        Order currentOrder = findOrderById(orderDto.getId());
+        Basket basket = currentOrder.getBasket();
 
-        order.getOrderItems()
-                .forEach(orderItem -> orderItemService.deleteOrderItem(new DeleteOrderItemDto(orderItem.getId())));
+        List<Order> allOrders = new ArrayList<>();
+        allOrders.add(currentOrder);
+        allOrders.addAll(basket.getCompletedOrders());
+        basket.getCompletedOrders().clear();
 
-        orderRepository.delete(order);
+        for (Order order : allOrders) {
+            if (order.getBasket() != null) {
+                basket.setIsActive(false);
+                basket.setOrder(null);
+            }
+            if (order.getCompany() != null) {
+                order.getCompany().getOrders().remove(order);
+            }
+
+            order.getOrderItems()
+                    .forEach(orderItem -> orderItemService.deleteOrderItem(new DeleteOrderItemDto(orderItem.getId())));
+
+            orderRepository.delete(order);
+        }
     }
 
     @Override
     @Transactional
     public Order payAllOrders(PayAllOrdersDto orderDto) {
         Order order = findOrderById(orderDto.getId());
+
         Date completedDate = new Date();
         Basket basket = order.getBasket();
 
@@ -149,15 +171,29 @@ public class OrderServiceImpl implements OrderService {
         order.setUpdatedDate(completedDate);
         order.setCompletedDate(completedDate);
         order.setBasket(null);
-        Long totalPrice = 0L;
-        for (OrderItem orderItem : order.getOrderItems()) {
-            totalPrice += (orderItem.getProduct().getId() == 4 ? 0 : orderItem.getTotalPrice());
-        }
+
+        Long totalPrice = calculateTotalPrice(order.getOrderItems());
+
         order.setTotalPrice(totalPrice);
+
+        CreatePaymentDto createDto = new CreatePaymentDto();
+        createDto.setPayAmount(totalPrice);
+        createDto.setPaymentType(findPaymentType(orderDto.getPaymentType()));
+
+        Payment payment = paymentService.createPayment(createDto);
+        payment.setCompletedDate(completedDate);
+        order.getPayments().add(payment);
 
         basket.getCart().getCartProducts().clear();
         basket.setIsActive(false);
         basket.setUpdatedDate(completedDate);
+
+        CreateReceiptDto receiptDto = new CreateReceiptDto();
+        receiptDto.setBasket(basket);
+        receiptDto.setCompanyId(basket.getCompany().getId());
+        receiptDto.getOrders().add(order);
+        receiptService.createReceipt(receiptDto);
+
         return orderRepository.save(order);
     }
 
@@ -165,7 +201,13 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Order paySelectedOrders(PaySelectedOrdersDto orderDto) {
         Order order = findOrderById(orderDto.getId());
+        Basket basket = order.getBasket();
         Date completedDate = new Date();
+
+        Order newOrder = new Order();
+        // newOrder.setBasket(basket);
+        newOrder.setCompany(basket.getCompany());
+        newOrder.setCreatedDate(order.getCreatedDate());
 
         for (OrderItem orderItem : orderDto.getOrderItems()) {
             if (orderItem.getQuantity() == 0)
@@ -174,16 +216,47 @@ public class OrderServiceImpl implements OrderService {
             OrderItem originalOrderItem = orderItemService.findOrderItemById(orderItem.getId());
             if (originalOrderItem.getQuantity() == orderItem.getQuantity()) {
                 completeOrderItem(originalOrderItem, completedDate);
+                newOrder.getOrderItems().add(originalOrderItem);
+                order.getOrderItems().remove(originalOrderItem);
             } else {
-                createNewOrderItem(order, orderItem, originalOrderItem, completedDate);
+                CreateOrderItemDto dto = new CreateOrderItemDto();
+                dto.setProductId(orderItem.getProduct().getId());
+                dto.setQuantity(orderItem.getQuantity());
+
+                OrderItem newOrderItem = orderItemService.createOrderItem(dto);
+                newOrderItem.setCreatedDate(originalOrderItem.getCreatedDate());
+                completeOrderItem(newOrderItem, completedDate);
+                newOrder.getOrderItems().add(newOrderItem);
+                orderItemService.updateOrderItem(new UpdateOrderItemDto(orderItem.getId(),
+                        originalOrderItem.getQuantity() - orderItem.getQuantity()));
             }
         }
+        newOrder.setTotalPrice(calculateTotalPrice(newOrder.getOrderItems()));
+        Payment payment = paymentService.createPayment(
+                new CreatePaymentDto(calculateTotalPrice(newOrder.getOrderItems()),
+                        findPaymentType(orderDto.getPaymentType())));
+        payment.setCompletedDate(completedDate);
+        newOrder.getPayments().add(payment);
+        newOrder.setCompletedDate(completedDate);
+        basket.getCompletedOrders().add(newOrder);
+        orderRepository.save(newOrder);
 
         order.setTotalPrice(calculateTotalPrice(order.getOrderItems()));
         if (order.getTotalPrice() == 0) {
-            return payAllOrders(new PayAllOrdersDto(order.getId()));
+            return payAllOrders(new PayAllOrdersDto(order.getId(), orderDto.getPaymentType()));
         }
         return orderRepository.save(order);
+    }
+
+    public PAYMENT_TYPE findPaymentType(String type) {
+        PAYMENT_TYPE pType = null;
+        switch (type) {
+            case "Cash":
+                pType = PAYMENT_TYPE.TYPE_CASH;
+            case "CreditCard":
+                pType = PAYMENT_TYPE.TYPE_CREDIT_CARD;
+        }
+        return pType;
     }
 
     @Override
@@ -191,18 +264,18 @@ public class OrderServiceImpl implements OrderService {
     public Order payWithoutOrders(PayWithoutOrdersDto orderDto) {
         Order order = findOrderById(orderDto.getId());
 
-        CreateOrderItemDto createDto = new CreateOrderItemDto();
-        createDto.setProductId(4L);
-        createDto.setQuantity(orderDto.getPayAmount());
+        // CreateOrderItemDto createDto = new CreateOrderItemDto();
+        // createDto.setProductId(4L);
+        // createDto.setQuantity(orderDto.getPayAmount());
 
-        OrderItem newOrderItem = orderItemService.createOrderItem(createDto);
-        newOrderItem.setCreatedDate(new Date());
-        newOrderItem.setCompletedDate(new Date());
-        newOrderItem.setUpdatedDate(new Date());
-        newOrderItem.setStatus(ORDER_STATUS.STATUS_COMPLETED);
-        order.getOrderItems().add(newOrderItem);
+        // OrderItem newOrderItem = orderItemService.createOrderItem(createDto);
+        // newOrderItem.setCreatedDate(new Date());
+        // newOrderItem.setCompletedDate(new Date());
+        // newOrderItem.setUpdatedDate(new Date());
+        // newOrderItem.setStatus(ORDER_STATUS.STATUS_COMPLETED);
+        // order.getOrderItems().add(newOrderItem);
 
-        order.setTotalPrice(calculateTotalPrice(order.getOrderItems()));
+        // order.setTotalPrice(calculateTotalPrice(order.getOrderItems()));
         return orderRepository.save(order);
     }
 
@@ -286,23 +359,6 @@ public class OrderServiceImpl implements OrderService {
         orderItemRepository.save(orderItem);
     }
 
-    private void createNewOrderItem(Order order, OrderItem orderItem, OrderItem originalOrderItem,
-            Date completedDate) {
-        CreateOrderItemDto dto = new CreateOrderItemDto();
-        dto.setProductId(orderItem.getProduct().getId());
-        dto.setQuantity(orderItem.getQuantity());
-
-        OrderItem newOrderItem = orderItemService.createOrderItem(dto);
-        newOrderItem.setCreatedDate(originalOrderItem.getCreatedDate());
-        newOrderItem.setCompletedDate(completedDate);
-        newOrderItem.setUpdatedDate(completedDate);
-        newOrderItem.setStatus(ORDER_STATUS.STATUS_COMPLETED);
-        order.getOrderItems().add(newOrderItem);
-
-        orderItemService.updateOrderItem(new UpdateOrderItemDto(orderItem.getId(),
-                originalOrderItem.getQuantity() - orderItem.getQuantity()));
-    }
-
     private List<OrderItem> transferOrderItems(TransferOrdersDto orderDto, Order currentOrder) {
         List<OrderItem> itemsToTransfer = orderDto.getOrderItems().stream()
                 .filter(orderItem -> orderItem.getQuantity() > 0)
@@ -327,11 +383,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private Long calculateTotalPrice(List<OrderItem> orderItems) {
-        return orderItems.stream()
-                .filter(orderItem -> orderItem.getStatus() != ORDER_STATUS.STATUS_COMPLETED
-                        || (orderItem.getStatus() == ORDER_STATUS.STATUS_COMPLETED
-                                && orderItem.getProduct().getId() == 4))
-                .mapToLong(OrderItem::getTotalPrice)
-                .sum();
+        return orderItems.stream().mapToLong(OrderItem::getTotalPrice).sum();
     }
 }

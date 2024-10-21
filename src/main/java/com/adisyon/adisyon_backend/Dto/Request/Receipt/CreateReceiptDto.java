@@ -1,5 +1,6 @@
 package com.adisyon.adisyon_backend.Dto.Request.Receipt;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.adisyon.adisyon_backend.Entities.Basket;
@@ -22,5 +23,5 @@ public class CreateReceiptDto {
     private Basket basket;
 
     @NotNull
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 }

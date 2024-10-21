@@ -40,13 +40,13 @@ public class Basket {
     @OneToOne(mappedBy = "basket", cascade = CascadeType.ALL)
     private Order order;
 
-    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
+    @OneToMany
     private List<Order> completedOrders = new ArrayList<>();
 
     @OneToOne(mappedBy = "basket", cascade = CascadeType.ALL)
     private Cart cart;
 
-    private Boolean isActive;
+    private Boolean isActive = false;
 
     private Date createdDate;
 
