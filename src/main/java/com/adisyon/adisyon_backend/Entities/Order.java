@@ -38,6 +38,9 @@ public class Order {
     @OneToMany
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @OneToMany
+    private List<Payment> payments = new ArrayList<>();
+
     private Date createdDate;
 
     private Date updatedDate;

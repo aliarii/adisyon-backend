@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.adisyon.adisyon_backend.Config.JwtConstant;
 import com.adisyon.adisyon_backend.Config.JwtProvider;
-import com.adisyon.adisyon_backend.Config.JwtTokenValidator;
 import com.adisyon.adisyon_backend.Controllers.Employee.EmployeeController;
 import com.adisyon.adisyon_backend.Controllers.Owner.OwnerController;
 import com.adisyon.adisyon_backend.Dto.Request.Auth.LoginRequest;
@@ -129,10 +128,10 @@ public class AuthController {
     }
 
     @GetMapping("/validate-token")
-    public ResponseEntity<Void> validateToken(@RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<Boolean> validateToken(@RequestHeader("Authorization") String jwt) {
         // Check if the jwt header is present and starts with "Bearer "
         if (jwt == null || !jwt.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
         }
 
         String token = jwt.substring(7); // Remove "Bearer " prefix
@@ -142,10 +141,11 @@ public class AuthController {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
 
             // If the token is valid, return 200 OK
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<>(true, HttpStatus.OK);
+
         } catch (Exception e) {
             // Other exceptions
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
         }
     }
 

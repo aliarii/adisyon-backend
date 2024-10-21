@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.adisyon.adisyon_backend.Dto.Request.Order.CompleteOrderDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.PayAllOrdersDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.CreateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.DeleteOrderDto;
-import com.adisyon.adisyon_backend.Dto.Request.Order.CompleteOrderItemsDto;
-import com.adisyon.adisyon_backend.Dto.Request.Order.PartialPayOrderDto;
-import com.adisyon.adisyon_backend.Dto.Request.Order.TransferOrderItemsDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.PaySelectedOrdersDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.PayWithoutOrdersDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.TransferOrdersDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.CreateOrderItemDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.DeleteOrderItemDto;
@@ -135,7 +135,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order completeOrder(CompleteOrderDto orderDto) {
+    public Order payAllOrders(PayAllOrdersDto orderDto) {
         Order order = findOrderById(orderDto.getId());
         Date completedDate = new Date();
         Basket basket = order.getBasket();
@@ -163,7 +163,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order completeOrderItems(CompleteOrderItemsDto orderDto) {
+    public Order paySelectedOrders(PaySelectedOrdersDto orderDto) {
         Order order = findOrderById(orderDto.getId());
         Date completedDate = new Date();
 
@@ -181,19 +181,19 @@ public class OrderServiceImpl implements OrderService {
 
         order.setTotalPrice(calculateTotalPrice(order.getOrderItems()));
         if (order.getTotalPrice() == 0) {
-            return completeOrder(new CompleteOrderDto(order.getId()));
+            return payAllOrders(new PayAllOrdersDto(order.getId()));
         }
         return orderRepository.save(order);
     }
 
     @Override
     @Transactional
-    public Order partialPayOrder(PartialPayOrderDto orderDto) {
+    public Order payWithoutOrders(PayWithoutOrdersDto orderDto) {
         Order order = findOrderById(orderDto.getId());
 
         CreateOrderItemDto createDto = new CreateOrderItemDto();
         createDto.setProductId(4L);
-        createDto.setQuantity(orderDto.getQuantity());
+        createDto.setQuantity(orderDto.getPayAmount());
 
         OrderItem newOrderItem = orderItemService.createOrderItem(createDto);
         newOrderItem.setCreatedDate(new Date());
@@ -208,7 +208,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order transferOrderItems(TransferOrderItemsDto orderDto) {
+    public Order transferOrders(TransferOrdersDto orderDto) {
         Order currentOrder = findOrderById(orderDto.getId());
         Basket curBasket = currentOrder.getBasket();
         Basket newBasket = basketService.findBasketById(orderDto.getBasketId());
@@ -303,7 +303,7 @@ public class OrderServiceImpl implements OrderService {
                 originalOrderItem.getQuantity() - orderItem.getQuantity()));
     }
 
-    private List<OrderItem> transferOrderItems(TransferOrderItemsDto orderDto, Order currentOrder) {
+    private List<OrderItem> transferOrderItems(TransferOrdersDto orderDto, Order currentOrder) {
         List<OrderItem> itemsToTransfer = orderDto.getOrderItems().stream()
                 .filter(orderItem -> orderItem.getQuantity() > 0)
                 .map(orderItemDto -> {

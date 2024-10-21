@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.adisyon.adisyon_backend.Dto.Request.Order.CompleteOrderDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.PayAllOrdersDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.CreateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.DeleteOrderDto;
-import com.adisyon.adisyon_backend.Dto.Request.Order.CompleteOrderItemsDto;
-import com.adisyon.adisyon_backend.Dto.Request.Order.PartialPayOrderDto;
-import com.adisyon.adisyon_backend.Dto.Request.Order.TransferOrderItemsDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.PaySelectedOrdersDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.PayWithoutOrdersDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.TransferOrdersDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderDto;
 import com.adisyon.adisyon_backend.Entities.Order;
 import com.adisyon.adisyon_backend.Services.Order.OrderService;
@@ -65,27 +65,27 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/complete")
-    public ResponseEntity<Order> completeOrder(@RequestBody CompleteOrderDto orderDto) {
-        Order order = orderService.completeOrder(orderDto);
+    @PutMapping("/pay/all")
+    public ResponseEntity<Order> payAllOrders(@RequestBody PayAllOrdersDto orderDto) {
+        Order order = orderService.payAllOrders(orderDto);
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+
+    @PutMapping("/pay/selected")
+    public ResponseEntity<Order> paySelectedOrders(@RequestBody PaySelectedOrdersDto orderDto) {
+        Order order = orderService.paySelectedOrders(orderDto);
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+
+    @PutMapping("/pay/without-order")
+    public ResponseEntity<Order> payWithoutOrders(@RequestBody PayWithoutOrdersDto orderDto) {
+        Order order = orderService.payWithoutOrders(orderDto);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     @PutMapping("/transfer")
-    public ResponseEntity<Order> transferOrderItems(@RequestBody TransferOrderItemsDto orderDto) {
-        Order order = orderService.transferOrderItems(orderDto);
-        return new ResponseEntity<>(order, HttpStatus.OK);
-    }
-
-    @PutMapping("/complete/orderitem")
-    public ResponseEntity<Order> completeOrderItems(@RequestBody CompleteOrderItemsDto orderDto) {
-        Order order = orderService.completeOrderItems(orderDto);
-        return new ResponseEntity<>(order, HttpStatus.OK);
-    }
-
-    @PutMapping("/partial/pay")
-    public ResponseEntity<Order> partialPayOrder(@RequestBody PartialPayOrderDto orderDto) {
-        Order order = orderService.partialPayOrder(orderDto);
+    public ResponseEntity<Order> transferOrders(@RequestBody TransferOrdersDto orderDto) {
+        Order order = orderService.transferOrders(orderDto);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 }

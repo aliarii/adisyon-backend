@@ -1,12 +1,12 @@
 package com.adisyon.adisyon_backend.Entities;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
+import java.util.ArrayList;
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,33 +22,21 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Basket {
+public class Receipt {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
 
     @JsonIgnore
     @ManyToOne
     private Company company;
 
-    @ManyToOne
-    @JsonIgnore
-    private BasketCategory basketCategory;
+    @OneToOne
+    private Basket basket;
 
-    @OneToOne(mappedBy = "basket", cascade = CascadeType.ALL)
-    private Order order;
-
-    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
-    private List<Order> completedOrders = new ArrayList<>();
-
-    @OneToOne(mappedBy = "basket", cascade = CascadeType.ALL)
-    private Cart cart;
-
-    private Boolean isActive;
+    @OneToMany
+    private List<Order> orders = new ArrayList<>();
 
     private Date createdDate;
 
-    private Date updatedDate;
 }

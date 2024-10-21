@@ -8,8 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CompleteOrderDto {
+public class PayWithoutOrdersDto {
 
     @NotNull
     private Long id;
+
+    @NotNull
+    private int payAmount;
 }

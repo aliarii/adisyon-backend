@@ -49,6 +49,9 @@ public class Company {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Receipt> receipts = new ArrayList<>();
+
     private Boolean isActive;
 
     private Date createdDate;

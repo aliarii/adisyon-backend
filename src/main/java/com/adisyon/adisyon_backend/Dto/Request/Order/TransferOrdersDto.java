@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransferOrderItemsDto {
+public class TransferOrdersDto {
 
     @NotNull
     private Long id;
