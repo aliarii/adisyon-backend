@@ -14,5 +14,8 @@ public class PayWithoutOrdersDto {
     private Long id;
 
     @NotNull
-    private int payAmount;
+    private String paymentType;
+
+    @NotNull
+    private Long payAmount;
 }

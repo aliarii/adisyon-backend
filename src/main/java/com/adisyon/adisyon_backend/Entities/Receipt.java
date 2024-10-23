@@ -13,7 +13,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,8 +30,15 @@ public class Receipt {
     @ManyToOne
     private Company company;
 
-    @OneToOne
-    private Basket basket;
+    private Long basketId;
+
+    private String basketName;
+
+    private Date basketOpenDate;
+
+    private Date basketCloseDate;
+
+    private Long totalPrice = 0L;
 
     @OneToMany
     private List<Order> orders = new ArrayList<>();

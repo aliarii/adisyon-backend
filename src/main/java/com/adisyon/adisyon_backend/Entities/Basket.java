@@ -51,4 +51,9 @@ public class Basket {
     private Date createdDate;
 
     private Date updatedDate;
+
+    private Date activatedDate;
+
+    private Date deactivatedDate;
+
 }

@@ -75,6 +75,7 @@ public class BasketServiceImpl implements BasketService {
     public Basket activateBasket(Long id) {
         Basket basket = findBasketById(id);
         basket.setUpdatedDate(new Date());
+        basket.setActivatedDate(new Date());
         basket.setIsActive(true);
         return basketRepository.save(basket);
     }
@@ -84,6 +85,7 @@ public class BasketServiceImpl implements BasketService {
         Basket basket = findBasketById(id);
         basket.setIsActive(false);
         basket.setUpdatedDate(new Date());
+        basket.setDeactivatedDate(new Date());
         return basketRepository.save(basket);
     }
 }
