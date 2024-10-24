@@ -1,11 +1,10 @@
 package com.adisyon.adisyon_backend.Entities;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,15 +33,15 @@ public class Receipt {
 
     private String basketName;
 
-    private Date basketOpenDate;
+    private LocalDateTime basketOpenDate;
 
-    private Date basketCloseDate;
+    private LocalDateTime basketCloseDate;
 
     private Long totalPrice = 0L;
 
     @OneToMany
     private List<Order> orders = new ArrayList<>();
 
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
 }

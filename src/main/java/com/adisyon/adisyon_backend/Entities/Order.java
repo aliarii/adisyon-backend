@@ -1,7 +1,7 @@
 package com.adisyon.adisyon_backend.Entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -41,11 +41,11 @@ public class Order {
     @OneToMany
     private List<Payment> payments = new ArrayList<>();
 
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
-    private Date updatedDate;
+    private LocalDateTime updatedDate;
 
-    private Date completedDate;
+    private LocalDateTime completedDate;
 
     private Long totalPrice;
 

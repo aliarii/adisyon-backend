@@ -28,19 +28,18 @@ public class OwnerProductCategoryController {
 
     @PostMapping
     public ResponseEntity<ProductCategory> createProduct(@RequestBody CreateProductCategoryDto categoryDto) {
-
         Company company = companyService.findCompanyById(categoryDto.getCompanyId());
         ProductCategory productCategory = productCategoryService.createProductCategory(categoryDto, company);
         return new ResponseEntity<>(productCategory, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update")
     public ResponseEntity<ProductCategory> updateProduct(@RequestBody UpdateProductCategoryDto categoryDto) {
         ProductCategory productCategory = productCategoryService.updateProductCategory(categoryDto);
         return new ResponseEntity<>(productCategory, HttpStatus.OK);
     }
 
-    @PutMapping("/delete/{id}")
+    @PutMapping("/delete")
     public ResponseEntity<String> deleteProduct(@RequestBody DeleteProductCategoryDto categoryDto) {
         productCategoryService.deleteProductCategory(categoryDto);
         String res = "product deleted successfully";

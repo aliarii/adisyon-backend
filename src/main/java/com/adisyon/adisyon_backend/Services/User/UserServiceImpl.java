@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Services.User;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         newUser.setPassword(passwordEncoder.encode(createUserDto.getPassword()));
         newUser.setRole(createUserDto.getRole() != null ? createUserDto.getRole() : USER_ROLE.ROLE_EMPLOYEE);
         newUser.setIsActive(true);
-        newUser.setCreatedDate(new Date());
+        newUser.setCreatedDate(LocalDateTime.now());
 
         userRepository.save(newUser);
         return newUser;
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(DeleteUserDto deleteUserDto) {
         User user = findUserById(deleteUserDto.getId());
         user.setIsActive(false);
-        user.setUpdatedDate(new Date());
+        user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
     }
 
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
                         : passwordEncoder.encode(updateUserDto.getPassword()));
         newUser.setIsActive(true);
         newUser.setCreatedDate(user.getCreatedDate());
-        newUser.setUpdatedDate(new Date());
+        newUser.setUpdatedDate(LocalDateTime.now());
         newUser.setRole(updateUserDto.getRole());
         userRepository.save(newUser);
         return newUser;

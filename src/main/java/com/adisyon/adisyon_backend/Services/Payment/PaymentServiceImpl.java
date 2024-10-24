@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Services.Payment;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class PaymentServiceImpl implements PaymentService {
         Payment newPayment = new Payment();
         newPayment.setPaymentType(paymentDto.getPaymentType());
         newPayment.setPayAmount(paymentDto.getPayAmount());
-        newPayment.setCompletedDate(new Date());
+        newPayment.setCompletedDate(LocalDateTime.now());
         return paymentRepository.save(newPayment);
     }
 

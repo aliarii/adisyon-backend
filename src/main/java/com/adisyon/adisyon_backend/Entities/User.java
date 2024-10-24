@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -41,8 +41,8 @@ public class User {
 
     private Boolean isActive;
 
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
-    private Date updatedDate;
+    private LocalDateTime updatedDate;
 
 }

@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -43,8 +43,8 @@ public class Product {
 
     private Boolean isActive;
 
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
-    private Date updatedDate;
+    private LocalDateTime updatedDate;
 
 }

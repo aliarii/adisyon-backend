@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Services.BasketCategory;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class BasketCategoryServiceImpl implements BasketCategoryService {
         Company company = companyService.findCompanyById(categoryDto.getCompanyId());
         newBasketCategory.setName(categoryDto.getName());
         newBasketCategory.setIsActive(true);
-        newBasketCategory.setCreatedDate(new Date());
+        newBasketCategory.setCreatedDate(LocalDateTime.now());
         newBasketCategory.setCompany(company);
 
         return basketCategoryRepository.save(newBasketCategory);
@@ -55,7 +55,7 @@ public class BasketCategoryServiceImpl implements BasketCategoryService {
     public BasketCategory updateBasketCategory(UpdateBasketCategoryDto basketDto) {
         BasketCategory basketCategory = findBasketCategoryById(basketDto.getId());
         basketCategory.setName(basketDto.getName() != null ? basketDto.getName() : basketCategory.getName());
-        basketCategory.setUpdatedDate(new Date());
+        basketCategory.setUpdatedDate(LocalDateTime.now());
         for (Long basketId : basketDto.getBaskets()) {
             Basket basket = basketService.findBasketById(basketId);
             basket.setBasketCategory(basketCategory);
@@ -75,7 +75,7 @@ public class BasketCategoryServiceImpl implements BasketCategoryService {
     public void disableBasketCategory(Long id) {
         BasketCategory basketCategory = findBasketCategoryById(id);
         basketCategory.setIsActive(false);
-        basketCategory.setUpdatedDate(new Date());
+        basketCategory.setUpdatedDate(LocalDateTime.now());
         basketCategoryRepository.save(basketCategory);
     }
 }

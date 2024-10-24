@@ -15,6 +15,8 @@ public interface ProductService {
 
     public void deleteProduct(DeleteProductDto productDto);
 
+    public Product setProductCategory(UpdateProductDto productDto);
+
     public List<Product> findCompanyProducts(Long companyId, String productCategory);
 
     public Product findProductById(Long productId);

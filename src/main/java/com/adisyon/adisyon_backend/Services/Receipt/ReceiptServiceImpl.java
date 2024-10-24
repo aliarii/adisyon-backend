@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Services.Receipt;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         newReceipt.setBasketOpenDate(basket.getActivatedDate());
         newReceipt.setBasketCloseDate(basket.getDeactivatedDate());
         newReceipt.setCompany(company);
-        newReceipt.setCreatedDate(new Date());
+        newReceipt.setCreatedDate(LocalDateTime.now());
         newReceipt.getOrders().addAll(receiptDto.getOrders());
         newReceipt.setTotalPrice(newReceipt.getOrders().stream().mapToLong(Order::getTotalPrice).sum());
         return receiptRepository.save(newReceipt);

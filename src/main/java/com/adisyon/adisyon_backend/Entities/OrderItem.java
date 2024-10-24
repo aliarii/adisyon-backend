@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,10 +30,10 @@ public class OrderItem {
 
     private Long totalPrice;
 
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
-    private Date updatedDate;
+    private LocalDateTime updatedDate;
 
-    private Date completedDate;
+    private LocalDateTime completedDate;
 
 }

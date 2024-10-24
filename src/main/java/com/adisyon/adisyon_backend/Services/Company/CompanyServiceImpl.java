@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Services.Company;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class CompanyServiceImpl implements CompanyService {
         newCompany.setName(companyDto.getName());
         newCompany.setOwner(owner);
         newCompany.setIsActive(true);
-        newCompany.setCreatedDate(new Date());
+        newCompany.setCreatedDate(LocalDateTime.now());
 
         companyRepository.save(newCompany);
 

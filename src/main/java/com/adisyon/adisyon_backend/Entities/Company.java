@@ -1,7 +1,7 @@
 package com.adisyon.adisyon_backend.Entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -54,7 +54,7 @@ public class Company {
 
     private Boolean isActive;
 
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
-    private Date updatedDate;
+    private LocalDateTime updatedDate;
 }

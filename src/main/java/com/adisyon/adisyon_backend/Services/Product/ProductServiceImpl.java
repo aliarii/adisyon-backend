@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Services.Product;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
         newProduct.setCompany(company);
         newProduct.setImage(productDto.getImage());
         newProduct.setIsActive(true);
-        newProduct.setCreatedDate(new Date());
+        newProduct.setCreatedDate(LocalDateTime.now());
 
         Product savedProduct = productRepository.save(newProduct);
         company.getProducts().add(savedProduct);
@@ -57,12 +57,13 @@ public class ProductServiceImpl implements ProductService {
         newProduct.setPrice(productDto.getPrice() != null ? productDto.getPrice() : existingProduct.getPrice());
         newProduct.setProductCategory(productDto.getProductCategory() != null ? productDto.getProductCategory()
                 : existingProduct.getProductCategory());
-        newProduct.setIsActive(true);
+        newProduct.setIsActive(
+                productDto.getIsActive() != null ? productDto.getIsActive() : existingProduct.getIsActive());
         newProduct.setImage(productDto.getImage() != null ? productDto.getImage() : existingProduct.getImage());
 
         newProduct.setCompany(existingProduct.getCompany());
         newProduct.setCreatedDate(existingProduct.getCreatedDate());
-        newProduct.setUpdatedDate(new Date());
+        newProduct.setUpdatedDate(LocalDateTime.now());
 
         Product savedProduct = productRepository.save(newProduct);
         existingProduct.getCompany().getProducts().add(savedProduct);
@@ -73,8 +74,15 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(DeleteProductDto productDto) {
         Product product = findProductById(productDto.getId());
         product.setIsActive(false);
-        product.setUpdatedDate(new Date());
+        product.setUpdatedDate(LocalDateTime.now());
         productRepository.save(product);
+    }
+
+    @Override
+    public Product setProductCategory(UpdateProductDto productDto) {
+        Product product = findProductById(productDto.getId());
+        product.setProductCategory(productDto.getProductCategory());
+        return productRepository.save(product);
     }
 
     @Override

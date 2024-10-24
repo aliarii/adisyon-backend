@@ -1,7 +1,7 @@
 package com.adisyon.adisyon_backend.Entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -37,7 +37,7 @@ public class ProductCategory {
     private List<Product> products = new ArrayList<>();
 
     private Boolean isActive;
-    private Date createdDate;
-    private Date updatedDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
 
 }

@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Services.OrderItem;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         newOrderItem.setProduct(product);
         newOrderItem.setQuantity(orderDto.getQuantity());
         newOrderItem.setTotalPrice(orderDto.getQuantity() * product.getPrice());
-        newOrderItem.setCreatedDate(new Date());
+        newOrderItem.setCreatedDate(LocalDateTime.now());
         newOrderItem.setStatus(ORDER_STATUS.STATUS_PENDING);
         return orderItemRepository.save(newOrderItem);
     }
@@ -44,7 +44,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public OrderItem updateOrderItem(UpdateOrderItemDto orderDto) {
         OrderItem orderItem = findOrderItemById(orderDto.getId());
-        orderItem.setUpdatedDate(new Date());
+        orderItem.setUpdatedDate(LocalDateTime.now());
         orderItem.setQuantity(orderDto.getQuantity());
         orderItem.setTotalPrice(orderDto.getQuantity() * orderItem.getProduct().getPrice());
         return orderItemRepository.save(orderItem);

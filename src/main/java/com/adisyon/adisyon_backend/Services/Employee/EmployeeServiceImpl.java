@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Services.Employee;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         newEmployee.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
         newEmployee.setRole(USER_ROLE.ROLE_EMPLOYEE);
         newEmployee.setIsActive(true);
-        newEmployee.setCreatedDate(new Date());
+        newEmployee.setCreatedDate(LocalDateTime.now());
 
         newEmployee.setCompany(companyService.findCompanyById(employeeDto.getCompanyId()));
 
@@ -78,7 +78,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         newEmployee.setRole(USER_ROLE.ROLE_EMPLOYEE);
         newEmployee.setIsActive(true);
         newEmployee.setCreatedDate(existingEmployee.getCreatedDate());
-        newEmployee.setUpdatedDate(new Date());
+        newEmployee.setUpdatedDate(LocalDateTime.now());
 
         return employeeRepository.save(newEmployee);
     }
@@ -88,7 +88,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = findEmployeeById(employeeDto.getId());
         checkIfEmployeeActive(employee);
         employee.setIsActive(false);
-        employee.setUpdatedDate(new Date());
+        employee.setUpdatedDate(LocalDateTime.now());
         employeeRepository.save(employee);
     }
 

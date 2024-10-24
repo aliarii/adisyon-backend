@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Services.Owner;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class OwnerServiceImpl implements OwnerService {
         newOwner.setPassword(passwordEncoder.encode(ownerDto.getPassword()));
         newOwner.setRole(USER_ROLE.ROLE_OWNER);
         newOwner.setIsActive(true);
-        newOwner.setCreatedDate(new Date());
+        newOwner.setCreatedDate(LocalDateTime.now());
 
         ownerRepository.save(newOwner);
         CreateCompanyDto companyDto = new CreateCompanyDto();
@@ -81,7 +81,7 @@ public class OwnerServiceImpl implements OwnerService {
         newOwner.setRole(USER_ROLE.ROLE_OWNER);
         newOwner.setIsActive(true);
         newOwner.setCreatedDate(existingOwner.getCreatedDate());
-        newOwner.setUpdatedDate(new Date());
+        newOwner.setUpdatedDate(LocalDateTime.now());
 
         return ownerRepository.save(newOwner);
     }
@@ -91,7 +91,7 @@ public class OwnerServiceImpl implements OwnerService {
         Owner owner = findOwnerById(ownerDto.getId());
         checkIfOwnerActive(owner);
         owner.setIsActive(false);
-        owner.setUpdatedDate(new Date());
+        owner.setUpdatedDate(LocalDateTime.now());
         ownerRepository.save(owner);
     }
 

@@ -1,6 +1,6 @@
 package com.adisyon.adisyon_backend.Entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +24,6 @@ public class Payment {
 
     private Long payAmount;
 
-    private Date completedDate;
+    private LocalDateTime completedDate;
 
 }

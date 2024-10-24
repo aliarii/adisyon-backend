@@ -1,7 +1,7 @@
 package com.adisyon.adisyon_backend.Services.Order;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order newOrder = new Order();
         newOrder.setBasket(basket);
-        newOrder.setCreatedDate(new Date());
+        newOrder.setCreatedDate(LocalDateTime.now());
         newOrder.setCompany(company);
         newOrder.setOrderItems(createOrderItems(activeCartProducts));
 
@@ -124,7 +124,7 @@ public class OrderServiceImpl implements OrderService {
 
         updateOrderItems(order, activeCartProducts);
 
-        order.setUpdatedDate(new Date());
+        order.setUpdatedDate(LocalDateTime.now());
         // order.setTotalPrice(calculateTotalPrice(order.getOrderItems()));
         order.setTotalPrice(calculateTotalPrice(order));
         return orderRepository.save(order);
@@ -161,7 +161,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Order payAllOrders(PayAllOrdersDto orderDto) {
         Order order = findOrderById(orderDto.getId());
-        Date completedDate = new Date();
+        LocalDateTime completedDate = LocalDateTime.now();
         Basket basket = order.getBasket();
 
         order.getOrderItems().forEach(orderItem -> {
@@ -206,7 +206,7 @@ public class OrderServiceImpl implements OrderService {
         order.getOrderItems().removeAll(completedOrderItems);
 
         Order newOrder = new Order();
-        Date completedDate = new Date();
+        LocalDateTime completedDate = LocalDateTime.now();
         Basket basket = order.getBasket();
 
         completedOrderItems.addAll(createdOrderItems);
@@ -233,7 +233,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Order payWithoutOrders(PayWithoutOrdersDto orderDto) {
         Order order = findOrderById(orderDto.getId());
-        Payment payment = createPayment(orderDto.getPayAmount(), orderDto.getPaymentType(), new Date());
+        Payment payment = createPayment(orderDto.getPayAmount(), orderDto.getPaymentType(), LocalDateTime.now());
         order.getPayments().add(payment);
         order.setTotalPrice(calculateTotalPrice(order));
 
@@ -269,7 +269,7 @@ public class OrderServiceImpl implements OrderService {
 
         newOrder.setOrderItems(itemsToTransfer);
         newOrder.setBasket(newBasket);
-        newOrder.setCreatedDate(new Date());
+        newOrder.setCreatedDate(LocalDateTime.now());
         newOrder.setCompany(newBasket.getCompany());
         newOrder.setTotalPrice(calculateTotalPrice(itemsToTransfer));
 
@@ -321,14 +321,14 @@ public class OrderServiceImpl implements OrderService {
         return orderItemService.updateOrderItem(dto);
     }
 
-    private void completeOrderItem(OrderItem orderItem, Date completedDate) {
+    private void completeOrderItem(OrderItem orderItem, LocalDateTime completedDate) {
         orderItem.setCompletedDate(completedDate);
         orderItem.setUpdatedDate(completedDate);
         orderItem.setStatus(ORDER_STATUS.STATUS_COMPLETED);
         orderItemRepository.save(orderItem);
     }
 
-    private void completeOrder(Order order, Date completedDate, String paymentType) {
+    private void completeOrder(Order order, LocalDateTime completedDate, String paymentType) {
         order.setUpdatedDate(completedDate);
         order.setCompletedDate(completedDate);
         order.setBasket(null);
@@ -338,7 +338,7 @@ public class OrderServiceImpl implements OrderService {
         order.getPayments().add(createPayment(totalPrice, paymentType, completedDate));
     }
 
-    private void clearBasket(Basket basket, Date completedDate) {
+    private void clearBasket(Basket basket, LocalDateTime completedDate) {
         basket.getCart().getCartProducts().clear();
         basket.setIsActive(false);
         basket.setUpdatedDate(completedDate);
@@ -346,7 +346,7 @@ public class OrderServiceImpl implements OrderService {
         basket.getCompletedOrders().clear();
     }
 
-    public Payment createPayment(Long payAmount, String paymentType, Date completedDate) {
+    public Payment createPayment(Long payAmount, String paymentType, LocalDateTime completedDate) {
         CreatePaymentDto createDto = new CreatePaymentDto();
         createDto.setPayAmount(payAmount);
         createDto.setPaymentType(findPaymentType(paymentType));
