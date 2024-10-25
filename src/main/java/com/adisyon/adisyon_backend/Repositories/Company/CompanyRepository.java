@@ -11,4 +11,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     List<Company> findByIsActive(Boolean isActive);
 
     Optional<Company> findByOwnerId(Long userId);
+
+    Optional<Company> findByEmployeesId(Long id);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.adisyon.adisyon_backend.Dto.Request.Basket.CreateBasketDto;
 import com.adisyon.adisyon_backend.Dto.Request.Basket.DeleteBasketDto;
@@ -35,6 +36,7 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
+    @Transactional
     public Basket createBasket(CreateBasketDto basketDto) {
 
         Basket newBasket = new Basket();
@@ -53,6 +55,8 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
+    @Transactional
+
     public Basket updateBasket(UpdateBasketDto basketDto) {
 
         Basket basket = findBasketById(basketDto.getId());
@@ -88,4 +92,10 @@ public class BasketServiceImpl implements BasketService {
         basket.setDeactivatedDate(LocalDateTime.now());
         return basketRepository.save(basket);
     }
+    // @Override
+    // public Basket updateTotalPrice(Long id){
+    // Basket basket = findBasketById(id);
+    // orderse basket.getOrder()
+    // }
+
 }

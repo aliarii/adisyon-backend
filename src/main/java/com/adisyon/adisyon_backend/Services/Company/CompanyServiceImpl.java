@@ -43,6 +43,11 @@ public class CompanyServiceImpl implements CompanyService {
         return Unwrapper.unwrap(companyRepository.findByOwnerId(id), id);
     }
 
+    @Override
+    public Company findCompanyByEmployeeId(Long id) {
+        return Unwrapper.unwrap(companyRepository.findByEmployeesId(id), id);
+    }
+
     public Company createCompany(CreateCompanyDto companyDto, Long ownerId) {
         Company newCompany = new Company();
         Owner owner = ownerRepository.findById(ownerId).orElseThrow();

@@ -13,10 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.adisyon.adisyon_backend.Dto.Request.Product.CreateProductDto;
 import com.adisyon.adisyon_backend.Dto.Request.Product.DeleteProductDto;
 import com.adisyon.adisyon_backend.Dto.Request.Product.UpdateProductDto;
+import com.adisyon.adisyon_backend.Entities.Basket;
 import com.adisyon.adisyon_backend.Entities.Company;
+import com.adisyon.adisyon_backend.Entities.OrderItem;
 import com.adisyon.adisyon_backend.Entities.Product;
+import com.adisyon.adisyon_backend.Entities.ProductCategory;
 import com.adisyon.adisyon_backend.Services.Company.CompanyService;
+import com.adisyon.adisyon_backend.Services.Order.OrderService;
+import com.adisyon.adisyon_backend.Services.OrderItem.OrderItemService;
 import com.adisyon.adisyon_backend.Services.Product.ProductService;
+import com.adisyon.adisyon_backend.Services.ProductCategory.ProductCategoryService;
 
 @RestController
 @RequestMapping("/api/owner/products")
@@ -26,22 +32,43 @@ public class OwnerProductController {
     private ProductService productService;
     @Autowired
     private CompanyService companyService;
+    @Autowired
+    private ProductCategoryService productCategoryService;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private OrderItemService orderItemService;
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody CreateProductDto productDto) {
 
         Company company = companyService.findCompanyById(productDto.getCompanyId());
-        Product product = productService.createProduct(productDto, company);
+        ProductCategory productCategory = null;
+        if (productDto.getProductCategoryId() != null) {
+            productCategory = productCategoryService
+                    .findProductCategoryById(productDto.getProductCategoryId());
+        }
+        Product product = productService.createProduct(productDto, company, productCategory);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update")
     public ResponseEntity<Product> updateProduct(@RequestBody UpdateProductDto productDto) {
         Product product = productService.updateProduct(productDto);
+        if (productDto.getPrice() != null) {
+            for (Basket basket : product.getCompany().getBaskets()) {
+                if (basket.getOrder() != null) {
+                    for (OrderItem orderItem : basket.getOrder().getOrderItems()) {
+                        orderItemService.updateTotalPrice(orderItem.getId());
+                    }
+                    orderService.updateTotalPrice(basket.getOrder().getId());
+                }
+            }
+        }
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @PutMapping("/delete/{id}")
+    @PutMapping("/delete")
     public ResponseEntity<String> deleteProduct(@RequestBody DeleteProductDto productDto) {
         productService.deleteProduct(productDto);
         String res = "product deleted successfully";

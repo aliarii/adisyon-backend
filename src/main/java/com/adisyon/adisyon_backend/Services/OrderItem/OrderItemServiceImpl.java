@@ -61,4 +61,10 @@ public class OrderItemServiceImpl implements OrderItemService {
         return null;
     }
 
+    @Override
+    public OrderItem updateTotalPrice(Long id) {
+        OrderItem orderItem = findOrderItemById(id);
+        orderItem.setTotalPrice(orderItem.getQuantity() * orderItem.getProduct().getPrice());
+        return orderItemRepository.save(orderItem);
+    }
 }

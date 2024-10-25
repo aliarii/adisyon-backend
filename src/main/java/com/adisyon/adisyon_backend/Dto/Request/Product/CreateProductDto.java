@@ -1,7 +1,5 @@
 package com.adisyon.adisyon_backend.Dto.Request.Product;
 
-import com.adisyon.adisyon_backend.Entities.ProductCategory;
-
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,7 +18,7 @@ public class CreateProductDto {
     private Long price;
 
     @Nullable
-    private ProductCategory productCategory;
+    private Long productCategoryId;
 
     @Nullable
     private String image;

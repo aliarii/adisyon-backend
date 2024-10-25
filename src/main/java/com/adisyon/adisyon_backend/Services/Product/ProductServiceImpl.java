@@ -12,6 +12,7 @@ import com.adisyon.adisyon_backend.Dto.Request.Product.DeleteProductDto;
 import com.adisyon.adisyon_backend.Dto.Request.Product.UpdateProductDto;
 import com.adisyon.adisyon_backend.Entities.Company;
 import com.adisyon.adisyon_backend.Entities.Product;
+import com.adisyon.adisyon_backend.Entities.ProductCategory;
 import com.adisyon.adisyon_backend.Repositories.Product.ProductRepository;
 import com.adisyon.adisyon_backend.Services.Unwrapper;
 
@@ -27,12 +28,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product createProduct(CreateProductDto productDto, Company company) {
+    public Product createProduct(CreateProductDto productDto, Company company, ProductCategory productCategory) {
 
         Product newProduct = new Product();
         newProduct.setName(productDto.getName());
         newProduct.setPrice(productDto.getPrice());
-        newProduct.setProductCategory(productDto.getProductCategory());
+        newProduct.setProductCategory(productCategory);
         newProduct.setCompany(company);
         newProduct.setImage(productDto.getImage());
         newProduct.setIsActive(true);
@@ -47,35 +48,26 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product updateProduct(UpdateProductDto productDto) {
 
-        Product existingProduct = findProductById(productDto.getId());
-        existingProduct.setIsActive(false);
-        productRepository.save(existingProduct);
+        Product product = findProductById(productDto.getId());
 
-        Product newProduct = new Product();
-        newProduct.setName(
-                productDto.getName() != null ? productDto.getName() : existingProduct.getName());
-        newProduct.setPrice(productDto.getPrice() != null ? productDto.getPrice() : existingProduct.getPrice());
-        newProduct.setProductCategory(productDto.getProductCategory() != null ? productDto.getProductCategory()
-                : existingProduct.getProductCategory());
-        newProduct.setIsActive(
-                productDto.getIsActive() != null ? productDto.getIsActive() : existingProduct.getIsActive());
-        newProduct.setImage(productDto.getImage() != null ? productDto.getImage() : existingProduct.getImage());
+        product.setName(
+                productDto.getName() != null ? productDto.getName() : product.getName());
+        product.setPrice(productDto.getPrice() != null ? productDto.getPrice() : product.getPrice());
+        product.setProductCategory(productDto.getProductCategory() != null ? productDto.getProductCategory()
+                : product.getProductCategory());
+        product.setIsActive(
+                productDto.getIsActive() != null ? productDto.getIsActive() : product.getIsActive());
+        product.setImage(productDto.getImage() != null ? productDto.getImage() : product.getImage());
 
-        newProduct.setCompany(existingProduct.getCompany());
-        newProduct.setCreatedDate(existingProduct.getCreatedDate());
-        newProduct.setUpdatedDate(LocalDateTime.now());
+        product.setUpdatedDate(LocalDateTime.now());
 
-        Product savedProduct = productRepository.save(newProduct);
-        existingProduct.getCompany().getProducts().add(savedProduct);
-        return savedProduct;
+        return productRepository.save(product);
     }
 
     @Override
     public void deleteProduct(DeleteProductDto productDto) {
         Product product = findProductById(productDto.getId());
-        product.setIsActive(false);
-        product.setUpdatedDate(LocalDateTime.now());
-        productRepository.save(product);
+        productRepository.delete(product);
     }
 
     @Override

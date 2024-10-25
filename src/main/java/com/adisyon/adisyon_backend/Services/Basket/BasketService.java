@@ -23,4 +23,6 @@ public interface BasketService {
 
     public List<Basket> findByCompanyId(Long id);
 
+    // public Basket updateTotalPrice(Long id);
+
 }

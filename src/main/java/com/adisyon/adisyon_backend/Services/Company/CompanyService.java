@@ -12,6 +12,8 @@ public interface CompanyService {
 
     public Company findCompanyByUserId(Long id);
 
+    public Company findCompanyByEmployeeId(Long id);
+
     public Company createCompany(CreateCompanyDto companyDto, Long ownerId);
 
     // public Company updateCompany(UpdateCompanyDto companyDto);

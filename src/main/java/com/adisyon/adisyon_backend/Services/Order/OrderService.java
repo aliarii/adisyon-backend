@@ -26,10 +26,11 @@ public interface OrderService {
 
     public Order payAllOrders(PayAllOrdersDto orderDto);
 
-    public Order transferOrders(TransferOrdersDto orderDto);
-
     public Order paySelectedOrders(PaySelectedOrdersDto orderDto);
 
     public Order payWithoutOrders(PayWithoutOrdersDto orderDto);
 
+    public Order transferOrders(TransferOrdersDto orderDto);
+
+    public Order updateTotalPrice(Long id);
 }

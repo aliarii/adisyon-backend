@@ -7,9 +7,10 @@ import com.adisyon.adisyon_backend.Dto.Request.Product.DeleteProductDto;
 import com.adisyon.adisyon_backend.Dto.Request.Product.UpdateProductDto;
 import com.adisyon.adisyon_backend.Entities.Company;
 import com.adisyon.adisyon_backend.Entities.Product;
+import com.adisyon.adisyon_backend.Entities.ProductCategory;
 
 public interface ProductService {
-    public Product createProduct(CreateProductDto productDto, Company company);
+    public Product createProduct(CreateProductDto productDto, Company company, ProductCategory productCategory);
 
     public Product updateProduct(UpdateProductDto productDto);
 

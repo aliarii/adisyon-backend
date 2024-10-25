@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.adisyon.adisyon_backend.Dto.Request.Employee.CreateEmployeeDto;
 import com.adisyon.adisyon_backend.Dto.Request.Employee.DeleteEmployeeDto;
@@ -37,11 +38,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll();
     }
 
+    @Override
     public Employee findEmployeeById(Long id) {
         Employee employee = Unwrapper.unwrap(employeeRepository.findById(id), id);
         return employee;
     }
 
+    @Override
+    @Transactional
     public Employee createEmployee(CreateEmployeeDto employeeDto) {
         checkUserEmail(employeeDto.getUserName() + "@adisyon.com");
 
@@ -59,6 +63,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.save(newEmployee);
     }
 
+    @Override
+    @Transactional
     public Employee updateEmployee(UpdateEmployeeDto employeeDto) {
 
         Employee existingEmployee = findEmployeeById(employeeDto.getId());
@@ -83,6 +89,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.save(newEmployee);
     }
 
+    @Override
+    @Transactional
     public void deleteEmployee(DeleteEmployeeDto employeeDto) {
 
         Employee employee = findEmployeeById(employeeDto.getId());

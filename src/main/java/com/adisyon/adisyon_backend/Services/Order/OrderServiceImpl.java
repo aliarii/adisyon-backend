@@ -279,6 +279,14 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(newOrder);
     }
 
+    @Override
+    @Transactional
+    public Order updateTotalPrice(Long id) {
+        Order order = findOrderById(id);
+        order.setTotalPrice(calculateTotalPrice(order.getOrderItems()));
+        return orderRepository.save(order);
+    }
+
     private List<CartProduct> filterActiveCartProducts(Cart cart) {
         return cart.getCartProducts().stream()
                 .filter(cartProduct -> cartProduct.getQuantity() > 0)

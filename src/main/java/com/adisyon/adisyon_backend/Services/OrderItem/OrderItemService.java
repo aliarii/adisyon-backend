@@ -16,4 +16,6 @@ public interface OrderItemService {
 
     public OrderItem completeOrderItem(Long id);
 
+    public OrderItem updateTotalPrice(Long id);
+
 }

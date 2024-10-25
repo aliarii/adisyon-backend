@@ -61,6 +61,11 @@ public class CompanyController {
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
 
+    @GetMapping("/employee/{id}")
+    public ResponseEntity<Company> findCompanyByEmployeeId(@PathVariable Long id) {
+        Company company = companyService.findCompanyByEmployeeId(id);
+        return new ResponseEntity<>(company, HttpStatus.OK);
+    }
     // @PutMapping("/update/{id}")
     // public ResponseEntity<Company> updateCompany(@RequestBody UpdateCompanyDto
     // CompanyDto) {
