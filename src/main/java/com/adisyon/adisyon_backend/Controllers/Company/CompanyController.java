@@ -1,8 +1,10 @@
 package com.adisyon.adisyon_backend.Controllers.Company;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
+import com.adisyon.adisyon_backend.Dto.Request.Company.DailyReportRequestDto;
+import com.adisyon.adisyon_backend.Dto.Request.Company.MonthlyReportRequestDto;
+import com.adisyon.adisyon_backend.Dto.Request.Company.YearlyReportRequestDto;
+import com.adisyon.adisyon_backend.Dto.Response.Company.DailyReportResponseDto;
+import com.adisyon.adisyon_backend.Dto.Response.Company.MonthlyReportResponseDto;
+import com.adisyon.adisyon_backend.Dto.Response.Company.YearlyReportResponseDto;
 import com.adisyon.adisyon_backend.Entities.Company;
 import com.adisyon.adisyon_backend.Services.Company.CompanyService;
 
@@ -80,4 +88,28 @@ public class CompanyController {
     // return new ResponseEntity<>(HttpStatus.OK);
 
     // }
+
+    @GetMapping("/dailyReport/{id}/{date}")
+    public ResponseEntity<DailyReportResponseDto> getDailyReport(@PathVariable Long id,
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+
+        DailyReportRequestDto requestDto = new DailyReportRequestDto(id, date);
+        DailyReportResponseDto responseDto = companyService.getDailyReport(requestDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/yearlyReport/{id}/{date}")
+    public ResponseEntity<YearlyReportResponseDto> getYearlyReport(@PathVariable Long id, @PathVariable Integer date) {
+        YearlyReportRequestDto requestDto = new YearlyReportRequestDto(id, date);
+        YearlyReportResponseDto responseDto = companyService.getYearlyReport(requestDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/monthlyReport/{id}/{year}/{month}")
+    public ResponseEntity<MonthlyReportResponseDto> getMonthlyReport(@PathVariable Long id, @PathVariable Integer year,
+            @PathVariable Integer month) {
+        MonthlyReportRequestDto requestDto = new MonthlyReportRequestDto(id, month, year);
+        MonthlyReportResponseDto responseDto = companyService.getMonthlyReport(requestDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
 }

@@ -73,8 +73,10 @@ com\adisyon\adisyon_backend\Services\OrderItem\OrderItemService.class
 com\adisyon\adisyon_backend\Services\Order\OrderServiceImpl.class
 com\adisyon\adisyon_backend\Entities\ProductCategory.class
 com\adisyon\adisyon_backend\Dto\Request\ProductCategory\CreateProductCategoryDto.class
+com\adisyon\adisyon_backend\Dto\Response\Company\DailyReportResponseDto.class
 com\adisyon\adisyon_backend\Repositories\Employee\EmployeeRepository.class
 com\adisyon\adisyon_backend\Services\Basket\BasketServiceImpl.class
+com\adisyon\adisyon_backend\Dto\Request\Company\DailyReportRequestDto.class
 com\adisyon\adisyon_backend\Dto\Request\Order\PayAllOrdersDto.class
 com\adisyon\adisyon_backend\Entities\Basket.class
 com\adisyon\adisyon_backend\Repositories\ProductCategory\ProductCategoryRepository.class

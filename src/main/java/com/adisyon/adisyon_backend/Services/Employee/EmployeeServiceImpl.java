@@ -67,37 +67,27 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public Employee updateEmployee(UpdateEmployeeDto employeeDto) {
 
-        Employee existingEmployee = findEmployeeById(employeeDto.getId());
-        existingEmployee.setIsActive(false);
-        employeeRepository.save(existingEmployee);
+        Employee employee = findEmployeeById(employeeDto.getId());
 
-        Employee newEmployee = new Employee();
-        newEmployee.setCompany(existingEmployee.getCompany());
-        newEmployee.setUserName(
-                employeeDto.getUserName() != null ? employeeDto.getUserName() : existingEmployee.getUserName());
-        newEmployee.setFullName(
-                employeeDto.getFullName() != null ? employeeDto.getFullName() : existingEmployee.getFullName());
-        newEmployee.setEmail(employeeDto.getUserName() != null ? employeeDto.getUserName() + "@adisyon.com"
-                : existingEmployee.getEmail());
-        newEmployee.setPassword(passwordEncoder.encode(
-                employeeDto.getPassword() != null ? employeeDto.getPassword() : existingEmployee.getPassword()));
-        newEmployee.setRole(USER_ROLE.ROLE_EMPLOYEE);
-        newEmployee.setIsActive(true);
-        newEmployee.setCreatedDate(existingEmployee.getCreatedDate());
-        newEmployee.setUpdatedDate(LocalDateTime.now());
+        employee.setUserName(
+                employeeDto.getUserName() != null ? employeeDto.getUserName() : employee.getUserName());
+        employee.setFullName(
+                employeeDto.getFullName() != null ? employeeDto.getFullName() : employee.getFullName());
+        employee.setEmail(employeeDto.getUserName() != null ? employeeDto.getUserName() + "@adisyon.com"
+                : employee.getEmail());
+        employee.setPassword(passwordEncoder.encode(
+                employeeDto.getPassword() != null ? employeeDto.getPassword() : employee.getPassword()));
 
-        return employeeRepository.save(newEmployee);
+        employee.setUpdatedDate(LocalDateTime.now());
+
+        return employeeRepository.save(employee);
     }
 
     @Override
     @Transactional
     public void deleteEmployee(DeleteEmployeeDto employeeDto) {
-
         Employee employee = findEmployeeById(employeeDto.getId());
-        checkIfEmployeeActive(employee);
-        employee.setIsActive(false);
-        employee.setUpdatedDate(LocalDateTime.now());
-        employeeRepository.save(employee);
+        employeeRepository.delete(employee);
     }
 
     private void checkUserEmail(String userEmail) {

@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.adisyon.adisyon_backend.Dto.Request.Basket.CreateBasketDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
+import com.adisyon.adisyon_backend.Dto.Request.Company.DailyReportRequestDto;
+import com.adisyon.adisyon_backend.Dto.Request.Company.MonthlyReportRequestDto;
+import com.adisyon.adisyon_backend.Dto.Request.Company.YearlyReportRequestDto;
+import com.adisyon.adisyon_backend.Dto.Response.Company.DailyReportResponseDto;
+import com.adisyon.adisyon_backend.Dto.Response.Company.MonthlyReportResponseDto;
+import com.adisyon.adisyon_backend.Dto.Response.Company.YearlyReportResponseDto;
 import com.adisyon.adisyon_backend.Entities.Basket;
 import com.adisyon.adisyon_backend.Entities.Company;
 import com.adisyon.adisyon_backend.Entities.Owner;
@@ -96,4 +102,37 @@ public class CompanyServiceImpl implements CompanyService {
     // companyRepository.delete(company);
     // }
 
+    @Override
+    public DailyReportResponseDto getDailyReport(DailyReportRequestDto requestDto) {
+
+        DailyReportResponseDto responseDto = companyRepository.getDailyReport(requestDto.getCompanyId(),
+                requestDto.getDate());
+        if (responseDto == null)
+            responseDto = new DailyReportResponseDto(0L, 0L, 0L, 0L, 0L, 0L, requestDto.getDate());
+
+        return responseDto;
+    }
+
+    @Override
+    public YearlyReportResponseDto getYearlyReport(YearlyReportRequestDto requestDto) {
+
+        YearlyReportResponseDto responseDto = companyRepository.getYearlyReport(requestDto.getCompanyId(),
+                requestDto.getYear());
+        if (responseDto == null)
+            responseDto = new YearlyReportResponseDto(0L, 0L, 0L, 0L, 0L, 0L, requestDto.getYear());
+
+        return responseDto;
+    }
+
+    @Override
+    public MonthlyReportResponseDto getMonthlyReport(MonthlyReportRequestDto requestDto) {
+
+        MonthlyReportResponseDto responseDto = companyRepository.getMonthlyReport(requestDto.getCompanyId(),
+                requestDto.getYear(), requestDto.getMonth());
+        if (responseDto == null)
+            responseDto = new MonthlyReportResponseDto(0L, 0L, 0L, 0L, 0L, 0L, requestDto.getMonth(),
+                    requestDto.getYear());
+
+        return responseDto;
+    }
 }
