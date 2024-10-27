@@ -12,6 +12,7 @@ import com.adisyon.adisyon_backend.Dto.Request.Basket.DeleteBasketDto;
 import com.adisyon.adisyon_backend.Dto.Request.Basket.UpdateBasketDto;
 import com.adisyon.adisyon_backend.Dto.Request.Cart.CreateCartDto;
 import com.adisyon.adisyon_backend.Entities.Basket;
+import com.adisyon.adisyon_backend.Entities.BasketCategory;
 import com.adisyon.adisyon_backend.Repositories.Basket.BasketRepository;
 import com.adisyon.adisyon_backend.Services.Unwrapper;
 import com.adisyon.adisyon_backend.Services.Cart.CartService;
@@ -37,14 +38,14 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     @Transactional
-    public Basket createBasket(CreateBasketDto basketDto) {
+    public Basket createBasket(CreateBasketDto basketDto, BasketCategory basketCategory) {
 
         Basket newBasket = new Basket();
         newBasket.setName(basketDto.getName());
         newBasket.setCompany(basketDto.getCompany());
         newBasket.setIsActive(false);
         newBasket.setCreatedDate(LocalDateTime.now());
-        newBasket.setBasketCategory(basketDto.getBasketCategory());
+        newBasket.setBasketCategory(basketCategory);
         basketRepository.save(newBasket);
 
         CreateCartDto cartDto = new CreateCartDto();
@@ -56,12 +57,10 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     @Transactional
-
     public Basket updateBasket(UpdateBasketDto basketDto) {
-
         Basket basket = findBasketById(basketDto.getId());
-        basket.setName(basketDto.getName() != null ? basketDto.getName()
-                : basket.getName());
+
+        basket.setName(basketDto.getName() != null ? basketDto.getName() : basket.getName());
         basket.setBasketCategory(
                 basketDto.getBasketCategory() != null ? basketDto.getBasketCategory() : basket.getBasketCategory());
         basket.setUpdatedDate(LocalDateTime.now());
@@ -70,12 +69,22 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
+    @Transactional
     public void deleteBasket(DeleteBasketDto basketDto) {
         Basket basket = findBasketById(basketDto.getId());
         basketRepository.delete(basket);
     }
 
     @Override
+    @Transactional
+    public Basket setBasketCategory(UpdateBasketDto basketDto) {
+        Basket basket = findBasketById(basketDto.getId());
+        basket.setBasketCategory(basketDto.getBasketCategory());
+        return basketRepository.save(basket);
+    }
+
+    @Override
+    @Transactional
     public Basket activateBasket(Long id) {
         Basket basket = findBasketById(id);
         basket.setUpdatedDate(LocalDateTime.now());
@@ -85,6 +94,7 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
+    @Transactional
     public Basket deactivateBasket(Long id) {
         Basket basket = findBasketById(id);
         basket.setIsActive(false);

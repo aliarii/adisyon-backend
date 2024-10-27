@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,9 @@ import com.adisyon.adisyon_backend.Dto.Request.Basket.CreateBasketDto;
 import com.adisyon.adisyon_backend.Dto.Request.Basket.DeleteBasketDto;
 import com.adisyon.adisyon_backend.Dto.Request.Basket.UpdateBasketDto;
 import com.adisyon.adisyon_backend.Entities.Basket;
+import com.adisyon.adisyon_backend.Entities.BasketCategory;
 import com.adisyon.adisyon_backend.Services.Basket.BasketService;
+import com.adisyon.adisyon_backend.Services.BasketCategory.BasketCategoryService;
 
 @RestController
 @RequestMapping("/api/basket")
@@ -26,6 +27,8 @@ public class BasketController {
 
     @Autowired
     private BasketService basketService;
+    @Autowired
+    private BasketCategoryService basketCategoryService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Basket> getBasketById(@PathVariable Long id) {
@@ -41,21 +44,23 @@ public class BasketController {
 
     @PostMapping
     public ResponseEntity<Basket> createBasket(@RequestBody CreateBasketDto basketDto) {
-        Basket newBasket = basketService.createBasket(basketDto);
+        BasketCategory basketCategory = null;
+        if (basketDto.getBasketCategoryId() != null)
+            basketCategory = basketCategoryService.findBasketCategoryById(basketDto.getBasketCategoryId());
+        Basket newBasket = basketService.createBasket(basketDto, basketCategory);
         return new ResponseEntity<>(newBasket, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update")
     public ResponseEntity<Basket> updateBasket(@RequestBody UpdateBasketDto basketDto) {
         Basket updatedBasket = basketService.updateBasket(basketDto);
         return new ResponseEntity<>(updatedBasket, HttpStatus.OK);
     }
 
-    @DeleteMapping
+    @PutMapping("/delete")
     public ResponseEntity<HttpStatus> deleteBasket(@RequestBody DeleteBasketDto basketDto) {
         basketService.deleteBasket(basketDto);
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
     @PutMapping("/activate/{id}")

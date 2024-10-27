@@ -32,7 +32,7 @@ public class BasketCategory {
     @ManyToOne
     private Company company;
 
-    @OneToMany(mappedBy = "basketCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "basketCategory", cascade = CascadeType.ALL)
     private List<Basket> baskets = new ArrayList<>();
 
     private Boolean isActive;

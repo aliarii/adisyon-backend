@@ -3,6 +3,8 @@ package com.adisyon.adisyon_backend.Dto.Request.BasketCategory;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.adisyon.adisyon_backend.Entities.Basket;
+
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,5 +23,7 @@ public class UpdateBasketCategoryDto {
     private String name;
 
     @Nullable
-    private List<Long> baskets = new ArrayList<>();
+    private List<Basket> addedBaskets = new ArrayList<>();
+
+    private List<Basket> removedBaskets = new ArrayList<>();
 }

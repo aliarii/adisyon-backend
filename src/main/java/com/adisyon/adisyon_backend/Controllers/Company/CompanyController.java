@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.DailyReportRequestDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.MonthlyReportRequestDto;
+import com.adisyon.adisyon_backend.Dto.Request.Company.UpdateCompanyDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.YearlyReportRequestDto;
 import com.adisyon.adisyon_backend.Dto.Response.Company.DailyReportResponseDto;
 import com.adisyon.adisyon_backend.Dto.Response.Company.MonthlyReportResponseDto;
@@ -50,6 +52,11 @@ public class CompanyController {
         return new ResponseEntity<>(createdCompany, HttpStatus.CREATED);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<Company> updateCompany(@RequestBody UpdateCompanyDto CompanyDto) {
+        Company updatedCompany = companyService.updateCompany(CompanyDto);
+        return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
+    }
     // @GetMapping("/user")
     // public ResponseEntity<Company>
     // findCompanyByUserId(@RequestHeader("Authorization") String jwt)
@@ -73,12 +80,6 @@ public class CompanyController {
         Company company = companyService.findCompanyByEmployeeId(id);
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
-    // @PutMapping("/update/{id}")
-    // public ResponseEntity<Company> updateCompany(@RequestBody UpdateCompanyDto
-    // CompanyDto) {
-    // Company updatedCompany = CompanyService.updateCompany(CompanyDto);
-    // return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
-    // }
 
     // @PutMapping("/delete/{id}")
     // public ResponseEntity<HttpStatus> deleteCompany(@RequestBody DeleteCompanyDto

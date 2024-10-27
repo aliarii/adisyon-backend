@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.adisyon.adisyon_backend.Dto.Request.Basket.CreateBasketDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.DailyReportRequestDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.MonthlyReportRequestDto;
+import com.adisyon.adisyon_backend.Dto.Request.Company.UpdateCompanyDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.YearlyReportRequestDto;
 import com.adisyon.adisyon_backend.Dto.Response.Company.DailyReportResponseDto;
 import com.adisyon.adisyon_backend.Dto.Response.Company.MonthlyReportResponseDto;
@@ -32,8 +34,6 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Autowired
     private BasketService basketService;
-    // @Autowired
-    // private OwnerService ownerService;
 
     public List<Company> findAllCompanies() {
         return companyRepository.findAll();
@@ -54,6 +54,8 @@ public class CompanyServiceImpl implements CompanyService {
         return Unwrapper.unwrap(companyRepository.findByEmployeesId(id), id);
     }
 
+    @Override
+    @Transactional
     public Company createCompany(CreateCompanyDto companyDto, Long ownerId) {
         Company newCompany = new Company();
         Owner owner = ownerRepository.findById(ownerId).orElseThrow();
@@ -70,7 +72,7 @@ public class CompanyServiceImpl implements CompanyService {
             basketDto.setName("Basket " + (i + 1));
             basketDto.setCompany(newCompany);
 
-            Basket createdBasket = basketService.createBasket(basketDto);
+            Basket createdBasket = basketService.createBasket(basketDto, null);
 
             newCompany.getBaskets().add(createdBasket);
         }
@@ -78,20 +80,13 @@ public class CompanyServiceImpl implements CompanyService {
         return newCompany;
     }
 
-    // public Company updateCompany(UpdateCompanyDto companyDto) {
-    // Company company = unwrapCompany(companyRepository.findById(id), id);
-    // // Company company = companyRepository.findById(id)
-    // // .orElseThrow(/* () -> new ResourceNotFoundException("Company not found
-    // with
-    // // id " + id) */);
-
-    // company.setCompanyName(companyDetails.getCompanyName());
-    // company.setIsActive(companyDetails.getIsActive());
-    // company.setCreatedDate(companyDetails.getCreatedDate());
-    // company.setUpdatedDate(companyDetails.getUpdatedDate());
-
-    // return companyRepository.save(company);
-    // }
+    @Override
+    @Transactional
+    public Company updateCompany(UpdateCompanyDto companyDto) {
+        Company company = findCompanyById(companyDto.getId());
+        company.setName(companyDto.getName());
+        return companyRepository.save(company);
+    }
 
     // public void deleteCompany(DeleteCompanyDto companyDto) {
     // Company company = unwrapCompany(companyRepository.findById(id), id);
@@ -103,6 +98,7 @@ public class CompanyServiceImpl implements CompanyService {
     // }
 
     @Override
+    @Transactional
     public DailyReportResponseDto getDailyReport(DailyReportRequestDto requestDto) {
 
         DailyReportResponseDto responseDto = companyRepository.getDailyReport(requestDto.getCompanyId(),
@@ -114,6 +110,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    @Transactional
     public YearlyReportResponseDto getYearlyReport(YearlyReportRequestDto requestDto) {
 
         YearlyReportResponseDto responseDto = companyRepository.getYearlyReport(requestDto.getCompanyId(),
@@ -125,6 +122,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    @Transactional
     public MonthlyReportResponseDto getMonthlyReport(MonthlyReportRequestDto requestDto) {
 
         MonthlyReportResponseDto responseDto = companyRepository.getMonthlyReport(requestDto.getCompanyId(),
@@ -137,6 +135,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    @Transactional
     public List<DailyReportResponseDto> getDailyReportsForMonth(MonthlyReportRequestDto requestDto) {
         List<DailyReportResponseDto> responseDto = companyRepository.getDailyReportsForMonth(requestDto.getCompanyId(),
                 requestDto.getYear(), requestDto.getMonth());

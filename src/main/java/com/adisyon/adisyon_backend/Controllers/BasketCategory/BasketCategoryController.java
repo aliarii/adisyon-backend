@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +32,7 @@ public class BasketCategoryController {
         return new ResponseEntity<>(basketCategories, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<BasketCategory> createBasketCategory(@RequestBody CreateBasketCategoryDto bCategoryDto) {
         BasketCategory basketCategory = basketCategoryService.createBasketCategory(bCategoryDto);
         return new ResponseEntity<>(basketCategory, HttpStatus.CREATED);
@@ -45,7 +44,7 @@ public class BasketCategoryController {
         return new ResponseEntity<>(basketCategory, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
+    @PutMapping("/delete")
     public ResponseEntity<HttpStatus> deleteBasketCategory(@RequestBody DeleteBasketCategoryDto bCategoryDto) {
         basketCategoryService.deleteBasketCategory(bCategoryDto);
         return new ResponseEntity<>(HttpStatus.OK);

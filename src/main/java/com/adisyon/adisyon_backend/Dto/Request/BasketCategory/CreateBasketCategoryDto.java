@@ -1,5 +1,11 @@
 package com.adisyon.adisyon_backend.Dto.Request.BasketCategory;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.adisyon.adisyon_backend.Entities.Basket;
+
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,4 +21,7 @@ public class CreateBasketCategoryDto {
 
     @NotNull
     private Long companyId;
+
+    @Nullable
+    private List<Basket> baskets = new ArrayList<>();
 }

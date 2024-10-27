@@ -1,6 +1,5 @@
 package com.adisyon.adisyon_backend.Dto.Request.Basket;
 
-import com.adisyon.adisyon_backend.Entities.BasketCategory;
 import com.adisyon.adisyon_backend.Entities.Company;
 
 import jakarta.annotation.Nullable;
@@ -21,6 +20,6 @@ public class CreateBasketDto {
     private Company company;
 
     @Nullable
-    private BasketCategory basketCategory;
+    private Long basketCategoryId;
 
 }

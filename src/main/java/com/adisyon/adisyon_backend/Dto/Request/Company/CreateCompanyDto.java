@@ -1,7 +1,6 @@
 package com.adisyon.adisyon_backend.Dto.Request.Company;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateCompanyDto {
-    @NotEmpty
-    @Size(min = 2)
+
+    @NotNull
     private String name;
 }

@@ -97,9 +97,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    private void checkIfEmployeeActive(Employee employee) {
-        if (employee.getIsActive() == false) {
-            throw new BusinessException("Already disabled!");
-        }
-    }
+    // private void checkIfEmployeeActive(Employee employee) {
+    // if (employee.getIsActive() == false) {
+    // throw new BusinessException("Already disabled!");
+    // }
+    // }
 }

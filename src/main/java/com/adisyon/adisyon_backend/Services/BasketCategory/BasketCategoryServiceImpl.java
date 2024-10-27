@@ -1,11 +1,14 @@
 package com.adisyon.adisyon_backend.Services.BasketCategory;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.adisyon.adisyon_backend.Dto.Request.Basket.UpdateBasketDto;
 import com.adisyon.adisyon_backend.Dto.Request.BasketCategory.CreateBasketCategoryDto;
 import com.adisyon.adisyon_backend.Dto.Request.BasketCategory.DeleteBasketCategoryDto;
 import com.adisyon.adisyon_backend.Dto.Request.BasketCategory.UpdateBasketCategoryDto;
@@ -40,34 +43,72 @@ public class BasketCategoryServiceImpl implements BasketCategoryService {
     }
 
     @Override
+    @Transactional
     public BasketCategory createBasketCategory(CreateBasketCategoryDto categoryDto) {
         BasketCategory newBasketCategory = new BasketCategory();
         Company company = companyService.findCompanyById(categoryDto.getCompanyId());
+
         newBasketCategory.setName(categoryDto.getName());
         newBasketCategory.setIsActive(true);
         newBasketCategory.setCreatedDate(LocalDateTime.now());
         newBasketCategory.setCompany(company);
+        BasketCategory savedBasketCategory = basketCategoryRepository.save(newBasketCategory);
 
-        return basketCategoryRepository.save(newBasketCategory);
+        for (Basket basket : categoryDto.getBaskets()) {
+            UpdateBasketDto dto = new UpdateBasketDto();
+            dto.setId(basket.getId());
+            dto.setBasketCategory(savedBasketCategory);
+            basketService.updateBasket(dto);
+        }
+
+        return savedBasketCategory;
     }
 
     @Override
-    public BasketCategory updateBasketCategory(UpdateBasketCategoryDto basketDto) {
-        BasketCategory basketCategory = findBasketCategoryById(basketDto.getId());
-        basketCategory.setName(basketDto.getName() != null ? basketDto.getName() : basketCategory.getName());
-        basketCategory.setUpdatedDate(LocalDateTime.now());
-        for (Long basketId : basketDto.getBaskets()) {
-            Basket basket = basketService.findBasketById(basketId);
-            basket.setBasketCategory(basketCategory);
-            basketCategory.getBaskets().add(basket);
+    @Transactional
+    public BasketCategory updateBasketCategory(UpdateBasketCategoryDto categoryDto) {
+        BasketCategory basketCategory = findBasketCategoryById(categoryDto.getId());
+        basketCategory
+                .setName(categoryDto.getName() != null ? categoryDto.getName() : basketCategory.getName());
+
+        for (Basket addedBasket : categoryDto.getAddedBaskets()) {
+            Basket basket = basketService.findBasketById(addedBasket.getId());
+            UpdateBasketDto dto = new UpdateBasketDto();
+            dto.setId(basket.getId());
+            dto.setBasketCategory(basketCategory);
+            basketService.setBasketCategory(dto);
+        }
+        for (Basket removedBasket : categoryDto.getRemovedBaskets()) {
+            Basket basket = basketService.findBasketById(removedBasket.getId());
+            if (basket.getBasketCategory() != basketCategory)
+                continue;
+            basketCategory.getBaskets().remove(basket);
+            UpdateBasketDto dto = new UpdateBasketDto();
+            dto.setId(basket.getId());
+            dto.setBasketCategory(null);
+            basketService.setBasketCategory(dto);
         }
 
         return basketCategoryRepository.save(basketCategory);
     }
 
     @Override
+    @Transactional
     public void deleteBasketCategory(DeleteBasketCategoryDto basketDto) {
         BasketCategory basketCategory = findBasketCategoryById(basketDto.getId());
+        List<Basket> baskets = new ArrayList<>(basketCategory.getBaskets());
+
+        for (Basket removedBasket : baskets) {
+            Basket basket = basketService.findBasketById(removedBasket.getId());
+            if (basket.getBasketCategory() != basketCategory)
+                continue;
+            basketCategory.getBaskets().remove(basket);
+            UpdateBasketDto dto = new UpdateBasketDto();
+            dto.setId(basket.getId());
+            dto.setBasketCategory(null);
+            basketService.setBasketCategory(dto);
+        }
+
         basketCategoryRepository.delete(basketCategory);
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.DailyReportRequestDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.MonthlyReportRequestDto;
+import com.adisyon.adisyon_backend.Dto.Request.Company.UpdateCompanyDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.YearlyReportRequestDto;
 import com.adisyon.adisyon_backend.Dto.Response.Company.DailyReportResponseDto;
 import com.adisyon.adisyon_backend.Dto.Response.Company.MonthlyReportResponseDto;
@@ -22,7 +23,7 @@ public interface CompanyService {
 
     public Company createCompany(CreateCompanyDto companyDto, Long ownerId);
 
-    // public Company updateCompany(UpdateCompanyDto companyDto);
+    public Company updateCompany(UpdateCompanyDto companyDto);
 
     // public void deleteCompany(DeleteCompanyDto companyDto);
 

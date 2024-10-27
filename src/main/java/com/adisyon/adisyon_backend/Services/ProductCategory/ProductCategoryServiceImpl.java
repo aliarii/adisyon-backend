@@ -1,6 +1,7 @@
 package com.adisyon.adisyon_backend.Services.ProductCategory;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +94,21 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Override
     @Transactional
     public void deleteProductCategory(DeleteProductCategoryDto categoryDto) {
+
         ProductCategory productCategory = findProductCategoryById(categoryDto.getId());
+        List<Product> products = new ArrayList<>(productCategory.getProducts());
+
+        for (Product removedProduct : products) {
+            Product product = productService.findProductById(removedProduct.getId());
+            if (product.getProductCategory() != productCategory)
+                continue;
+            productCategory.getProducts().remove(product);
+            UpdateProductDto dto = new UpdateProductDto();
+            dto.setId(product.getId());
+            dto.setProductCategory(null);
+            productService.setProductCategory(dto);
+        }
+
         productCategoryRepository.delete(productCategory);
     }
 }
