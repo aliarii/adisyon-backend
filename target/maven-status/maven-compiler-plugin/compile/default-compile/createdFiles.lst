@@ -68,7 +68,6 @@ com\adisyon\adisyon_backend\Dto\Request\BasketCategory\CreateBasketCategoryDto.c
 com\adisyon\adisyon_backend\Dto\Request\User\UpdateUserDto.class
 com\adisyon\adisyon_backend\Entities\Order.class
 com\adisyon\adisyon_backend\Services\Employee\EmployeeService.class
-com\adisyon\adisyon_backend\Dto\Response\Company\Test.class
 com\adisyon\adisyon_backend\Dto\Request\OrderItem\UpdateOrderItemDto.class
 com\adisyon\adisyon_backend\Services\Company\CompanyService.class
 com\adisyon\adisyon_backend\Dto\Request\Payment\CreatePaymentDto.class
