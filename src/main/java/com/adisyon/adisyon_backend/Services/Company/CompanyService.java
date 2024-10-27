@@ -31,4 +31,7 @@ public interface CompanyService {
     public YearlyReportResponseDto getYearlyReport(YearlyReportRequestDto requestDto);
 
     public MonthlyReportResponseDto getMonthlyReport(MonthlyReportRequestDto requestDto);
+
+    public List<DailyReportResponseDto> getDailyReportsForMonth(MonthlyReportRequestDto requestDto);
+
 }

@@ -36,7 +36,9 @@ D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_back
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Company\CreateCompanyDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Company\DailyReportRequestDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Company\DeleteCompanyDto.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Company\MonthlyReportRequestDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Company\UpdateCompanyDto.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Company\YearlyReportRequestDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Employee\CreateEmployeeDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Employee\DeleteEmployeeDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Employee\UpdateEmployeeDto.java
@@ -70,6 +72,9 @@ D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_back
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\User\UpdateUserDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Response\Auth\AuthResponse.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Response\Company\DailyReportResponseDto.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Response\Company\MonthlyReportResponseDto.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Response\Company\Test.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Response\Company\YearlyReportResponseDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Entities\Basket.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Entities\BasketCategory.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Entities\Cart.java

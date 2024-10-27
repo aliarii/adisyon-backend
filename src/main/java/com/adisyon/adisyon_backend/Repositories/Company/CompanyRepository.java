@@ -34,7 +34,9 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
                         +
                         "SUM(CASE WHEN p.payAmount IS NOT NULL THEN p.payAmount ELSE 0 END) AS paidTotal, "
                         +
-                        ":selectedDate AS date) "
+                        "null AS date, "
+                        +
+                        ":selectedDate AS localDate) "
                         +
                         "FROM Company c " +
                         "LEFT JOIN c.orders o " +
@@ -88,6 +90,31 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
                         "AND MONTH(o.createdDate) = :selectedMonth " +
                         "GROUP BY c.id")
         MonthlyReportResponseDto getMonthlyReport(@Param("companyId") Long companyId,
+                        @Param("selectedYear") Integer selectedYear,
+                        @Param("selectedMonth") Integer selectedMonth);
+
+        @Query("SELECT new com.adisyon.adisyon_backend.Dto.Response.Company.DailyReportResponseDto( " +
+                        "SUM(CASE WHEN p.paymentType = com.adisyon.adisyon_backend.Entities.PAYMENT_TYPE.TYPE_CASH THEN p.payAmount ELSE 0 END) AS cashPaidTotal, "
+                        +
+                        "SUM(CASE WHEN p.paymentType = com.adisyon.adisyon_backend.Entities.PAYMENT_TYPE.TYPE_CREDIT_CARD THEN p.payAmount ELSE 0 END) AS creditCardPaidTotal, "
+                        +
+                        "SUM(CASE WHEN o.completedDate IS NULL THEN o.totalPrice ELSE 0 END) AS pendingOrdersTotalPrice, "
+                        +
+                        "COUNT(CASE WHEN o.completedDate IS NULL THEN o.id ELSE null END) AS pendingOrdersCount, " +
+                        "COUNT(CASE WHEN o.completedDate IS NOT NULL THEN o.id ELSE null END) AS completedOrdersCount, "
+                        +
+                        "SUM(COALESCE(p.payAmount, 0)) AS paidTotal, " +
+                        "DATE(o.createdDate) AS date, " +
+                        "null AS localDate) " +
+                        "FROM Company c " +
+                        "LEFT JOIN c.orders o " +
+                        "LEFT JOIN o.payments p " +
+                        "WHERE c.id = :companyId " +
+                        "AND YEAR(o.createdDate) = :selectedYear " +
+                        "AND MONTH(o.createdDate) = :selectedMonth " +
+                        "GROUP BY DATE(o.createdDate) " +
+                        "ORDER BY DATE(o.createdDate)")
+        List<DailyReportResponseDto> getDailyReportsForMonth(@Param("companyId") Long companyId,
                         @Param("selectedYear") Integer selectedYear,
                         @Param("selectedMonth") Integer selectedMonth);
 

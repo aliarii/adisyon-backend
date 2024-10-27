@@ -108,7 +108,7 @@ public class CompanyServiceImpl implements CompanyService {
         DailyReportResponseDto responseDto = companyRepository.getDailyReport(requestDto.getCompanyId(),
                 requestDto.getDate());
         if (responseDto == null)
-            responseDto = new DailyReportResponseDto(0L, 0L, 0L, 0L, 0L, 0L, requestDto.getDate());
+            responseDto = new DailyReportResponseDto(0L, 0L, 0L, 0L, 0L, 0L, null, requestDto.getDate());
 
         return responseDto;
     }
@@ -135,4 +135,13 @@ public class CompanyServiceImpl implements CompanyService {
 
         return responseDto;
     }
+
+    @Override
+    public List<DailyReportResponseDto> getDailyReportsForMonth(MonthlyReportRequestDto requestDto) {
+        List<DailyReportResponseDto> responseDto = companyRepository.getDailyReportsForMonth(requestDto.getCompanyId(),
+                requestDto.getYear(), requestDto.getMonth());
+
+        return responseDto;
+    }
+
 }
