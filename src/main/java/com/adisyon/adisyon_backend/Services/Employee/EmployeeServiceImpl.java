@@ -12,6 +12,7 @@ import com.adisyon.adisyon_backend.Dto.Request.Employee.CreateEmployeeDto;
 import com.adisyon.adisyon_backend.Dto.Request.Employee.DeleteEmployeeDto;
 import com.adisyon.adisyon_backend.Dto.Request.Employee.UpdateEmployeeDto;
 import com.adisyon.adisyon_backend.Entities.Employee;
+import com.adisyon.adisyon_backend.Entities.USER_PERMISSION;
 import com.adisyon.adisyon_backend.Entities.USER_ROLE;
 import com.adisyon.adisyon_backend.Exception.BusinessException;
 import com.adisyon.adisyon_backend.Repositories.Employee.EmployeeRepository;
@@ -77,7 +78,14 @@ public class EmployeeServiceImpl implements EmployeeService {
                 : employee.getEmail());
         employee.setPassword(passwordEncoder.encode(
                 employeeDto.getPassword() != null ? employeeDto.getPassword() : employee.getPassword()));
-
+        for (USER_PERMISSION perm : employeeDto.getRemovedUserPermissions()) {
+            if (employee.getUserPermissions().contains(perm))
+                employee.getUserPermissions().remove(perm);
+        }
+        for (USER_PERMISSION perm : employeeDto.getAddedUserPermissions()) {
+            if (!employee.getUserPermissions().contains(perm))
+                employee.getUserPermissions().add(perm);
+        }
         employee.setUpdatedDate(LocalDateTime.now());
 
         return employeeRepository.save(employee);

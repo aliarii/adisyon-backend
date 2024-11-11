@@ -1,6 +1,8 @@
 package com.adisyon.adisyon_backend.Entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -38,6 +40,8 @@ public class User {
     private String password;
 
     private USER_ROLE role;
+
+    private List<USER_PERMISSION> userPermissions = new ArrayList<>();
 
     private Boolean isActive;
 
