@@ -85,6 +85,8 @@ public class CompanyServiceImpl implements CompanyService {
     public Company updateCompany(UpdateCompanyDto companyDto) {
         Company company = findCompanyById(companyDto.getId());
         company.setName(companyDto.getName());
+        company.setUpdatedDate(LocalDateTime.now());
+
         return companyRepository.save(company);
     }
 

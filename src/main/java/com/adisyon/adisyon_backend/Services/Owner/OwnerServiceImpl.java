@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
 import com.adisyon.adisyon_backend.Dto.Request.Owner.CreateOwnerDto;
@@ -43,6 +44,8 @@ public class OwnerServiceImpl implements OwnerService {
         return Unwrapper.unwrap(ownerRepository.findById(id), id);
     }
 
+    @Override
+    @Transactional
     public Owner createOwner(CreateOwnerDto ownerDto) {
 
         checkUserEmail(ownerDto.getEmail());
@@ -65,6 +68,8 @@ public class OwnerServiceImpl implements OwnerService {
         return newOwner;
     }
 
+    @Override
+    @Transactional
     public Owner updateOwner(UpdateOwnerDto ownerDto) {
 
         Owner owner = findOwnerById(ownerDto.getId());
@@ -86,6 +91,8 @@ public class OwnerServiceImpl implements OwnerService {
         return ownerRepository.save(owner);
     }
 
+    @Override
+    @Transactional
     public void deleteOwner(DeleteOwnerDto ownerDto) {
 
         Owner owner = findOwnerById(ownerDto.getId());

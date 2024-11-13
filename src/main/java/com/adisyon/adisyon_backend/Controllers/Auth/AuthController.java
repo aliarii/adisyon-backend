@@ -1,6 +1,8 @@
 package com.adisyon.adisyon_backend.Controllers.Auth;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
@@ -14,6 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.adisyon.adisyon_backend.Config.JwtConstant;
 import com.adisyon.adisyon_backend.Config.JwtProvider;
+import com.adisyon.adisyon_backend.Config.Error.ErrorResponse;
 import com.adisyon.adisyon_backend.Controllers.Employee.EmployeeController;
 import com.adisyon.adisyon_backend.Controllers.Owner.OwnerController;
 import com.adisyon.adisyon_backend.Dto.Request.Auth.LoginRequest;
@@ -37,6 +41,7 @@ import com.adisyon.adisyon_backend.Services.UserDetailsService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
@@ -58,8 +63,18 @@ public class AuthController {
     private JwtProvider jwtProvider;
 
     @PostMapping("/register/owner")
-    public ResponseEntity<AuthResponse> registerOwner(@RequestBody CreateOwnerDto ownerDto) {
+    public ResponseEntity<?> registerOwner(@Valid @RequestBody CreateOwnerDto ownerDto,
+            BindingResult bindingResult) {
 
+        if (bindingResult.hasErrors()) {
+            // Collect all error messages
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(objectError -> objectError.getDefaultMessage())
+                    .collect(Collectors.toList());
+
+            // Return a bad request with the error messages
+            return new ResponseEntity<>(new ErrorResponse("Validation failed", errors), HttpStatus.BAD_REQUEST);
+        }
         Owner createdOwner = ownerController.createOwner(ownerDto).getBody();
 
         if (createdOwner == null)

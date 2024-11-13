@@ -75,30 +75,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateUser(UpdateUserDto updateUserDto) {
+
+        // deleteUser(new DeleteUserDto(updateUserDto.getId()));
+        User user = findUserById(updateUserDto.getId());
+
+        user.setEmail(updateUserDto.getEmail() == null ? user.getEmail() : updateUserDto.getEmail());
+        user.setPassword(
+                updateUserDto.getPassword() == null ? user.getPassword()
+                        : passwordEncoder.encode(updateUserDto.getPassword()));
+        user.setUpdatedDate(LocalDateTime.now());
+        userRepository.save(user);
+        return user;
+    }
+
+    @Override
     public void deleteUser(DeleteUserDto deleteUserDto) {
         User user = findUserById(deleteUserDto.getId());
         user.setIsActive(false);
         user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
-    }
-
-    @Override
-    public User updateUser(UpdateUserDto updateUserDto) {
-
-        deleteUser(new DeleteUserDto(updateUserDto.getId()));
-        User user = findUserById(updateUserDto.getId());
-
-        User newUser = new User();
-        newUser.setEmail(updateUserDto.getEmail() == null ? user.getEmail() : updateUserDto.getEmail());
-        newUser.setPassword(
-                updateUserDto.getPassword() == null ? user.getPassword()
-                        : passwordEncoder.encode(updateUserDto.getPassword()));
-        newUser.setIsActive(true);
-        newUser.setCreatedDate(user.getCreatedDate());
-        newUser.setUpdatedDate(LocalDateTime.now());
-        newUser.setRole(updateUserDto.getRole());
-        userRepository.save(newUser);
-        return newUser;
     }
 
 }
