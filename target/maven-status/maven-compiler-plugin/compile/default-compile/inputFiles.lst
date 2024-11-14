@@ -1,5 +1,6 @@
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\AdisyonBackendApplication.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Config\AppConfig.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Config\Error\ErrorResponse.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Config\JwtConstant.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Config\JwtProvider.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Config\JwtTokenValidator.java

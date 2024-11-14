@@ -50,6 +50,7 @@ com\adisyon\adisyon_backend\Controllers\Cart\CartController.class
 com\adisyon\adisyon_backend\Dto\Request\Company\DeleteCompanyDto.class
 com\adisyon\adisyon_backend\Entities\USER_ROLE.class
 com\adisyon\adisyon_backend\Entities\Invoice.class
+com\adisyon\adisyon_backend\Config\Error\ErrorResponse.class
 com\adisyon\adisyon_backend\Dto\Request\Order\CreateOrderDto.class
 com\adisyon\adisyon_backend\Dto\Request\ProductCategory\DeleteProductCategoryDto.class
 com\adisyon\adisyon_backend\Controllers\Basket\BasketController.class
