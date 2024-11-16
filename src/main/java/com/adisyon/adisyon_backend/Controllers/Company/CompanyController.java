@@ -1,6 +1,5 @@
 package com.adisyon.adisyon_backend.Controllers.Company;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adisyon.adisyon_backend.Dto.Request.Company.CreateCompanyDto;
-import com.adisyon.adisyon_backend.Dto.Request.Company.DailyReportRequestDto;
-import com.adisyon.adisyon_backend.Dto.Request.Company.MonthlyReportRequestDto;
 import com.adisyon.adisyon_backend.Dto.Request.Company.UpdateCompanyDto;
-import com.adisyon.adisyon_backend.Dto.Request.Company.YearlyReportRequestDto;
-import com.adisyon.adisyon_backend.Dto.Response.Company.DailyReportResponseDto;
-import com.adisyon.adisyon_backend.Dto.Response.Company.MonthlyReportResponseDto;
-import com.adisyon.adisyon_backend.Dto.Response.Company.YearlyReportResponseDto;
 import com.adisyon.adisyon_backend.Entities.Company;
 import com.adisyon.adisyon_backend.Services.Company.CompanyService;
 
@@ -89,36 +82,4 @@ public class CompanyController {
 
     // }
 
-    @GetMapping("/dailyReport/{id}/{date}")
-    public ResponseEntity<DailyReportResponseDto> getDailyReport(@PathVariable Long id,
-            @PathVariable LocalDate date) {
-
-        DailyReportRequestDto requestDto = new DailyReportRequestDto(id, date);
-        DailyReportResponseDto responseDto = companyService.getDailyReport(requestDto);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
-    }
-
-    @GetMapping("/monthlyReport/{id}/{year}/{month}")
-    public ResponseEntity<MonthlyReportResponseDto> getMonthlyReport(@PathVariable Long id, @PathVariable Integer year,
-            @PathVariable Integer month) {
-        MonthlyReportRequestDto requestDto = new MonthlyReportRequestDto(id, month, year);
-        MonthlyReportResponseDto responseDto = companyService.getMonthlyReport(requestDto);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
-    }
-
-    @GetMapping("/yearlyReport/{id}/{year}")
-    public ResponseEntity<YearlyReportResponseDto> getYearlyReport(@PathVariable Long id, @PathVariable Integer year) {
-        YearlyReportRequestDto requestDto = new YearlyReportRequestDto(id, year);
-        YearlyReportResponseDto responseDto = companyService.getYearlyReport(requestDto);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
-    }
-
-    @GetMapping("/dailyReportsForMonth/{id}/{year}/{month}")
-    public ResponseEntity<List<DailyReportResponseDto>> getDailyReportsForMonth(@PathVariable Long id,
-            @PathVariable Integer year,
-            @PathVariable Integer month) {
-        MonthlyReportRequestDto requestDto = new MonthlyReportRequestDto(id, month, year);
-        List<DailyReportResponseDto> responseDto = companyService.getDailyReportsForMonth(requestDto);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
-    }
 }

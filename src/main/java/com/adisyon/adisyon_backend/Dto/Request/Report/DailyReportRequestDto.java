@@ -1,4 +1,4 @@
-package com.adisyon.adisyon_backend.Dto.Request.Company;
+package com.adisyon.adisyon_backend.Dto.Request.Report;
 
 import java.time.LocalDate;
 
