@@ -65,6 +65,7 @@ D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_back
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\ProductCategory\UpdateProductCategoryDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Receipt\CreateReceiptDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Receipt\DeleteReceiptDto.java
+D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Receipt\MonthlyReceiptRequestDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Receipt\UpdateReceiptDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Report\DailyReportRequestDto.java
 D:\GithubPersonal\adisyon\adisyon-backend\src\main\java\com\adisyon\adisyon_backend\Dto\Request\Report\MonthlyReportRequestDto.java

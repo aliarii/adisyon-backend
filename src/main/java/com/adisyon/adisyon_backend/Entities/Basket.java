@@ -29,6 +29,8 @@ public class Basket {
 
     private String name;
 
+    private String customName;
+
     @JsonIgnore
     @ManyToOne
     private Company company;

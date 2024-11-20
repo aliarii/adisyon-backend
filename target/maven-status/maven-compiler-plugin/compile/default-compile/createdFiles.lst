@@ -131,6 +131,7 @@ com\adisyon\adisyon_backend\Services\Basket\BasketService.class
 com\adisyon\adisyon_backend\Services\Report\ReportServiceImpl.class
 com\adisyon\adisyon_backend\Services\CartProduct\CartProductServiceImpl.class
 com\adisyon\adisyon_backend\Services\ProductCategory\ProductCategoryService.class
+com\adisyon\adisyon_backend\Dto\Request\Receipt\MonthlyReceiptRequestDto.class
 com\adisyon\adisyon_backend\Controllers\Employee\EmployeeController.class
 com\adisyon\adisyon_backend\Services\Cart\CartServiceImpl.class
 com\adisyon\adisyon_backend\Dto\Request\User\CreateUserDto.class

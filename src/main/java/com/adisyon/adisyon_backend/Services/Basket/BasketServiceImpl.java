@@ -41,7 +41,14 @@ public class BasketServiceImpl implements BasketService {
     public Basket createBasket(CreateBasketDto basketDto, BasketCategory basketCategory) {
 
         Basket newBasket = new Basket();
-        newBasket.setName(basketDto.getName());
+        Integer count = findByCompanyId(basketDto.getCompany().getId()).size();
+        if (basketDto.getName() != null && basketDto.getName() != "") {
+            newBasket.setCustomName(basketDto.getName());
+            newBasket.setName("Basket " + (count + 1));
+
+        } else {
+            newBasket.setName("Basket " + (count + 1));
+        }
         newBasket.setCompany(basketDto.getCompany());
         newBasket.setIsActive(false);
         newBasket.setCreatedDate(LocalDateTime.now());
@@ -59,8 +66,12 @@ public class BasketServiceImpl implements BasketService {
     @Transactional
     public Basket updateBasket(UpdateBasketDto basketDto) {
         Basket basket = findBasketById(basketDto.getId());
+        if (basket.getName() == null) {
+            Integer count = findByCompanyId(basket.getCompany().getId()).size();
+            basket.setName("Basket " + (count));
+        }
 
-        basket.setName(basketDto.getName() != null ? basketDto.getName() : basket.getName());
+        basket.setCustomName(basketDto.getName() != null ? basketDto.getName() : basket.getCustomName());
         basket.setBasketCategory(
                 basketDto.getBasketCategory() != null ? basketDto.getBasketCategory() : basket.getBasketCategory());
         basket.setUpdatedDate(LocalDateTime.now());

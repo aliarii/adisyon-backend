@@ -63,7 +63,7 @@ public class CompanyServiceImpl implements CompanyService {
         for (int i = 0; i < 10; i++) {
 
             CreateBasketDto basketDto = new CreateBasketDto();
-            basketDto.setName("Basket " + (i + 1));
+            // basketDto.setName("Basket " + (i + 1));
             basketDto.setCompany(newCompany);
 
             Basket createdBasket = basketService.createBasket(basketDto, null);
