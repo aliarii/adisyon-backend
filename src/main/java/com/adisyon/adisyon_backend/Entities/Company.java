@@ -52,6 +52,9 @@ public class Company {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Receipt> receipts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecordItem> recordItems = new ArrayList<>();
+
     private Boolean isActive;
 
     private LocalDateTime createdDate;
