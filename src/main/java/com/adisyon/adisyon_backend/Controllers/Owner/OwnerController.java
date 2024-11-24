@@ -1,7 +1,5 @@
 package com.adisyon.adisyon_backend.Controllers.Owner;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +23,6 @@ public class OwnerController {
 
     @Autowired
     private OwnerService ownerService;
-
-    @GetMapping
-    public ResponseEntity<List<Owner>> getAllOwners() {
-        List<Owner> owners = ownerService.findAllOwners();
-        return new ResponseEntity<>(owners, HttpStatus.OK);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Owner> getOwnerById(@PathVariable Long id) {

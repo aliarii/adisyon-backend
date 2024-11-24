@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.adisyon.adisyon_backend.Dto.Request.Receipt.CreateReceiptDto;
 import com.adisyon.adisyon_backend.Dto.Request.Receipt.DeleteReceiptDto;
-import com.adisyon.adisyon_backend.Dto.Request.Receipt.MonthlyReceiptRequestDto;
 import com.adisyon.adisyon_backend.Dto.Request.Receipt.UpdateReceiptDto;
 import com.adisyon.adisyon_backend.Entities.Receipt;
 
@@ -13,12 +12,12 @@ public interface ReceiptService {
 
     public List<Receipt> findReceiptsByCompanyId(Long id);
 
+    public List<Receipt> findReceiptsByMonth(Long id, Integer year, Integer month);
+
     public Receipt createReceipt(CreateReceiptDto receiptDto);
 
     public Receipt updateReceipt(UpdateReceiptDto receiptDto);
 
     public void deleteReceipt(DeleteReceiptDto receiptDto);
-
-    public List<Receipt> getMonthlyReceipts(MonthlyReceiptRequestDto receiptDto);
 
 }

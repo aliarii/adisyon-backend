@@ -17,4 +17,6 @@ public interface RecordItemService {
     public RecordItem updateRecordItem(UpdateRecordItemDto recordDto);
 
     public void deleteRecordItem(DeleteRecordItemDto recordDto);
+
+    public List<RecordItem> findRecordItemsByMonth(Long id, Integer year, Integer month);
 }

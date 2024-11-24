@@ -1,14 +1,12 @@
 package com.adisyon.adisyon_backend.Services.Report;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.adisyon.adisyon_backend.Dto.Request.Report.DailyReportRequestDto;
-import com.adisyon.adisyon_backend.Dto.Request.Report.MonthlyReportRequestDto;
-import com.adisyon.adisyon_backend.Dto.Request.Report.YearlyReportRequestDto;
 import com.adisyon.adisyon_backend.Dto.Response.Report.DailyReportResponseDto;
 import com.adisyon.adisyon_backend.Dto.Response.Report.MonthlyReportResponseDto;
 import com.adisyon.adisyon_backend.Dto.Response.Report.YearlyReportResponseDto;
@@ -22,46 +20,42 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     @Transactional
-    public DailyReportResponseDto getDailyReport(DailyReportRequestDto requestDto) {
+    public DailyReportResponseDto findReportByDay(Long id, LocalDate date) {
 
-        DailyReportResponseDto responseDto = reportRepository.getDailyReport(requestDto.getCompanyId(),
-                requestDto.getDate());
+        DailyReportResponseDto responseDto = reportRepository.findReportByDay(id, date);
         if (responseDto == null)
-            responseDto = new DailyReportResponseDto(0L, 0L, 0L, 0L, 0L, 0L, null, requestDto.getDate());
+            responseDto = new DailyReportResponseDto(0L, 0L, 0L, 0L, 0L, 0L, null, date);
 
         return responseDto;
     }
 
     @Override
     @Transactional
-    public YearlyReportResponseDto getYearlyReport(YearlyReportRequestDto requestDto) {
+    public YearlyReportResponseDto findReportByYear(Long id, Integer year) {
 
-        YearlyReportResponseDto responseDto = reportRepository.getYearlyReport(requestDto.getCompanyId(),
-                requestDto.getYear());
+        YearlyReportResponseDto responseDto = reportRepository.findReportByYear(id, year);
         if (responseDto == null)
-            responseDto = new YearlyReportResponseDto(0L, 0L, 0L, 0L, 0L, 0L, requestDto.getYear());
+            responseDto = new YearlyReportResponseDto(0L, 0L, 0L, 0L, 0L, 0L, year);
 
         return responseDto;
     }
 
     @Override
     @Transactional
-    public MonthlyReportResponseDto getMonthlyReport(MonthlyReportRequestDto requestDto) {
+    public MonthlyReportResponseDto findReportByMonth(Long id, Integer year, Integer month) {
 
-        MonthlyReportResponseDto responseDto = reportRepository.getMonthlyReport(requestDto.getCompanyId(),
-                requestDto.getYear(), requestDto.getMonth());
+        MonthlyReportResponseDto responseDto = reportRepository.findReportByMonth(id, year, month);
         if (responseDto == null)
-            responseDto = new MonthlyReportResponseDto(0L, 0L, 0L, 0L, 0L, 0L, requestDto.getMonth(),
-                    requestDto.getYear());
+            responseDto = new MonthlyReportResponseDto(0L, 0L, 0L, 0L, 0L, 0L, month,
+                    year);
 
         return responseDto;
     }
 
     @Override
     @Transactional
-    public List<DailyReportResponseDto> getDailyReportsForMonth(MonthlyReportRequestDto requestDto) {
-        List<DailyReportResponseDto> responseDto = reportRepository.getDailyReportsForMonth(requestDto.getCompanyId(),
-                requestDto.getYear(), requestDto.getMonth());
+    public List<DailyReportResponseDto> findReportsByMonth(Long id, Integer year, Integer month) {
+        List<DailyReportResponseDto> responseDto = reportRepository.findReportsByMonth(id, year, month);
 
         return responseDto;
     }

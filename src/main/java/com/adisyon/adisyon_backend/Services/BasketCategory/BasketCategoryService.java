@@ -8,6 +8,10 @@ import com.adisyon.adisyon_backend.Dto.Request.BasketCategory.UpdateBasketCatego
 import com.adisyon.adisyon_backend.Entities.BasketCategory;
 
 public interface BasketCategoryService {
+    public BasketCategory findBasketCategoryById(Long id);
+
+    public List<BasketCategory> findByCompanyId(Long id);
+
     public BasketCategory createBasketCategory(CreateBasketCategoryDto basketDto);
 
     public BasketCategory updateBasketCategory(UpdateBasketCategoryDto basketDto);
@@ -16,7 +20,4 @@ public interface BasketCategoryService {
 
     public void disableBasketCategory(Long id);
 
-    public BasketCategory findBasketCategoryById(Long id);
-
-    public List<BasketCategory> findByCompanyId(Long id);
 }

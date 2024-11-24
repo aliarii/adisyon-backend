@@ -13,7 +13,7 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
     public List<Receipt> findByCompanyId(Long id);
 
     @Query("SELECT r FROM Receipt r WHERE r.company.id = :companyId AND r.createdDate BETWEEN :startDate AND :endDate")
-    public List<Receipt> getMonthlyReceipts(@Param("companyId") Long companyId,
+    public List<Receipt> findReceiptsByMonth(@Param("companyId") Long companyId,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
 }

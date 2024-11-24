@@ -7,7 +7,7 @@ import com.adisyon.adisyon_backend.Dto.Request.Company.UpdateCompanyDto;
 import com.adisyon.adisyon_backend.Entities.Company;
 
 public interface CompanyService {
-    public List<Company> findAllCompanies();
+    public List<Company> findCompanies();
 
     public Company findCompanyById(Long id);
 

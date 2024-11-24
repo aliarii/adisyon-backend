@@ -57,4 +57,12 @@ public class RecordItemController {
         recordItemService.deleteRecordItem(recordDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/{id}/{year}/{month}")
+    public ResponseEntity<List<RecordItem>> getRecordItemsByMonth(@PathVariable Long id,
+            @PathVariable Integer year,
+            @PathVariable Integer month) {
+        List<RecordItem> recordItems = recordItemService.findRecordItemsByMonth(id, year, month);
+        return new ResponseEntity<>(recordItems, HttpStatus.OK);
+    }
 }

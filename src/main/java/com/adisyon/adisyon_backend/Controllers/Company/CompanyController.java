@@ -20,22 +20,34 @@ import com.adisyon.adisyon_backend.Entities.Company;
 import com.adisyon.adisyon_backend.Services.Company.CompanyService;
 
 @RestController
-@RequestMapping("/api/companies")
+@RequestMapping("/api/company")
 public class CompanyController {
 
     @Autowired
     private CompanyService companyService;
 
-    @GetMapping
-    public ResponseEntity<List<Company>> getAllCompanies(@RequestHeader("Authorization") String jwt) {
-
-        List<Company> companies = companyService.findAllCompanies();
-        return new ResponseEntity<>(companies, HttpStatus.OK);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Company> getCompanyById(@PathVariable Long id) {
         Company company = companyService.findCompanyById(id);
+        return new ResponseEntity<>(company, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Company>> getCompanies(@RequestHeader("Authorization") String jwt) {
+
+        List<Company> companies = companyService.findCompanies();
+        return new ResponseEntity<>(companies, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Company> findCompanyByUserId(@PathVariable Long id) {
+        Company company = companyService.findCompanyByUserId(id);
+        return new ResponseEntity<>(company, HttpStatus.OK);
+    }
+
+    @GetMapping("/employee/{id}")
+    public ResponseEntity<Company> findCompanyByEmployeeId(@PathVariable Long id) {
+        Company company = companyService.findCompanyByEmployeeId(id);
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
 
@@ -61,18 +73,6 @@ public class CompanyController {
 
     // return new ResponseEntity<>(company, HttpStatus.OK);
     // }
-
-    @GetMapping("/user/{id}")
-    public ResponseEntity<Company> findCompanyByUserId(@PathVariable Long id) {
-        Company company = companyService.findCompanyByUserId(id);
-        return new ResponseEntity<>(company, HttpStatus.OK);
-    }
-
-    @GetMapping("/employee/{id}")
-    public ResponseEntity<Company> findCompanyByEmployeeId(@PathVariable Long id) {
-        Company company = companyService.findCompanyByEmployeeId(id);
-        return new ResponseEntity<>(company, HttpStatus.OK);
-    }
 
     // @PutMapping("/delete/{id}")
     // public ResponseEntity<HttpStatus> deleteCompany(@RequestBody DeleteCompanyDto

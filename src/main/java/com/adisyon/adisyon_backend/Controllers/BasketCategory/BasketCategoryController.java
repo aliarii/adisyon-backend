@@ -20,14 +20,20 @@ import com.adisyon.adisyon_backend.Entities.BasketCategory;
 import com.adisyon.adisyon_backend.Services.BasketCategory.BasketCategoryService;
 
 @RestController
-@RequestMapping("/api/baskets/categories")
+@RequestMapping("/api/basket/category")
 public class BasketCategoryController {
 
     @Autowired
     private BasketCategoryService basketCategoryService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<BasketCategory>> findAllBasketCategoriesByCompanyId(@PathVariable Long id) {
+    public ResponseEntity<BasketCategory> getBasketCategoryById(@PathVariable Long id) {
+        BasketCategory basketCategories = basketCategoryService.findBasketCategoryById(id);
+        return new ResponseEntity<>(basketCategories, HttpStatus.OK);
+    }
+
+    @GetMapping("/company/{id}")
+    public ResponseEntity<List<BasketCategory>> getBasketCategoriesByCompanyId(@PathVariable Long id) {
         List<BasketCategory> basketCategories = basketCategoryService.findByCompanyId(id);
         return new ResponseEntity<>(basketCategories, HttpStatus.OK);
     }

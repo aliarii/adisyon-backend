@@ -25,7 +25,9 @@ public class RecordItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String basketName;
+    private String currentBasketName;
+
+    private String targetBasketName;
 
     private String userName;
 
@@ -35,6 +37,12 @@ public class RecordItem {
 
     @ElementCollection
     private List<RecordItemProduct> recordItemProducts = new ArrayList<>();
+
+    private RECORD_ITEM_TYPE recordItemType;
+
+    private Long payAmount;
+
+    private PAYMENT_TYPE paymentType;
 
     private LocalDateTime createdDate;
 

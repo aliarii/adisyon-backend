@@ -1,7 +1,6 @@
 package com.adisyon.adisyon_backend.Services.Employee;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,10 +33,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    public List<Employee> findAllEmployees() {
-        return employeeRepository.findAll();
-    }
 
     @Override
     public Employee findEmployeeById(Long id) {

@@ -37,7 +37,7 @@ public class BasketController {
     }
 
     @GetMapping("/company/{id}")
-    public ResponseEntity<List<Basket>> getAllBasketsByCompanyId(@PathVariable Long id) {
+    public ResponseEntity<List<Basket>> getBasketsByCompanyId(@PathVariable Long id) {
         List<Basket> baskets = basketService.findByCompanyId(id);
         return new ResponseEntity<>(baskets, HttpStatus.OK);
     }

@@ -30,6 +30,8 @@ com\adisyon\adisyon_backend\Dto\Request\OrderItem\CreateOrderItemDto.class
 com\adisyon\adisyon_backend\Services\UserDetailsServiceImpl.class
 com\adisyon\adisyon_backend\Controllers\BasketCategory\BasketCategoryController.class
 com\adisyon\adisyon_backend\Entities\Payment.class
+com\adisyon\adisyon_backend\Dto\Request\RecordItem\DeleteRecordItemDto.class
+com\adisyon\adisyon_backend\Dto\Request\RecordItem\CreateRecordItemDto.class
 com\adisyon\adisyon_backend\Dto\Request\Cart\UpdateCartDto.class
 com\adisyon\adisyon_backend\Dto\Request\CartProduct\UpdateCartProductDto.class
 com\adisyon\adisyon_backend\Controllers\Auth\AuthController.class
@@ -48,6 +50,7 @@ com\adisyon\adisyon_backend\Services\BasketCategory\BasketCategoryServiceImpl.cl
 com\adisyon\adisyon_backend\Controllers\Cart\CartController.class
 com\adisyon\adisyon_backend\Dto\Request\Company\DeleteCompanyDto.class
 com\adisyon\adisyon_backend\Entities\USER_ROLE.class
+com\adisyon\adisyon_backend\Services\RecordItem\RecordItemServiceImpl.class
 com\adisyon\adisyon_backend\Entities\Invoice.class
 com\adisyon\adisyon_backend\Config\Error\ErrorResponse.class
 com\adisyon\adisyon_backend\Dto\Request\Order\CreateOrderDto.class
@@ -66,6 +69,7 @@ com\adisyon\adisyon_backend\Controllers\Product\OwnerProductController.class
 com\adisyon\adisyon_backend\Entities\PAYMENT_TYPE.class
 com\adisyon\adisyon_backend\Services\Payment\PaymentService.class
 com\adisyon\adisyon_backend\Entities\Employee.class
+com\adisyon\adisyon_backend\Entities\RecordItem.class
 com\adisyon\adisyon_backend\Dto\Request\BasketCategory\CreateBasketCategoryDto.class
 com\adisyon\adisyon_backend\Dto\Request\User\UpdateUserDto.class
 com\adisyon\adisyon_backend\Entities\Order.class
@@ -81,6 +85,7 @@ com\adisyon\adisyon_backend\Dto\Request\ProductCategory\CreateProductCategoryDto
 com\adisyon\adisyon_backend\Repositories\Employee\EmployeeRepository.class
 com\adisyon\adisyon_backend\Services\Basket\BasketServiceImpl.class
 com\adisyon\adisyon_backend\Dto\Request\Order\PayAllOrdersDto.class
+com\adisyon\adisyon_backend\Entities\RecordItemProduct.class
 com\adisyon\adisyon_backend\Entities\Basket.class
 com\adisyon\adisyon_backend\Repositories\ProductCategory\ProductCategoryRepository.class
 com\adisyon\adisyon_backend\Dto\Request\Receipt\UpdateReceiptDto.class
@@ -91,6 +96,7 @@ com\adisyon\adisyon_backend\Dto\Request\Payment\DeletePaymentDto.class
 com\adisyon\adisyon_backend\Dto\Request\ProductCategory\UpdateProductCategoryDto.class
 com\adisyon\adisyon_backend\Dto\Request\BasketCategory\DeleteBasketCategoryDto.class
 com\adisyon\adisyon_backend\Controllers\User\UserController.class
+com\adisyon\adisyon_backend\Services\RecordItem\RecordItemService.class
 com\adisyon\adisyon_backend\Config\JwtProvider.class
 com\adisyon\adisyon_backend\Dto\Request\Product\CreateProductDto.class
 com\adisyon\adisyon_backend\Controllers\Order\OrderController.class
@@ -116,11 +122,13 @@ com\adisyon\adisyon_backend\Controllers\Owner\OwnerController.class
 com\adisyon\adisyon_backend\Exception\NotFoundException.class
 com\adisyon\adisyon_backend\Services\Cart\CartService.class
 com\adisyon\adisyon_backend\Entities\BasketCategory.class
+com\adisyon\adisyon_backend\Controllers\RecordItem\RecordItemController.class
 com\adisyon\adisyon_backend\Dto\Request\Order\UpdateOrderDto.class
 com\adisyon\adisyon_backend\Controllers\ProductCategory\EmployeeProductCategoryController.class
 com\adisyon\adisyon_backend\Services\Receipt\ReceiptService.class
 com\adisyon\adisyon_backend\Dto\Request\Employee\CreateEmployeeDto.class
 com\adisyon\adisyon_backend\Controllers\Report\ReportController.class
+com\adisyon\adisyon_backend\Repositories\RecordItem\RecordItemRepository.class
 com\adisyon\adisyon_backend\Controllers\ProductCategory\OwnerProductCategoryController.class
 com\adisyon\adisyon_backend\Dto\Request\Report\DailyReportRequestDto.class
 com\adisyon\adisyon_backend\Services\Order\OrderService.class
@@ -142,6 +150,7 @@ com\adisyon\adisyon_backend\Dto\Request\Report\MonthlyReportRequestDto.class
 com\adisyon\adisyon_backend\Dto\Request\BasketProduct\CreateBasketProductDto.class
 com\adisyon\adisyon_backend\Entities\CartProduct.class
 com\adisyon\adisyon_backend\Repositories\Company\CompanyRepository.class
+com\adisyon\adisyon_backend\Dto\Request\RecordItem\UpdateRecordItemDto.class
 com\adisyon\adisyon_backend\Entities\User.class
 com\adisyon\adisyon_backend\Dto\Request\Report\YearlyReportRequestDto.class
 com\adisyon\adisyon_backend\Repositories\Product\ProductRepository.class

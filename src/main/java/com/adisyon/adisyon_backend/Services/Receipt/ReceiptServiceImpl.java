@@ -6,11 +6,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.adisyon.adisyon_backend.Dto.Request.Receipt.CreateReceiptDto;
 import com.adisyon.adisyon_backend.Dto.Request.Receipt.DeleteReceiptDto;
-import com.adisyon.adisyon_backend.Dto.Request.Receipt.MonthlyReceiptRequestDto;
 import com.adisyon.adisyon_backend.Dto.Request.Receipt.UpdateReceiptDto;
 import com.adisyon.adisyon_backend.Entities.Basket;
 import com.adisyon.adisyon_backend.Entities.Company;
@@ -37,6 +35,16 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public List<Receipt> findReceiptsByCompanyId(Long id) {
         return receiptRepository.findByCompanyId(id);
+    }
+
+    @Override
+    public List<Receipt> findReceiptsByMonth(Long id, Integer year, Integer month) {
+
+        YearMonth yearMonth = YearMonth.of(year, month);
+        LocalDateTime startOfMonth = yearMonth.atDay(1).atStartOfDay();
+        LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atTime(23, 59, 59);
+
+        return receiptRepository.findReceiptsByMonth(id, startOfMonth, endOfMonth);
     }
 
     @Override
@@ -67,17 +75,6 @@ public class ReceiptServiceImpl implements ReceiptService {
     public void deleteReceipt(DeleteReceiptDto receiptDto) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteReceipt'");
-    }
-
-    @Override
-    @Transactional
-    public List<Receipt> getMonthlyReceipts(MonthlyReceiptRequestDto receiptDto) {
-
-        YearMonth yearMonth = YearMonth.of(receiptDto.getYear(), receiptDto.getMonth());
-        LocalDateTime startOfMonth = yearMonth.atDay(1).atStartOfDay();
-        LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atTime(23, 59, 59);
-
-        return receiptRepository.getMonthlyReceipts(receiptDto.getCompanyId(), startOfMonth, endOfMonth);
     }
 
 }

@@ -29,7 +29,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     private BasketService basketService;
 
-    public List<Company> findAllCompanies() {
+    public List<Company> findCompanies() {
         return companyRepository.findAll();
     }
 

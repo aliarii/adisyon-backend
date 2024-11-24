@@ -1,7 +1,6 @@
 package com.adisyon.adisyon_backend.Services.Owner;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,10 +35,7 @@ public class OwnerServiceImpl implements OwnerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<Owner> findAllOwners() {
-        return ownerRepository.findAll();
-    }
-
+    @Override
     public Owner findOwnerById(Long id) {
         return Unwrapper.unwrap(ownerRepository.findById(id), id);
     }

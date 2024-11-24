@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adisyon.adisyon_backend.Dto.Request.Receipt.CreateReceiptDto;
-import com.adisyon.adisyon_backend.Dto.Request.Receipt.MonthlyReceiptRequestDto;
 import com.adisyon.adisyon_backend.Entities.Receipt;
 import com.adisyon.adisyon_backend.Services.Receipt.ReceiptService;
 
@@ -36,17 +35,17 @@ public class ReceiptController {
         return new ResponseEntity<>(receipts, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/{year}/{month}")
+    public ResponseEntity<List<Receipt>> getReceiptsByMonth(@PathVariable Long id, @PathVariable Integer year,
+            @PathVariable Integer month) {
+        List<Receipt> receipts = receiptService.findReceiptsByMonth(id, year, month);
+        return new ResponseEntity<>(receipts, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Receipt> createReceipt(@RequestBody CreateReceiptDto receiptDto) {
         Receipt receipt = receiptService.createReceipt(receiptDto);
         return new ResponseEntity<>(receipt, HttpStatus.CREATED);
     }
 
-    @GetMapping("/monthly/{id}/{year}/{month}")
-    public ResponseEntity<List<Receipt>> getMonthlyReceipts(@PathVariable Long id, @PathVariable Integer year,
-            @PathVariable Integer month) {
-        MonthlyReceiptRequestDto requestDto = new MonthlyReceiptRequestDto(id, month, year);
-        List<Receipt> receipts = receiptService.getMonthlyReceipts(requestDto);
-        return new ResponseEntity<>(receipts, HttpStatus.OK);
-    }
 }
