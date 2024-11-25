@@ -35,6 +35,13 @@ public class ReceiptController {
         return new ResponseEntity<>(receipts, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/{year}/{month}/{day}")
+    public ResponseEntity<List<Receipt>> getReceiptsByDay(@PathVariable Long id, @PathVariable Integer year,
+            @PathVariable Integer month, @PathVariable Integer day) {
+        List<Receipt> receipts = receiptService.findReceiptsByDay(id, year, month, day);
+        return new ResponseEntity<>(receipts, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}/{year}/{month}")
     public ResponseEntity<List<Receipt>> getReceiptsByMonth(@PathVariable Long id, @PathVariable Integer year,
             @PathVariable Integer month) {

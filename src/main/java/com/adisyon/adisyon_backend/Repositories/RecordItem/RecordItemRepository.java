@@ -13,6 +13,11 @@ public interface RecordItemRepository extends JpaRepository<RecordItem, Long> {
     public List<RecordItem> findByCompanyId(Long companyId);
 
     @Query("SELECT r FROM RecordItem r WHERE r.company.id = :companyId AND r.createdDate BETWEEN :startDate AND :endDate")
+    public List<RecordItem> findRecordItemsByDay(@Param("companyId") Long companyId,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate);
+
+    @Query("SELECT r FROM RecordItem r WHERE r.company.id = :companyId AND r.createdDate BETWEEN :startDate AND :endDate")
     public List<RecordItem> findRecordItemsByMonth(@Param("companyId") Long companyId,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);

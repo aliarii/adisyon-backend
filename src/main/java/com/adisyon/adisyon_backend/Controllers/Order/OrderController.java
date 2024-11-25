@@ -13,13 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.adisyon.adisyon_backend.Dto.Request.Order.CreateOrderByCartDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.CreateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.DeleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.PayAllOrdersDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.PaySelectedOrdersDto;
-import com.adisyon.adisyon_backend.Dto.Request.Order.PayWithoutOrdersDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.PayAmountDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.TransferOrdersDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderByCartDto;
 import com.adisyon.adisyon_backend.Entities.Order;
 import com.adisyon.adisyon_backend.Services.Order.OrderService;
 
@@ -53,9 +55,21 @@ public class OrderController {
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
+    @PostMapping("/create/cart")
+    public ResponseEntity<Order> createOrderByCart(@RequestBody CreateOrderByCartDto orderDto) {
+        Order order = orderService.createOrderByCart(orderDto);
+        return new ResponseEntity<>(order, HttpStatus.CREATED);
+    }
+
     @PutMapping("/update")
     public ResponseEntity<Order> updateOrder(@RequestBody UpdateOrderDto orderDto) {
         Order orders = orderService.updateOrder(orderDto);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+    @PutMapping("/update/cart")
+    public ResponseEntity<Order> updateOrderByCart(@RequestBody UpdateOrderByCartDto orderDto) {
+        Order orders = orderService.updateOrderByCart(orderDto);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
@@ -77,9 +91,9 @@ public class OrderController {
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
-    @PutMapping("/pay/without-order")
-    public ResponseEntity<Order> payWithoutOrders(@RequestBody PayWithoutOrdersDto orderDto) {
-        Order order = orderService.payWithoutOrders(orderDto);
+    @PutMapping("/pay/amount")
+    public ResponseEntity<Order> payAmount(@RequestBody PayAmountDto orderDto) {
+        Order order = orderService.payAmount(orderDto);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 

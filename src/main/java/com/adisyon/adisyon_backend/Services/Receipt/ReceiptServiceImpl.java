@@ -38,6 +38,15 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
+    public List<Receipt> findReceiptsByDay(Long id, Integer year, Integer month, Integer day) {
+        YearMonth yearMonth = YearMonth.of(year, month);
+        LocalDateTime startOfMonth = yearMonth.atDay(day).atStartOfDay();
+        LocalDateTime endOfMonth = yearMonth.atDay(day).atTime(23, 59, 59);
+
+        return receiptRepository.findReceiptsByMonth(id, startOfMonth, endOfMonth);
+    }
+
+    @Override
     public List<Receipt> findReceiptsByMonth(Long id, Integer year, Integer month) {
 
         YearMonth yearMonth = YearMonth.of(year, month);

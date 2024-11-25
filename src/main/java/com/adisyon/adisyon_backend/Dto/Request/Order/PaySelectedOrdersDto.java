@@ -3,6 +3,7 @@ package com.adisyon.adisyon_backend.Dto.Request.Order;
 import java.util.List;
 
 import com.adisyon.adisyon_backend.Entities.OrderItem;
+import com.adisyon.adisyon_backend.Entities.PAYMENT_TYPE;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,5 +22,5 @@ public class PaySelectedOrdersDto {
     private List<OrderItem> orderItems;
 
     @NotNull
-    private String paymentType;
+    private PAYMENT_TYPE paymentType;
 }

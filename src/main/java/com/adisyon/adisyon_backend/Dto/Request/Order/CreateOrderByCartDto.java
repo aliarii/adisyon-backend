@@ -8,14 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PayWithoutOrdersDto {
-
+public class CreateOrderByCartDto {
     @NotNull
-    private Long id;
-
-    @NotNull
-    private String paymentType;
-
-    @NotNull
-    private Long payAmount;
+    private Long basketId;
 }

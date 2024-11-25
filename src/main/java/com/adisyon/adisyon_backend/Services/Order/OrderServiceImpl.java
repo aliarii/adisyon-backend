@@ -9,13 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.adisyon.adisyon_backend.Dto.Request.Order.CreateOrderByCartDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.CreateOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.DeleteOrderDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.PayAllOrdersDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.PaySelectedOrdersDto;
-import com.adisyon.adisyon_backend.Dto.Request.Order.PayWithoutOrdersDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.PayAmountDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.TransferOrdersDto;
 import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderDto;
+import com.adisyon.adisyon_backend.Dto.Request.Order.UpdateOrderByCartDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.CreateOrderItemDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.DeleteOrderItemDto;
 import com.adisyon.adisyon_backend.Dto.Request.OrderItem.UpdateOrderItemDto;
@@ -86,6 +88,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order createOrder(CreateOrderDto orderDto) {
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public Order createOrderByCart(CreateOrderByCartDto orderDto) {
         Basket basket = basketService.findBasketById(orderDto.getBasketId());
         Cart cart = cartService.findCartByBasketId(basket.getId());
         Company company = companyService.findCompanyById(basket.getCompany().getId());
@@ -114,6 +122,37 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order updateOrder(UpdateOrderDto orderDto) {
+        Order order = findOrderById(orderDto.getId());
+
+        List<OrderItem> removedOrderItems = new ArrayList<>();
+
+        for (OrderItem orderItem : orderDto.getOrderItems()) {
+            OrderItem existingItem = orderItemService.findOrderItemById(orderItem.getId());
+            if (orderItem.getQuantity() == existingItem.getQuantity())
+                continue;
+
+            if (orderItem.getQuantity() == 0) {
+                removedOrderItems.add(orderItemService.findOrderItemById(orderItem.getId()));
+                continue;
+            }
+
+            updateOrderItem(orderItem, orderItem.getQuantity());
+
+        }
+        if (removedOrderItems.size() > 0) {
+            order.getOrderItems().removeAll(removedOrderItems);
+            removedOrderItems
+                    .forEach(orderItem -> orderItemService.deleteOrderItem(new DeleteOrderItemDto(orderItem.getId())));
+        }
+
+        order.setUpdatedDate(LocalDateTime.now());
+        order.setTotalPrice(calculateTotalPrice(order));
+        return orderRepository.save(order);
+    }
+
+    @Override
+    @Transactional
+    public Order updateOrderByCart(UpdateOrderByCartDto orderDto) {
         Order order = findOrderById(orderDto.getOrderId());
         Cart cart = cartService.findCartByBasketId(order.getBasket().getId());
 
@@ -122,7 +161,7 @@ public class OrderServiceImpl implements OrderService {
             throw new IllegalArgumentException("No valid products in cart.");
         }
 
-        updateOrderItems(order, activeCartProducts);
+        updateOrderItemsFromCart(order, activeCartProducts);
 
         order.setUpdatedDate(LocalDateTime.now());
         // order.setTotalPrice(calculateTotalPrice(order.getOrderItems()));
@@ -231,7 +270,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order payWithoutOrders(PayWithoutOrdersDto orderDto) {
+    public Order payAmount(PayAmountDto orderDto) {
         Order order = findOrderById(orderDto.getId());
         Payment payment = createPayment(orderDto.getPayAmount(), orderDto.getPaymentType(), LocalDateTime.now());
         order.getPayments().add(payment);
@@ -308,7 +347,7 @@ public class OrderServiceImpl implements OrderService {
         return orderItemService.createOrderItem(dto);
     }
 
-    private void updateOrderItems(Order order, List<CartProduct> cartProducts) {
+    private void updateOrderItemsFromCart(Order order, List<CartProduct> cartProducts) {
         for (CartProduct cartProduct : cartProducts) {
             order.getOrderItems().stream()
                     .filter(orderItem -> orderItem.getProduct().equals(cartProduct.getProduct())
@@ -336,7 +375,7 @@ public class OrderServiceImpl implements OrderService {
         orderItemRepository.save(orderItem);
     }
 
-    private void completeOrder(Order order, LocalDateTime completedDate, String paymentType) {
+    private void completeOrder(Order order, LocalDateTime completedDate, PAYMENT_TYPE paymentType) {
         order.setUpdatedDate(completedDate);
         order.setCompletedDate(completedDate);
         order.setBasket(null);
@@ -354,10 +393,10 @@ public class OrderServiceImpl implements OrderService {
         basket.getCompletedOrders().clear();
     }
 
-    public Payment createPayment(Long payAmount, String paymentType, LocalDateTime completedDate) {
+    public Payment createPayment(Long payAmount, PAYMENT_TYPE paymentType, LocalDateTime completedDate) {
         CreatePaymentDto createDto = new CreatePaymentDto();
         createDto.setPayAmount(payAmount);
-        createDto.setPaymentType(findPaymentType(paymentType));
+        createDto.setPaymentType(paymentType);
         Payment payment = paymentService.createPayment(createDto);
         payment.setCompletedDate(completedDate);
         return payment;
@@ -405,17 +444,4 @@ public class OrderServiceImpl implements OrderService {
         return totalPrice;
     }
 
-    public PAYMENT_TYPE findPaymentType(String type) {
-        PAYMENT_TYPE pType = null;
-        switch (type) {
-            case "Cash":
-                pType = PAYMENT_TYPE.TYPE_CASH;
-                break;
-            case "CreditCard":
-                pType = PAYMENT_TYPE.TYPE_CREDIT_CARD;
-                break;
-        }
-
-        return pType;
-    }
 }

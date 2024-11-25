@@ -1,10 +1,7 @@
 package com.adisyon.adisyon_backend.Dto.Request.Order;
 
-import java.util.List;
+import com.adisyon.adisyon_backend.Entities.PAYMENT_TYPE;
 
-import com.adisyon.adisyon_backend.Entities.OrderItem;
-
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,11 +10,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateOrderDto {
+public class PayAmountDto {
 
     @NotNull
     private Long id;
 
-    @Nullable
-    private List<OrderItem> orderItems;
+    @NotNull
+    private PAYMENT_TYPE paymentType;
+
+    @NotNull
+    private Long payAmount;
 }

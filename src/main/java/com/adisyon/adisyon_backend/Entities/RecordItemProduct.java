@@ -12,5 +12,7 @@ import lombok.NoArgsConstructor;
 public class RecordItemProduct {
 
     private String name;
-    private Integer quantity;
+    private Integer currentQuantity;
+    private Integer oldQuantity;
+
 }

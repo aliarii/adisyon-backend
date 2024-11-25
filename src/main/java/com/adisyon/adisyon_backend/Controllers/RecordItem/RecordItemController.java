@@ -58,6 +58,15 @@ public class RecordItemController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/{year}/{month}/{day}")
+    public ResponseEntity<List<RecordItem>> getRecordItemsByDay(@PathVariable Long id,
+            @PathVariable Integer year,
+            @PathVariable Integer month,
+            @PathVariable Integer day) {
+        List<RecordItem> recordItems = recordItemService.findRecordItemsByDay(id, year, month, day);
+        return new ResponseEntity<>(recordItems, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}/{year}/{month}")
     public ResponseEntity<List<RecordItem>> getRecordItemsByMonth(@PathVariable Long id,
             @PathVariable Integer year,

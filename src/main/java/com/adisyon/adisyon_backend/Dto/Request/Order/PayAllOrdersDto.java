@@ -1,5 +1,7 @@
 package com.adisyon.adisyon_backend.Dto.Request.Order;
 
+import com.adisyon.adisyon_backend.Entities.PAYMENT_TYPE;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,5 +16,5 @@ public class PayAllOrdersDto {
     private Long id;
 
     @NotNull
-    private String paymentType;
+    private PAYMENT_TYPE paymentType;
 }

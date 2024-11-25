@@ -12,6 +12,8 @@ public interface ReceiptService {
 
     public List<Receipt> findReceiptsByCompanyId(Long id);
 
+    public List<Receipt> findReceiptsByDay(Long id, Integer year, Integer month, Integer day);
+
     public List<Receipt> findReceiptsByMonth(Long id, Integer year, Integer month);
 
     public Receipt createReceipt(CreateReceiptDto receiptDto);
