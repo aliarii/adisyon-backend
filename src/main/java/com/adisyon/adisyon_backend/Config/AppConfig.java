@@ -41,8 +41,7 @@ public class AppConfig {
         cfg.setAllowedOrigins(Arrays.asList(
                 "https://adisyon.app",
                 "http://localhost:3000",
-                "http://192.168.0.100:3000" // For mobile
-        ));
+                "https://ali-adisyon.vercel.app"));
         cfg.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         cfg.setAllowCredentials(true);
         cfg.setAllowedHeaders(Collections.singletonList("*"));
