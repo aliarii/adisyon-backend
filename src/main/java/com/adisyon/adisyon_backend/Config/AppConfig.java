@@ -39,9 +39,7 @@ public class AppConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
         cfg.setAllowedOrigins(Arrays.asList(
-                "https://adisyon.app",
-                "http://localhost:3000",
-                "https://ali-adisyon.vercel.app"));
+                "http://localhost:3000"));
         cfg.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         cfg.setAllowCredentials(true);
         cfg.setAllowedHeaders(Collections.singletonList("*"));
