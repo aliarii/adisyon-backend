@@ -69,28 +69,25 @@ public class RecordItemServiceImpl implements RecordItemService {
                 return createOrderAdd(recordDto, jwt);
 
             case ORDER_REMOVE:
-                return null;
+                return createOrderRemove(recordDto, jwt);
 
             case ORDER_UPDATE:
                 return createOrderUpdate(recordDto, jwt);
 
             case ORDER_CANCEL:
-                return null;
+                return createOrderCancel(recordDto, jwt);
 
             case ORDER_COMPLETE:
-                return null;
+                return createOrderComplete(recordDto, jwt);
 
-            case ORDER_TRANSFER_ALL:
-                return createOrderTransferAll(recordDto, jwt);
-
-            case ORDER_TRANSFER_SELECTIVELY:
-                return null;
+            case ORDER_TRANSFER:
+                return createOrderTransfer(recordDto, jwt);
 
             case ORDER_PAY_ALL:
-                return null;
+                return createOrderPayAll(recordDto, jwt);
 
             case ORDER_PAY_SELECTIVELY:
-                return null;
+                return createOrderPaySelectively(recordDto, jwt);
 
             case ORDER_PAY_AMOUNT:
                 return createOrderPayAmount(recordDto, jwt);
@@ -229,6 +226,107 @@ public class RecordItemServiceImpl implements RecordItemService {
             return null;
     }
 
+    private RecordItem createOrderCancel(CreateRecordItemDto recordDto, String jwt) {
+        Basket basket = basketService.findBasketById(recordDto.getCurrentBasketId());
+        Company company = companyService.findCompanyById(basket.getCompany().getId());
+        User user = userService.findUserByJwtToken(jwt);
+
+        RecordItem recordItem = new RecordItem();
+        recordItem.setCurrentBasketName(
+                (basket.getCustomName() == null || basket.getCustomName() == "") ? basket.getName()
+                        : basket.getCustomName());
+
+        recordItem.setCompany(company);
+        recordItem.setUserName(user.getUserName());
+        recordItem.setCreatedDate(LocalDateTime.now());
+        recordItem.setRecordItemType(recordDto.getRecordItemType());
+
+        for (OrderItem orderItem : basket.getOrder().getOrderItems()) {
+            recordItem.getRecordItemProducts()
+                    .add(createRecordItemProduct(orderItem.getProduct().getName(), 0, orderItem.getQuantity()));
+        }
+        return recordItemRepository.save(recordItem);
+    }
+
+    private RecordItem createOrderComplete(CreateRecordItemDto recordDto, String jwt) {
+        Basket basket = basketService.findBasketById(recordDto.getCurrentBasketId());
+        Company company = companyService.findCompanyById(basket.getCompany().getId());
+        User user = userService.findUserByJwtToken(jwt);
+
+        RecordItem recordItem = new RecordItem();
+        recordItem.setCurrentBasketName(
+                (basket.getCustomName() == null || basket.getCustomName() == "") ? basket.getName()
+                        : basket.getCustomName());
+
+        recordItem.setCompany(company);
+        recordItem.setUserName(user.getUserName());
+        recordItem.setCreatedDate(LocalDateTime.now());
+        recordItem.setRecordItemType(recordDto.getRecordItemType());
+
+        for (OrderItem orderItem : recordDto.getOrderItems().size() > 0 ? recordDto.getOrderItems()
+                : basket.getOrder().getOrderItems()) {
+            if (orderItem.getQuantity() <= 0)
+                continue;
+            recordItem.getRecordItemProducts()
+                    .add(createRecordItemProduct(orderItem.getProduct().getName(), orderItem.getQuantity(), 0));
+        }
+        return recordItemRepository.save(recordItem);
+    }
+
+    private RecordItem createOrderPayAll(CreateRecordItemDto recordDto, String jwt) {
+        Basket basket = basketService.findBasketById(recordDto.getCurrentBasketId());
+        Company company = companyService.findCompanyById(basket.getCompany().getId());
+        User user = userService.findUserByJwtToken(jwt);
+
+        RecordItem recordItem = new RecordItem();
+        recordItem.setCurrentBasketName(
+                (basket.getCustomName() == null || basket.getCustomName() == "") ? basket.getName()
+                        : basket.getCustomName());
+        recordItem.setCompany(company);
+        recordItem.setUserName(user.getUserName());
+        recordItem.setCreatedDate(LocalDateTime.now());
+        recordItem.setRecordItemType(recordDto.getRecordItemType());
+        recordItem.setPayAmount(basket.getOrder().getTotalPrice());
+        recordItem.setPaymentType(recordDto.getPaymentType());
+
+        CreateRecordItemDto newDto = new CreateRecordItemDto();
+        newDto.setCurrentBasketId(recordDto.getCurrentBasketId());
+        newDto.setRecordItemType(RECORD_ITEM_TYPE.ORDER_COMPLETE);
+        createOrderComplete(newDto, jwt);
+
+        return recordItemRepository.save(recordItem);
+    }
+
+    private RecordItem createOrderPaySelectively(CreateRecordItemDto recordDto, String jwt) {
+        Basket basket = basketService.findBasketById(recordDto.getCurrentBasketId());
+        Company company = companyService.findCompanyById(basket.getCompany().getId());
+        User user = userService.findUserByJwtToken(jwt);
+
+        RecordItem recordItem = new RecordItem();
+        recordItem.setCurrentBasketName(
+                (basket.getCustomName() == null || basket.getCustomName() == "") ? basket.getName()
+                        : basket.getCustomName());
+        recordItem.setCompany(company);
+        recordItem.setUserName(user.getUserName());
+        recordItem.setCreatedDate(LocalDateTime.now());
+        recordItem.setRecordItemType(recordDto.getRecordItemType());
+
+        Long totalPrice = 0L;
+        for (OrderItem orderItem : recordDto.getOrderItems()) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        recordItem.setPayAmount(totalPrice);
+        recordItem.setPaymentType(recordDto.getPaymentType());
+
+        CreateRecordItemDto newDto = new CreateRecordItemDto();
+        newDto.setCurrentBasketId(recordDto.getCurrentBasketId());
+        newDto.setRecordItemType(RECORD_ITEM_TYPE.ORDER_COMPLETE);
+        newDto.setOrderItems(recordDto.getOrderItems());
+        createOrderComplete(newDto, jwt);
+
+        return recordItemRepository.save(recordItem);
+    }
+
     private RecordItem createOrderPayAmount(CreateRecordItemDto recordDto, String jwt) {
         Basket basket = basketService.findBasketById(recordDto.getCurrentBasketId());
         Company company = companyService.findCompanyById(basket.getCompany().getId());
@@ -248,7 +346,7 @@ public class RecordItemServiceImpl implements RecordItemService {
         return recordItemRepository.save(recordItem);
     }
 
-    private RecordItem createOrderTransferAll(CreateRecordItemDto recordDto, String jwt) {
+    private RecordItem createOrderTransfer(CreateRecordItemDto recordDto, String jwt) {
         Basket currentBasket = basketService.findBasketById(recordDto.getCurrentBasketId());
         Basket targetBasket = basketService.findBasketById(recordDto.getTargetBasketId());
         Company company = companyService.findCompanyById(currentBasket.getCompany().getId());

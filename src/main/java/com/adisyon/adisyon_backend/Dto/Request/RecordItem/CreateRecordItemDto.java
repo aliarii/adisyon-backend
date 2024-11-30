@@ -1,5 +1,6 @@
 package com.adisyon.adisyon_backend.Dto.Request.RecordItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.adisyon.adisyon_backend.Entities.OrderItem;
@@ -27,7 +28,7 @@ public class CreateRecordItemDto {
     private Long targetBasketId;
 
     @Nullable
-    private List<OrderItem> orderItems;
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Nullable
     private Long payAmount;
